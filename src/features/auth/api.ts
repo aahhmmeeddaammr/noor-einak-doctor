@@ -5,7 +5,7 @@ export const authApi = {
     apiClient.post('/auth/login', data),
 
   registerDoctor: (data: Record<string, unknown>) =>
-    apiClient.post('/auth/register/doctor', data),
+    apiClient.post('/auth/register/doctor', { ...data, role: 'doctor' }),
 
   verifyOtp: (data: { target: string; code: string; purpose: string }) =>
     apiClient.post('/auth/verify-otp', data),

@@ -1,8 +1,12 @@
 import axios from 'axios';
 import { useAuthStore } from '@/stores/authStore';
 
+// const apiClient = axios.create({
+//   baseURL: 'https://noor-einak-backend-production.up.railway.app/api/v1',
+//   headers: { 'Content-Type': 'application/json' },
+// });
 const apiClient = axios.create({
-  baseURL: 'https://noor-einak-backend-production.up.railway.app/api/v1',
+  baseURL: 'http://localhost:3000/api/v1',
   headers: { 'Content-Type': 'application/json' },
 });
 

@@ -17,6 +17,7 @@ const profileSchema = z.object({
   clinic: z.object({
     name: z.string().min(2, 'Clinic name is required'),
     address: z.string().min(5, 'Clinic address is required'),
+    governorate: z.string().min(2, 'Governorate is required').optional(),
     phone: z.string().min(10, 'Clinic phone is required'),
     addressLink: z.string().optional(),
   }),
@@ -24,6 +25,13 @@ const profileSchema = z.object({
   avatarUrl: z.string().optional(),
   coverUrl: z.string().optional(),
 });
+
+const EGYPT_GOVERNORATES = [
+  'Cairo', 'Alexandria', 'Giza', 'Qalyubia', 'Port Said', 'Suez', 
+  'Dakahlia', 'Gharbia', 'Menoufia', 'Sharqia', 'Beheira', 'Kafr El Sheikh',
+  'Ismailia', 'Damietta', 'North Sinai', 'South Sinai', 'Beni Suef', 'Minya', 
+  'Faiyum', 'Assiut', 'Sohag', 'Qena', 'Aswan', 'Red Sea', 'New Valley', 'Matrouh', 'Luxor'
+];
 
 type ProfileFormValues = z.infer<typeof profileSchema>;
 
@@ -46,6 +54,7 @@ interface DoctorProfile {
   clinic?: {
     name?: string;
     address?: string;
+    governorate?: string;
     phone?: string;
     addressLink?: string;
   };
@@ -105,6 +114,7 @@ export default function ProfilePage() {
         clinic: {
           name: doctor?.clinic?.name || '',
           address: doctor?.clinic?.address || '',
+          governorate: doctor?.clinic?.governorate || '',
           phone: doctor?.clinic?.phone || '',
           addressLink: doctor?.clinic?.addressLink || '',
         },
@@ -154,6 +164,7 @@ export default function ProfilePage() {
     if (values.clinic) {
         formData.append('clinic[name]', values.clinic.name);
         formData.append('clinic[address]', values.clinic.address);
+        if (values.clinic.governorate) formData.append('clinic[governorate]', values.clinic.governorate);
         formData.append('clinic[phone]', values.clinic.phone);
         if (values.clinic.addressLink) formData.append('clinic[addressLink]', values.clinic.addressLink);
     }
@@ -285,6 +296,25 @@ export default function ProfilePage() {
                                        />
                                    </div>
                                    {errors.clinic?.name?.message && <p className="text-xs text-rose-500 font-medium px-1">{errors.clinic.name?.message}</p>}
+                               </div>
+
+                               <div className="space-y-2">
+                                   <label className="text-xs font-semibold text-slate-600 dark:text-slate-400 block px-1">
+                                       Governorate <span className="text-rose-500 font-bold">*</span>
+                                   </label>
+                                   <div className="relative">
+                                       <MapPin className="absolute left-5 top-1/2 -translate-y-1/2 text-slate-400" size={18} />
+                                       <select
+                                           {...register('clinic.governorate')}
+                                           className="w-full pl-14 pr-6 py-4 bg-slate-50 dark:bg-slate-800/40 border border-slate-200 dark:border-slate-700 rounded-xl text-sm font-medium text-slate-900 dark:text-white focus:ring-2 focus:ring-primary focus:bg-white dark:focus:bg-slate-800 transition-all outline-none appearance-none"
+                                       >
+                                           <option value="">Select Primary Governorate</option>
+                                           {EGYPT_GOVERNORATES.map(gov => (
+                                               <option key={gov} value={gov}>{gov}</option>
+                                           ))}
+                                       </select>
+                                   </div>
+                                   {errors.clinic?.governorate?.message && <p className="text-xs text-rose-500 font-medium px-1">{errors.clinic.governorate?.message}</p>}
                                </div>
 
                                <div className="space-y-2">

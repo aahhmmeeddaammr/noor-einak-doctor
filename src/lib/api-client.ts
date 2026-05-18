@@ -1,14 +1,14 @@
 import axios from 'axios';
 import { useAuthStore } from '@/stores/authStore';
 
-const apiClient = axios.create({
-  baseURL: 'https://noor-einak-backend-production.up.railway.app/api/v1',
-  headers: { 'Content-Type': 'application/json' },
-});
 // const apiClient = axios.create({
-//   baseURL: 'http://localhost:3000/api/v1',
+//   baseURL: 'https://noor-einak-backend-production.up.railway.app/api/v1',
 //   headers: { 'Content-Type': 'application/json' },
 // });
+const apiClient = axios.create({
+  baseURL: 'http://localhost:3000/api/v1',
+  headers: { 'Content-Type': 'application/json' },
+});
 
 apiClient.interceptors.request.use((config) => {
   const { accessToken } = useAuthStore.getState();
@@ -52,7 +52,7 @@ apiClient.interceptors.response.use(
       try {
         const { refreshToken } = useAuthStore.getState();
         // Use a separate axios instance to avoid interceptor loop if refresh fails
-        const response = await axios.post('https://noor-einak-backend-production.up.railway.app/api/v1/auth/refresh-token', {
+        const response = await axios.post('http://localhost:3000/api/v1/auth/refresh-token', {
           refreshToken,
         });
 

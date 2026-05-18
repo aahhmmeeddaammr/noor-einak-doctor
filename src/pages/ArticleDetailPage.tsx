@@ -192,6 +192,11 @@ export default function ArticleDetailPage() {
                   <span className="text-xs font-black text-slate-700 dark:text-slate-300">{categoryDisplay}</span>
                </div>
                <div className="flex items-center gap-3">
+                  <Eye size={14} className="text-slate-400" />
+                  <span className="text-[10px] font-black uppercase tracking-[0.2em] text-slate-400">Engagement</span>
+                  <span className="text-xs font-black text-slate-700 dark:text-slate-300">{(article.viewsCount || 0).toLocaleString()} Views</span>
+               </div>
+               <div className="flex items-center gap-3">
                   <Clock size={14} className="text-slate-400" />
                   <span className="text-[10px] font-black uppercase tracking-[0.2em] text-slate-400">Published</span>
                   <span className="text-xs font-black text-slate-700 dark:text-slate-300">{formatDate(article.createdAt)}</span>

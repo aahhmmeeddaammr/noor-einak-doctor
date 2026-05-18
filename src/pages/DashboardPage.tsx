@@ -4,6 +4,7 @@ import { useDoctorProfile } from '@/features/doctors/hooks';
 import { useDashboard } from '@/features/dashboard/hooks';
 import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/Avatar';
 import { Button } from '@/components/ui/Button';
+import { Badge } from '@/components/ui/Badge';
 import { Link } from 'react-router-dom';
 import { cn, formatDate } from '@/lib/utils';
 import { useAuthStore } from '@/stores/authStore';
@@ -397,6 +398,68 @@ export default function DashboardPage() {
                                             You are in the <span className="underline">top 5%</span> of ophthalmologists in your region this quarter.
                                         </p>
                                     </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        {/* Geographic Distribution - NEW */}
+                        <div className="bg-white dark:bg-slate-900 rounded-[3rem] p-10 border border-slate-100 dark:border-slate-800 shadow-sm col-span-1 lg:col-span-2">
+                             <div className="flex items-center justify-between mb-8">
+                                <h3 className="text-xl font-black text-slate-900 dark:text-white flex items-center gap-3">
+                                    <Globe size={24} className="text-[#3e4998]" />
+                                    Geographic Patient Base
+                                </h3>
+                                <div className="text-[10px] font-black text-slate-400 uppercase tracking-widest bg-slate-50 dark:bg-slate-800 px-3 py-1 rounded-full border border-slate-100 dark:border-slate-700">
+                                    Governorate Heatmap
+                                </div>
+                            </div>
+
+                            <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
+                                <div className="md:col-span-2 bg-slate-50 dark:bg-slate-950/40 rounded-4xl p-6 border border-slate-100 dark:border-slate-800 flex items-center justify-center min-h-[250px] relative overflow-hidden">
+                                    {/* Mock Map Visualizer */}
+                                    <div className="absolute inset-0 opacity-5 pointer-events-none flex items-center justify-center">
+                                         <svg viewBox="0 0 100 100" className="w-64 h-64 text-[#3e4998]">
+                                             <path d="M20,20 L80,10 L95,40 L90,80 L70,95 L30,90 L10,60 Z" fill="currentColor" />
+                                         </svg>
+                                    </div>
+                                    
+                                    {stats?.governorateStats && stats.governorateStats.length > 0 ? (
+                                        <div className="w-full h-48 space-y-4">
+                                            {stats.governorateStats.slice(0, 3).map((gov: any, idx: number) => (
+                                                <div key={idx} className="space-y-2">
+                                                    <div className="flex justify-between items-end px-1">
+                                                        <span className="text-xs font-black text-slate-700 dark:text-slate-200 capitalize">{gov.governorate}</span>
+                                                        <span className="text-[10px] font-bold text-[#3e4998]">{gov.count} patients</span>
+                                                    </div>
+                                                    <div className="h-2 w-full bg-white dark:bg-slate-800 rounded-full overflow-hidden">
+                                                        <motion.div 
+                                                            initial={{ width: 0 }}
+                                                            animate={{ width: `${(gov.count / stats.totalPatients) * 100}%` }}
+                                                            className={cn(
+                                                                "h-full rounded-full",
+                                                                idx === 0 ? "bg-[#3e4998]" : idx === 1 ? "bg-emerald-500" : "bg-indigo-400"
+                                                            )}
+                                                        />
+                                                    </div>
+                                                </div>
+                                            ))}
+                                        </div>
+                                    ) : (
+                                        <div className="text-center">
+                                            <p className="text-xs font-black text-slate-400 uppercase tracking-widest">No geographic data found</p>
+                                        </div>
+                                    )}
+                                </div>
+                                <div className="space-y-3">
+                                    <p className="text-[10px] font-black text-slate-400 uppercase tracking-widest mb-2">Regional Reach</p>
+                                    {stats?.governorateStats?.slice(0, 5).map((gov: any, idx: number) => (
+                                        <div key={idx} className="flex items-center justify-between p-3 bg-white dark:bg-slate-900 border border-slate-100 dark:border-slate-800 rounded-2xl shadow-sm">
+                                            <span className="text-[11px] font-bold text-slate-700 dark:text-slate-200 capitalize">{gov.governorate}</span>
+                                            <Badge className="bg-primary/5 text-primary-600 border-none px-2 py-0.5 text-[9px] font-black rounded-lg">
+                                                {gov.count}
+                                            </Badge>
+                                        </div>
+                                    ))}
                                 </div>
                             </div>
                         </div>

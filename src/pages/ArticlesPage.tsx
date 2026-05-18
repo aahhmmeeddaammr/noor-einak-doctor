@@ -7,6 +7,7 @@ import {
 import {
   Plus, Search, MoreVertical, Edit, Trash2, X,
   BookOpen, Clock, Archive, Globe, User2,
+  Eye,
 } from 'lucide-react';
 import { Tabs, TabsList, TabsTrigger } from '@/components/ui/Tabs';
 import { cn, formatDate, getStatusColor } from '@/lib/utils';
@@ -362,6 +363,10 @@ export default function ArticlesPage() {
                   <span className="text-xs text-slate-400 font-semibold flex items-center gap-1.5">
                     <Clock className="w-3 h-3" />
                     {formatDate(article.createdAt)}
+                  </span>
+                  <span className="text-xs text-slate-400 font-semibold flex items-center gap-1.5 bg-slate-50 dark:bg-slate-800/50 px-2 py-1 rounded-md">
+                    <Eye className="w-3.5 h-3.5 text-primary" />
+                    {(article.viewsCount || 0).toLocaleString()}
                   </span>
                 </div>
               </div>

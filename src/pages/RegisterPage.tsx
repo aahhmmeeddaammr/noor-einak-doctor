@@ -19,6 +19,7 @@ const registerSchema = z.object({
   clinic: z.object({
     name: z.string().min(2, 'Clinic name is required'),
     address: z.string().min(5, 'Clinic address is required'),
+    governorate: z.string().min(2, 'Governorate is required'),
     phone: z.string().min(10, 'Clinic phone is required'),
     addressLink: z.string().optional(),
   }),
@@ -28,6 +29,13 @@ const registerSchema = z.object({
 });
 
 type RegisterForm = z.infer<typeof registerSchema>;
+
+const EGYPT_GOVERNORATES = [
+  'Cairo', 'Alexandria', 'Giza', 'Qalyubia', 'Port Said', 'Suez', 
+  'Dakahlia', 'Gharbia', 'Menoufia', 'Sharqia', 'Beheira', 'Kafr El Sheikh',
+  'Ismailia', 'Damietta', 'North Sinai', 'South Sinai', 'Beni Suef', 'Minya', 
+  'Faiyum', 'Assiut', 'Sohag', 'Qena', 'Aswan', 'Red Sea', 'New Valley', 'Matrouh', 'Luxor'
+];
 
 export default function RegisterPage() {
   const [showPassword, setShowPassword] = useState(false);
@@ -128,6 +136,20 @@ export default function RegisterPage() {
               <input {...register('clinic.name')} placeholder="Cairo Eye Center" className="w-full px-4 py-3 bg-surface rounded-lg border border-border text-sm focus:border-primary-500 focus:outline-none focus:ring-2 focus:ring-primary-500/20" />
               {errors.clinic?.name && <p className="text-danger-500 text-xs mt-1">{errors.clinic.name.message}</p>}
             </div>
+            
+            <div>
+              <label className="block text-sm font-medium text-text-primary mb-1.5">
+                Governorate <span className="text-danger-500">*</span>
+              </label>
+              <select {...register('clinic.governorate')} className="w-full px-4 py-3 bg-surface rounded-lg border border-border text-sm focus:border-primary-500 focus:outline-none focus:ring-2 focus:ring-primary-500/20">
+                <option value="">Select Primary Governorate</option>
+                {EGYPT_GOVERNORATES.map(gov => (
+                  <option key={gov} value={gov}>{gov}</option>
+                ))}
+              </select>
+              {errors.clinic?.governorate && <p className="text-danger-500 text-xs mt-1">{errors.clinic.governorate.message}</p>}
+            </div>
+
             <div>
               <label className="block text-sm font-medium text-text-primary mb-1.5">
                 Clinic Address <span className="text-danger-500">*</span>

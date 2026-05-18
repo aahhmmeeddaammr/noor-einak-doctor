@@ -4,7 +4,7 @@ import {
   Search, Users2, Calendar, Zap, Activity, Mail, Phone, 
   ChevronRight, MessageSquare, AlertTriangle, UserCheck, 
   Shield, FileStack, ShieldAlert, Sparkles, Settings2,
-  Clock, CheckCircle2, XCircle
+  Clock, CheckCircle2, XCircle, MapPin
 } from 'lucide-react';
 import { usePatients, useBulkPermissions } from '@/features/patients/hooks';
 import { cn, getInitials, getAdherenceColor, getAdherenceLabel, formatDate } from '@/lib/utils';
@@ -196,6 +196,11 @@ export default function PatientsPage() {
                         <span className="flex items-center gap-1 text-[10px] font-black text-slate-400">
                           <Calendar size={12} strokeWidth={3} />
                           {patient.age ? `${patient.age} YRS` : 'N/A'}
+                        </span>
+                        <div className="w-1 h-1 rounded-full bg-slate-300" />
+                        <span className="flex items-center gap-1 text-[10px] font-black text-primary-500 uppercase">
+                          <MapPin size={12} strokeWidth={3} />
+                          {patient.governorate || 'N/A'}
                         </span>
                       </div>
                     </div>

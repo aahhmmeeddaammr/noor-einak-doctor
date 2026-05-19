@@ -1,6 +1,6 @@
 import {
     LayoutDashboard, Users2, Microscope, MessageSquare,
-    Newspaper, ShieldCheck
+    Newspaper, ShieldCheck , Gift, Award
 } from 'lucide-react';
 import { cn } from '@/lib/utils';
 import { NavLink, useLocation } from 'react-router-dom';
@@ -33,6 +33,13 @@ export default function Sidebar() {
             items: [
                 { label: 'Messages', icon: MessageSquare, path: '/messaging', requiresVerification: true },
                 { label: 'Articles', icon: Newspaper, path: '/articles' },
+            ]
+        },
+        {
+            title: "Loyalty & Rewards",
+            items: [
+                { label: 'My Points', icon: Award, path: '/gamification' },
+                { label: 'Rewards Catalog', icon: Gift, path: '/rewards' },
             ]
         }
     ];

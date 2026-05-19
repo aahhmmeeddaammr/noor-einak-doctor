@@ -25,7 +25,8 @@ import ArticlesPage from '@/pages/ArticlesPage';
 import ArticleDetailPage from '@/pages/ArticleDetailPage';
 import ProfilePage from '@/pages/ProfilePage';
 import NotificationsPage from '@/pages/NotificationsPage';
-
+import GamificationPage from '@/pages/GamificationPage';
+import RewardsPage from '@/pages/RewardsPage';
 export default function App() {
   return (
     <QueryClientProvider client={queryClient}>
@@ -54,6 +55,8 @@ export default function App() {
             <Route path="/articles/:id" element={<ArticleDetailPage />} />
             <Route path="/profile" element={<ProfilePage />} />
             <Route path="/notifications" element={<NotificationsPage />} />
+            <Route path="/gamification" element={<GamificationPage />} />
+            <Route path="/rewards" element={<RewardsPage />} />
           </Route>
 
           {/* Fallback */}

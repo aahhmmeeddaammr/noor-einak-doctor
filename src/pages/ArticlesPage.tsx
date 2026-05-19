@@ -81,7 +81,15 @@ export default function ArticlesPage() {
   const [isEditModalOpen, setIsEditModalOpen] = useState(false);
   const [editingArticle, setEditingArticle] = useState<any>(null);
 
-  const { register, handleSubmit, reset, control, formState: { errors } } = useForm<ArticleFormValues>({
+  const addForm = useForm<ArticleFormValues>({
+    resolver: zodResolver(articleSchema),
+    defaultValues: {
+      title: '', summary: '', content: '',
+      category: 'Information', status: 'draft', coverImage: '',
+    },
+  });
+
+  const editForm = useForm<ArticleFormValues>({
     resolver: zodResolver(articleSchema),
     defaultValues: {
       title: '', summary: '', content: '',
@@ -90,13 +98,13 @@ export default function ArticlesPage() {
   });
 
   const openAddModal = () => {
-    reset({ title: '', summary: '', content: '', category: 'Information', status: 'draft', coverImage: '' });
+    addForm.reset({ title: '', summary: '', content: '', category: 'Information', status: 'draft', coverImage: '' });
     setIsAddModalOpen(true);
   };
 
   const openEditModal = (article: any) => {
     setEditingArticle(article);
-    reset({
+    editForm.reset({
       title: article.title,
       summary: article.summary || '',
       content: article.content,
@@ -386,10 +394,10 @@ export default function ArticlesPage() {
         isOpen={isAddModalOpen}
         onClose={() => setIsAddModalOpen(false)}
         title="Draft New Article"
-        onSubmit={handleSubmit(handleAddSubmit)}
-        register={register}
-        control={control}
-        errors={errors}
+        onSubmit={addForm.handleSubmit(handleAddSubmit)}
+        register={addForm.register}
+        control={addForm.control}
+        errors={addForm.formState.errors}
         isSubmitting={createMutation.isPending}
         submitLabel="Publish Article"
       />
@@ -399,10 +407,10 @@ export default function ArticlesPage() {
         isOpen={isEditModalOpen}
         onClose={() => setIsEditModalOpen(false)}
         title="Edit Article"
-        onSubmit={handleSubmit(handleEditSubmit)}
-        register={register}
-        control={control}
-        errors={errors}
+        onSubmit={editForm.handleSubmit(handleEditSubmit)}
+        register={editForm.register}
+        control={editForm.control}
+        errors={editForm.formState.errors}
         isSubmitting={updateMutation.isPending}
         submitLabel="Update Article"
         isPublished={!!editingArticle?.publishedAt}
@@ -426,7 +434,7 @@ interface ArticleModalProps {
   isPublished?: boolean;
 }
 
-function ArticleModal({ isOpen, onClose, title, onSubmit, register, control, errors, isSubmitting, submitLabel, isPublished }: ArticleModalProps) {
+export function ArticleModal({ isOpen, onClose, title, onSubmit, register, control, errors, isSubmitting, submitLabel, isPublished }: ArticleModalProps) {
   return (
     <Dialog open={isOpen} onOpenChange={onClose}>
       <DialogContent className="p-0 border-none max-w-5xl bg-white dark:bg-slate-950 rounded-4xl overflow-hidden shadow-2xl flex flex-col h-[90vh]">
@@ -442,147 +450,149 @@ function ArticleModal({ isOpen, onClose, title, onSubmit, register, control, err
               <p className="text-[10px] font-bold text-slate-400">Authoring Environment</p>
             </div>
           </div>
-          <button onClick={onClose} className="p-2 hover:bg-slate-100 dark:hover:bg-slate-800 rounded-xl transition-colors">
+          <button type="button" onClick={onClose} className="p-2 hover:bg-slate-100 dark:hover:bg-slate-800 rounded-xl transition-colors">
             <X className="w-5 h-5 text-slate-400" />
           </button>
         </div>
 
-        {/* Studio Workspace */}
-        <form onSubmit={onSubmit} className="flex-1 flex overflow-hidden">
+        {/* Studio Workspace & Action Bar inside a Single Semantic Form */}
+        <form onSubmit={onSubmit} className="flex-grow flex flex-col overflow-hidden h-full">
           
-          {/* Main Editor Pane (Left) */}
-          <div className="flex-1 p-8 overflow-y-auto custom-scrollbar bg-white dark:bg-slate-950">
-            <div className="max-w-2xl mx-auto space-y-8">
-              {/* Zen Title Input */}
-              <div className="space-y-4">
-                <textarea
-                  {...register('title')}
-                  rows={2}
-                  className={cn(
-                    'w-full text-3xl font-black bg-transparent border-none focus:outline-none focus:ring-0 placeholder:text-slate-200 dark:placeholder:text-slate-800 resize-none leading-tight tracking-tight',
-                    errors.title && 'text-rose-500'
-                  )}
-                  placeholder="Clinical Article Title..."
-                />
-                <div className="h-0.5 w-16 bg-pharco-orange/40 rounded-full" />
-                {errors.title && <p className="text-[10px] text-rose-500 font-bold">{errors.title.message}</p>}
+          <div className="flex-1 flex overflow-hidden">
+            {/* Main Editor Pane (Left) */}
+            <div className="flex-1 p-8 overflow-y-auto custom-scrollbar bg-white dark:bg-slate-950">
+              <div className="max-w-2xl mx-auto space-y-8">
+                {/* Zen Title Input */}
+                <div className="space-y-4">
+                  <textarea
+                    {...register('title')}
+                    rows={2}
+                    className={cn(
+                      'w-full text-3xl font-black bg-transparent border-none focus:outline-none focus:ring-0 placeholder:text-slate-200 dark:placeholder:text-slate-800 resize-none leading-tight tracking-tight',
+                      errors.title && 'text-rose-500'
+                    )}
+                    placeholder="Clinical Article Title..."
+                  />
+                  <div className="h-0.5 w-16 bg-pharco-orange/40 rounded-full" />
+                  {errors.title && <p className="text-[10px] text-rose-500 font-bold">{errors.title.message}</p>}
+                </div>
+
+                {/* Content Area */}
+                <div className="space-y-4 pt-2">
+                  <label className="text-xs font-bold text-slate-400 dark:text-slate-500 flex items-center gap-2">
+                    <span className="w-1.5 h-1.5 rounded-full bg-pharco-orange" />
+                    Documentation Body *
+                  </label>
+                  <textarea
+                    {...register('content')}
+                    className={cn(
+                      'w-full min-h-[400px] rounded-2xl border-none focus:outline-none focus:ring-0 p-0 text-base leading-relaxed font-semibold bg-transparent placeholder:text-slate-300 dark:placeholder:text-slate-800 resize-none',
+                      errors.content && 'text-rose-500'
+                    )}
+                    placeholder="Draft your medical insights here... (Markdown supported)"
+                  />
+                  {errors.content && <p className="text-[10px] text-rose-500 font-bold">{errors.content.message}</p>}
+                </div>
+              </div>
+            </div>
+
+            {/* Settings Sidebar (Right) */}
+            <div className="w-90 bg-slate-50/50 dark:bg-slate-900/30 border-l border-slate-100 dark:border-slate-800 p-7 overflow-y-auto custom-scrollbar space-y-8 shrink-0">
+              
+              {/* Meta Group 1: Configuration */}
+              <div className="space-y-6">
+                <div className="flex items-center gap-3">
+                   <div className="w-1.5 h-1.5 rounded-full bg-blue-500" />
+                    <h3 className="text-xs font-bold text-slate-500 dark:text-slate-400">Classification</h3>
+                   <div className="h-px flex-1 bg-slate-100 dark:bg-slate-800/50" />
+                </div>
+                
+                <div className="space-y-4">
+                  <div className="space-y-2">
+                    <label className="text-xs font-bold text-slate-400 pl-1">Category *</label>
+                    <select
+                      {...register('category')}
+                      className="w-full h-10 rounded-xl border border-slate-100 dark:border-slate-800 bg-white dark:bg-slate-950 px-4 text-xs font-bold focus:ring-4 focus:ring-pharco-orange/5 focus:border-pharco-orange outline-none transition-all shadow-xs"
+                    >
+                      <option value="Information">General Information</option>
+                      <option value="Research">Clinical Research</option>
+                      <option value="Tips">Health Tips</option>
+                      <option value="Technology">MedTech</option>
+                    </select>
+                  </div>
+
+                  <div className="space-y-2">
+                    <label className="text-xs font-bold text-slate-400 pl-1">Status *</label>
+                    <select
+                      {...register('status')}
+                      className="w-full h-10 rounded-xl border border-slate-100 dark:border-slate-800 bg-white dark:bg-slate-950 px-4 text-xs font-bold focus:ring-4 focus:ring-pharco-orange/5 focus:border-pharco-orange outline-none transition-all shadow-xs"
+                    >
+                      {!isPublished && <option value="draft">Internal Draft</option>}
+                      <option value="published">Live Public</option>
+                      <option value="archived">Archived / Hidden</option>
+                    </select>
+                  </div>
+                </div>
               </div>
 
-              {/* Content Area */}
-              <div className="space-y-4 pt-2">
-                <label className="text-xs font-bold text-slate-400 dark:text-slate-500 flex items-center gap-2">
-                  <span className="w-1.5 h-1.5 rounded-full bg-pharco-orange" />
-                  Documentation Body *
-                </label>
-                <textarea
-                  {...register('content')}
-                  className={cn(
-                    'w-full min-h-120 rounded-2xl border-none focus:outline-none focus:ring-0 p-0 text-base leading-relaxed font-semibold bg-transparent placeholder:text-slate-300 dark:placeholder:text-slate-800 resize-none',
-                    errors.content && 'text-rose-500'
-                  )}
-                  placeholder="Draft your medical insights here... (Markdown supported)"
-                />
-                {errors.content && <p className="text-[10px] text-rose-500 font-bold">{errors.content.message}</p>}
+              {/* Meta Group 2: Presentation */}
+              <div className="space-y-6">
+                <div className="flex items-center gap-3">
+                   <div className="w-1.5 h-1.5 rounded-full bg-orange-500" />
+                    <h3 className="text-xs font-bold text-slate-500 dark:text-slate-400">Context & Assets</h3>
+                   <div className="h-px flex-1 bg-slate-100 dark:bg-slate-800/50" />
+                </div>
+
+                <div className="space-y-5">
+                  <div className="space-y-2">
+                    <label className="text-xs font-bold text-slate-400 pl-1">Article Summary *</label>
+                      <textarea
+                        {...register('summary')}
+                        rows={4}
+                        className={cn(
+                          'w-full p-4 rounded-xl border border-slate-100 dark:border-slate-800 bg-white dark:bg-slate-950 text-xs font-bold focus:ring-4 focus:ring-pharco-orange/5 focus:border-pharco-orange outline-none transition-all shadow-xs resize-none leading-relaxed placeholder:font-medium',
+                          errors.summary && 'border-rose-500 ring-rose-500/10'
+                        )}
+                        placeholder="Describe the clinical impact and key takeaways..."
+                      />
+                    {errors.summary && <p className="text-[10px] text-rose-500 font-bold uppercase tracking-wide">{errors.summary.message}</p>}
+                  </div>
+
+                  <div className="space-y-2">
+                     <label className="text-[9px] font-black text-slate-400 uppercase tracking-widest pl-1">Cover Image</label>
+                     <div className="rounded-xl overflow-hidden border border-slate-50 dark:border-slate-800 shadow-xs">
+                      <Controller
+                        name="coverImage"
+                        control={control}
+                        render={({ field }) => (
+                          <ImageUpload label="" value={field.value} onChange={field.onChange} />
+                        )}
+                      />
+                     </div>
+                  </div>
+                </div>
               </div>
             </div>
           </div>
 
-          {/* Settings Sidebar (Right) */}
-          <div className="w-90 bg-slate-50/50 dark:bg-slate-900/30 border-l border-slate-100 dark:border-slate-800 p-7 overflow-y-auto custom-scrollbar space-y-8 shrink-0">
-            
-            {/* Meta Group 1: Configuration */}
-            <div className="space-y-6">
-              <div className="flex items-center gap-3">
-                 <div className="w-1.5 h-1.5 rounded-full bg-blue-500" />
-                  <h3 className="text-xs font-bold text-slate-500 dark:text-slate-400">Classification</h3>
-                 <div className="h-px flex-1 bg-slate-100 dark:bg-slate-800/50" />
-              </div>
-              
-              <div className="space-y-4">
-                <div className="space-y-2">
-                  <label className="text-xs font-bold text-slate-400 pl-1">Category *</label>
-                  <select
-                    {...register('category')}
-                    className="w-full h-10 rounded-xl border border-slate-100 dark:border-slate-800 bg-white dark:bg-slate-950 px-4 text-xs font-bold focus:ring-4 focus:ring-pharco-orange/5 focus:border-pharco-orange outline-none transition-all shadow-xs"
-                  >
-                    <option value="Information">General Information</option>
-                    <option value="Research">Clinical Research</option>
-                    <option value="Tips">Health Tips</option>
-                    <option value="Technology">MedTech</option>
-                  </select>
-                </div>
-
-                <div className="space-y-2">
-                  <label className="text-xs font-bold text-slate-400 pl-1">Status *</label>
-                  <select
-                    {...register('status')}
-                    className="w-full h-10 rounded-xl border border-slate-100 dark:border-slate-800 bg-white dark:bg-slate-950 px-4 text-xs font-bold focus:ring-4 focus:ring-pharco-orange/5 focus:border-pharco-orange outline-none transition-all shadow-xs"
-                  >
-                    {!isPublished && <option value="draft">Internal Draft</option>}
-                    <option value="published">Live Public</option>
-                    <option value="archived">Archived / Hidden</option>
-                  </select>
-                </div>
-              </div>
-            </div>
-
-            {/* Meta Group 2: Presentation */}
-            <div className="space-y-6">
-              <div className="flex items-center gap-3">
-                 <div className="w-1.5 h-1.5 rounded-full bg-orange-500" />
-                  <h3 className="text-xs font-bold text-slate-500 dark:text-slate-400">Context & Assets</h3>
-                 <div className="h-px flex-1 bg-slate-100 dark:bg-slate-800/50" />
-              </div>
-
-              <div className="space-y-5">
-                <div className="space-y-2">
-                  <label className="text-xs font-bold text-slate-400 pl-1">Article Summary *</label>
-                    <textarea
-                      {...register('summary')}
-                      rows={4}
-                      className={cn(
-                        'w-full p-4 rounded-xl border border-slate-100 dark:border-slate-800 bg-white dark:bg-slate-950 text-xs font-bold focus:ring-4 focus:ring-pharco-orange/5 focus:border-pharco-orange outline-none transition-all shadow-xs resize-none leading-relaxed placeholder:font-medium',
-                        errors.summary && 'border-rose-500 ring-rose-500/10'
-                      )}
-                      placeholder="Describe the clinical impact and key takeaways..."
-                    />
-                  {errors.summary && <p className="text-[10px] text-rose-500 font-bold uppercase tracking-wide">{errors.summary.message}</p>}
-                </div>
-
-                <div className="space-y-2">
-                   <label className="text-[9px] font-black text-slate-400 uppercase tracking-widest pl-1">Cover Image</label>
-                   <div className="rounded-xl overflow-hidden border border-slate-50 dark:border-slate-800 shadow-xs">
-                    <Controller
-                      name="coverImage"
-                      control={control}
-                      render={({ field }) => (
-                        <ImageUpload label="" value={field.value} onChange={field.onChange} />
-                      )}
-                    />
-                   </div>
-                </div>
-              </div>
-            </div>
+          {/* Action Bar (Sticky Footer inside Form) */}
+          <div className="bg-white dark:bg-slate-950 px-8 py-4 border-t border-slate-100 dark:border-slate-800 flex justify-end gap-3 shrink-0 z-20">
+            <button
+              type="button"
+              onClick={onClose}
+              className="px-6 py-2 h-10 text-xs font-bold text-slate-500 hover:bg-slate-50 dark:hover:bg-slate-900 rounded-xl transition-all"
+            >
+              Cancel
+            </button>
+            <button
+              type="submit"
+              disabled={isSubmitting}
+              className="px-10 h-10 bg-[#3e4998] hover:bg-[#393d8e] text-white rounded-xl text-xs font-black transition-all shadow-lg shadow-primary/5 disabled:opacity-50 hover:scale-[1.02] active:scale-[0.98]"
+            >
+              {isSubmitting ? 'Processing...' : submitLabel}
+            </button>
           </div>
         </form>
-
-        {/* Action Bar (Sticky Footer) */}
-        <div className="bg-white dark:bg-slate-950 px-8 py-4 border-t border-slate-100 dark:border-slate-800 flex justify-end gap-3 shrink-0 z-20">
-          <button
-            type="button"
-            onClick={onClose}
-            className="px-6 py-2 h-10 text-xs font-bold text-slate-500 hover:bg-slate-50 dark:hover:bg-slate-900 rounded-xl transition-all"
-          >
-            Cancel
-          </button>
-          <button
-            onClick={onSubmit}
-            disabled={isSubmitting}
-            className="px-10 h-10 bg-[#3e4998] hover:bg-[#393d8e] text-white rounded-xl text-xs font-black transition-all shadow-lg shadow-primary/5 disabled:opacity-50 hover:scale-[1.02] active:scale-[0.98]"
-          >
-            {isSubmitting ? 'Processing...' : submitLabel}
-          </button>
-        </div>
       </DialogContent>
     </Dialog>
   );

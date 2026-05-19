@@ -8,6 +8,21 @@ import { useAuthStore } from '@/stores/authStore';
 import { cn, formatDate, getStatusColor } from '@/lib/utils';
 import { useState } from 'react';
 import toast from 'react-hot-toast';
+import { useForm } from 'react-hook-form';
+import { zodResolver } from '@hookform/resolvers/zod';
+import { z } from 'zod';
+import { ArticleModal } from './ArticlesPage';
+
+const articleSchema = z.object({
+  title: z.string().min(5, 'Title must be at least 5 characters'),
+  summary: z.string().min(10, 'Summary must be at least 10 characters'),
+  content: z.string().min(20, 'Content must be at least 20 characters'),
+  category: z.string().min(1, 'Category is required'),
+  status: z.enum(['draft', 'published', 'archived']),
+  coverImage: z.any().optional(),
+});
+
+type ArticleFormValues = z.infer<typeof articleSchema>;
 
 export default function ArticleDetailPage() {
   const { id } = useParams<{ id: string }>();
@@ -21,6 +36,55 @@ export default function ArticleDetailPage() {
   const updateMutation = useUpdateArticle();
 
   const [showDeleteConfirm, setShowDeleteConfirm] = useState(false);
+  const [isEditModalOpen, setIsEditModalOpen] = useState(false);
+
+  const editForm = useForm<ArticleFormValues>({
+    resolver: zodResolver(articleSchema),
+    defaultValues: {
+      title: '', summary: '', content: '',
+      category: 'Information', status: 'draft', coverImage: '',
+    },
+  });
+
+  const openEditModal = () => {
+    if (!article) return;
+    editForm.reset({
+      title: article.title,
+      summary: article.summary || '',
+      content: article.content,
+      category: article.category,
+      status: article.status || 'draft',
+      coverImage: article.coverImage || '',
+    });
+    setIsEditModalOpen(true);
+  };
+
+  const handleEditSubmit = async (values: ArticleFormValues) => {
+    const formData = new FormData();
+    Object.entries(values).forEach(([key, value]) => {
+      if (key !== 'coverImage' && value !== undefined) {
+        if (Array.isArray(value)) {
+          formData.append(key, JSON.stringify(value));
+        } else {
+          formData.append(key, value.toString());
+        }
+      }
+    });
+
+    if (values.coverImage instanceof File) {
+      formData.append('thumbnail', values.coverImage);
+    }
+
+    updateMutation.mutate(
+      { id: article._id, data: formData as any },
+      { 
+        onSuccess: () => {
+          setIsEditModalOpen(false);
+          toast.success('Article updated successfully');
+        }
+      }
+    );
+  };
 
   const doctorId = user?.doctor?.id;
   const isOwner = article && (article.doctorId === doctorId || article.doctorId?._id === doctorId);
@@ -77,12 +141,12 @@ export default function ArticleDetailPage() {
   // Enhanced Publisher Resolution
   const authorName = doctor 
     ? (authorUser?.name || doctor?.name || 'Medical Specialist')
-    : 'Pharco System Specialist';
+    : 'Noor Einak Expert';
     
   const authorSpec = doctor?.specialization || 'Clinical Operations';
   const initials = doctor 
     ? (authorName.split(' ').map((n: string) => n[0]).slice(0, 2).join('').toUpperCase())
-    : 'PS';
+    : 'NE';
 
   // Category Mapping
   const categoryMap: Record<string, string> = {
@@ -116,7 +180,7 @@ export default function ArticleDetailPage() {
              Journal
            </button>
 
-           {isOwner && (
+            {isOwner && (
              <div className="flex items-center gap-3">
                <button
                  onClick={handleStatusToggle}
@@ -125,7 +189,7 @@ export default function ArticleDetailPage() {
                  {article.status === 'published' ? 'Archive' : 'Publish'}
                </button>
                <button
-                 onClick={() => navigate('/articles')}
+                 onClick={openEditModal}
                  className="px-6 py-3 rounded-2xl bg-primary text-white text-[10px] font-black uppercase tracking-widest shadow-xl shadow-primary/20 hover:scale-105 active:scale-95 transition-all"
                >
                  Edit Article
@@ -228,7 +292,7 @@ export default function ArticleDetailPage() {
                    
                    <div className="flex items-center gap-3 text-emerald-500 font-bold bg-emerald-50 dark:bg-emerald-950/30 p-4 rounded-2xl justify-center">
                       <CheckCircle size={16} />
-                      <span className="text-xs uppercase tracking-widest font-black">PHARCO VERIFIED</span>
+                      <span className="text-xs uppercase tracking-widest font-black">NOOR EINAK VERIFIED</span>
                    </div>
                 </div>
              </div>
@@ -282,6 +346,20 @@ export default function ArticleDetailPage() {
           </div>
         </div>
       )}
+
+      {/* Edit Article Modal */}
+      <ArticleModal
+        isOpen={isEditModalOpen}
+        onClose={() => setIsEditModalOpen(false)}
+        title="Edit Article"
+        onSubmit={editForm.handleSubmit(handleEditSubmit)}
+        register={editForm.register}
+        control={editForm.control}
+        errors={editForm.formState.errors}
+        isSubmitting={updateMutation.isPending}
+        submitLabel="Update Article"
+        isPublished={!!article?.publishedAt}
+      />
     </div>
   );
 }

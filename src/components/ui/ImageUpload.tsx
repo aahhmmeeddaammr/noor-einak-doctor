@@ -30,6 +30,12 @@ export default function ImageUpload({ value, onChange, label, className }: Image
       return;
     }
 
+    const MAX_SIZE = 10 * 1024 * 1024; // 10MB
+    if (file.size > MAX_SIZE) {
+      toast.error('Image size must be less than 10MB');
+      return;
+    }
+
     const objectUrl = URL.createObjectURL(file);
     setPreview(objectUrl);
     onChange(file);
@@ -74,7 +80,7 @@ export default function ImageUpload({ value, onChange, label, className }: Image
             </div>
             <div className="text-center px-4">
               <p className="text-sm font-bold text-slate-700 dark:text-slate-300">Click to select media</p>
-              <p className="text-[10px] font-medium text-slate-400">PNG, JPG or WebP (Max 5MB)</p>
+              <p className="text-[10px] font-medium text-slate-400">PNG, JPG or WebP (Max 10MB)</p>
             </div>
           </div>
         )}

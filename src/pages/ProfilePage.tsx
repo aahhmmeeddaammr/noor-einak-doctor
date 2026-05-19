@@ -162,11 +162,7 @@ export default function ProfilePage() {
     // Since we control both, let's flat map it for multer or send as JSON if possible
     // Actually, common multer-friendly way is sending strings for objects
     if (values.clinic) {
-        formData.append('clinic[name]', values.clinic.name);
-        formData.append('clinic[address]', values.clinic.address);
-        if (values.clinic.governorate) formData.append('clinic[governorate]', values.clinic.governorate);
-        formData.append('clinic[phone]', values.clinic.phone);
-        if (values.clinic.addressLink) formData.append('clinic[addressLink]', values.clinic.addressLink);
+        formData.append('clinic', JSON.stringify(values.clinic));
     }
 
     if (selectedAvatar) {

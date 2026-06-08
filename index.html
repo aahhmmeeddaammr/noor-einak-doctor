@@ -2,16 +2,73 @@
 <html lang="en">
   <head>
     <meta charset="UTF-8" />
-    <link rel="icon" type="image/svg+xml" href="/vite.svg" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <meta name="description" content="Noor Einak - Doctor Portal for managing patients, prescriptions, and medical tests" />
+    
+    <!-- Favicon and App Icons -->
+    <link rel="icon" type="image/png" href="/logo.png" />
+    <link rel="apple-touch-icon" href="/logo.png" />
+    
+    <!-- SEO & Metadata -->
     <title>Noor Einak - Doctor Portal</title>
+    <meta name="description" content="Noor Einak is a professional medical platform for ophthalmologists to manage patients, review clinical tests, track intraocular pressure (IOP), and issue digital prescriptions." />
+    <meta name="keywords" content="Noor Einak, Doctor Portal, Ophthalmology, Prescriptions, Medical Tests, IOP Tracking" />
+    <meta name="author" content="Noor Einak Team" />
+    
+    <!-- Open Graph / Facebook -->
+    <meta property="og:type" content="website" />
+    <meta property="og:title" content="Noor Einak - Doctor Portal" />
+    <meta property="og:description" content="Manage patients, review clinical tests, track intraocular pressure (IOP), and issue digital prescriptions." />
+    <meta property="og:image" content="/logo.png" />
+
+    <!-- Twitter -->
+    <meta property="twitter:card" content="summary_large_image" />
+    <meta property="twitter:title" content="Noor Einak - Doctor Portal" />
+    <meta property="twitter:description" content="Manage patients, review clinical tests, track intraocular pressure (IOP), and issue digital prescriptions." />
+    <meta property="twitter:image" content="/logo.png" />
+
+    <!-- Fonts (Preconnect and load Plus Jakarta Sans directly for optimized performance) -->
     <link rel="preconnect" href="https://fonts.googleapis.com" />
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet" />
+    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:ital,wght@0,200..800;1,200..800&display=swap" rel="stylesheet" />
   </head>
-  <body>
-    <div id="root"></div>
+  <body class="bg-[#f8fafc] text-[#0f172a] antialiased">
+    <div id="root">
+      <!-- Premium splash loading screen before React mounts -->
+      <div style="
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        justify-content: center;
+        height: 100vh;
+        width: 100vw;
+        background-color: #f8fafc;
+        font-family: 'Plus Jakarta Sans', sans-serif;
+      " id="app-loading-screen">
+        <div style="text-align: center;">
+          <img src="/logo.png" alt="Noor Einak Logo" style="width: 80px; height: auto; margin-bottom: 24px; animation: pulse 2s infinite ease-in-out;" onerror="this.style.display='none'" />
+          <div style="
+            width: 40px;
+            height: 40px;
+            border: 3px solid rgba(62, 73, 152, 0.1);
+            border-top-color: #3e4998;
+            border-radius: 50%;
+            animation: spin 1s infinite linear;
+            margin: 0 auto 16px auto;
+          "></div>
+          <p style="color: #64748b; font-size: 13px; font-weight: 700; letter-spacing: 0.05em; text-transform: uppercase;">Loading Portal...</p>
+        </div>
+      </div>
+      <style>
+        @keyframes spin {
+          0% { transform: rotate(0deg); }
+          100% { transform: rotate(360deg); }
+        }
+        @keyframes pulse {
+          0%, 100% { opacity: 0.6; transform: scale(0.98); }
+          50% { opacity: 1; transform: scale(1.02); }
+        }
+      </style>
+    </div>
     <script type="module" src="/src/main.tsx"></script>
   </body>
 </html>

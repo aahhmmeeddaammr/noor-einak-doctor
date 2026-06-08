@@ -24,6 +24,8 @@ import {
   DropdownMenuSeparator,
 } from '@/components/ui/DropdownMenu';
 import ImageUpload from '@/components/ui/ImageUpload';
+import ReactQuill from 'react-quill-new';
+import 'react-quill-new/dist/quill.snow.css';
 
 const articleSchema = z.object({
   title: z.string().min(5, 'Title must be at least 5 characters'),
@@ -437,7 +439,7 @@ interface ArticleModalProps {
 export function ArticleModal({ isOpen, onClose, title, onSubmit, register, control, errors, isSubmitting, submitLabel, isPublished }: ArticleModalProps) {
   return (
     <Dialog open={isOpen} onOpenChange={onClose}>
-      <DialogContent className="p-0 border-none max-w-5xl bg-white dark:bg-slate-950 rounded-4xl overflow-hidden shadow-2xl flex flex-col h-[90vh]">
+      <DialogContent className="p-0 border-none max-w-[92vw] xl:max-w-[85vw] bg-white dark:bg-slate-950 rounded-4xl overflow-hidden shadow-2xl flex flex-col h-[92vh]">
         
         {/* Modern Header */}
         <div className="bg-white dark:bg-slate-900 px-8 py-4 border-b border-slate-100 dark:border-slate-800 flex items-center justify-between shrink-0">
@@ -450,9 +452,6 @@ export function ArticleModal({ isOpen, onClose, title, onSubmit, register, contr
               <p className="text-[10px] font-bold text-slate-400">Authoring Environment</p>
             </div>
           </div>
-          <button type="button" onClick={onClose} className="p-2 hover:bg-slate-100 dark:hover:bg-slate-800 rounded-xl transition-colors">
-            <X className="w-5 h-5 text-slate-400" />
-          </button>
         </div>
 
         {/* Studio Workspace & Action Bar inside a Single Semantic Form */}
@@ -461,7 +460,7 @@ export function ArticleModal({ isOpen, onClose, title, onSubmit, register, contr
           <div className="flex-1 flex overflow-hidden">
             {/* Main Editor Pane (Left) */}
             <div className="flex-1 p-8 overflow-y-auto custom-scrollbar bg-white dark:bg-slate-950">
-              <div className="max-w-2xl mx-auto space-y-8">
+              <div className="max-w-5xl mx-auto space-y-8">
                 {/* Zen Title Input */}
                 <div className="space-y-4">
                   <textarea
@@ -478,18 +477,39 @@ export function ArticleModal({ isOpen, onClose, title, onSubmit, register, contr
                 </div>
 
                 {/* Content Area */}
-                <div className="space-y-4 pt-2">
-                  <label className="text-xs font-bold text-slate-400 dark:text-slate-500 flex items-center gap-2">
+                <div className="space-y-4 pt-2 flex-grow flex flex-col">
+                  <label className="text-xs font-bold text-slate-400 dark:text-slate-550 flex items-center gap-2">
                     <span className="w-1.5 h-1.5 rounded-full bg-pharco-orange" />
                     Documentation Body *
                   </label>
-                  <textarea
-                    {...register('content')}
-                    className={cn(
-                      'w-full min-h-[400px] rounded-2xl border-none focus:outline-none focus:ring-0 p-0 text-base leading-relaxed font-semibold bg-transparent placeholder:text-slate-300 dark:placeholder:text-slate-800 resize-none',
-                      errors.content && 'text-rose-500'
+                  <Controller
+                    name="content"
+                    control={control}
+                    render={({ field }) => (
+                      <div className="flex-1 flex flex-col min-h-[400px] rounded-2xl border border-slate-100 dark:border-slate-800 bg-slate-50/50 dark:bg-slate-900/10 overflow-hidden">
+                        <ReactQuill
+                          theme="snow"
+                          value={field.value || ''}
+                          onChange={field.onChange}
+                          modules={{
+                            toolbar: [
+                              [{ 'header': [1, 2, 3, false] }],
+                              ['bold', 'italic', 'underline', 'strike'],
+                              [{ 'color': [] }, { 'background': [] }],
+                              [{ 'list': 'ordered' }, { 'list': 'bullet' }],
+                              ['blockquote', 'code-block'],
+                              ['clean']
+                            ]
+                          }}
+                          formats={[
+                            'header', 'bold', 'italic', 'underline', 'strike', 'blockquote', 'code-block',
+                            'list', 'bullet', 'color', 'background'
+                          ]}
+                          className="flex-1 flex flex-col [&>.ql-toolbar]:border-0 [&>.ql-toolbar]:border-b [&>.ql-toolbar]:border-slate-150 [&>.ql-toolbar]:dark:border-slate-800/60 [&>.ql-toolbar]:bg-slate-50/40 [&>.ql-toolbar]:dark:bg-slate-900/20 [&>.ql-container]:border-0 [&>.ql-container]:flex-1 [&>.ql-container]:text-sm [&>.ql-editor]:min-h-[350px] [&>.ql-editor]:px-6 [&>.ql-editor]:py-4 [&>.ql-editor]:text-slate-800 [&>.ql-editor]:dark:text-slate-200 [&>.ql-editor]:leading-relaxed"
+                          placeholder="Start typing your medical insights or clinical guidelines here..."
+                        />
+                      </div>
                     )}
-                    placeholder="Draft your medical insights here... (Markdown supported)"
                   />
                   {errors.content && <p className="text-[10px] text-rose-500 font-bold">{errors.content.message}</p>}
                 </div>

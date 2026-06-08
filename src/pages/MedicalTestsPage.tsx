@@ -101,10 +101,10 @@ export default function MedicalTestsPage() {
               {test.patientId?.userId && (
                 <div className="flex items-center gap-3 mb-4 p-3 rounded-2xl bg-slate-50 dark:bg-slate-800/50 border border-slate-100 dark:border-slate-800">
                    <div className="w-10 h-10 rounded-xl bg-primary/10 flex items-center justify-center text-primary font-black shadow-inner">
-                     {test.patientId.userId.name.charAt(0)}
+                     {test.patientId.userId.name?.charAt(0) || 'P'}
                    </div>
                    <div className="flex flex-col">
-                      <span className="text-xs font-bold text-slate-900 dark:text-white">{test.patientId.userId.name}</span>
+                      <span className="text-xs font-bold text-slate-900 dark:text-white">{test.patientId.userId.name || 'Anonymous Patient'}</span>
                       <span className="text-[10px] text-slate-500 font-medium">{test.patientId.userId.phone || test.patientId.userId.email || 'No Contact Info'}</span>
                    </div>
                 </div>

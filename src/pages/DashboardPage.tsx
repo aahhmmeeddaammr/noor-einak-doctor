@@ -1,5 +1,5 @@
 import { motion } from 'framer-motion';
-import { Briefcase, MapPin, Phone, Mail, Users2, Microscope, FileText, Zap, Edit3, Star, Globe, ChevronRight, BookOpen, Building2, Plus } from 'lucide-react';
+import { Briefcase, MapPin, Phone, Mail, Users2, Microscope, FileText, Zap, Edit3, Globe, ChevronRight, BookOpen, Building2, Plus } from 'lucide-react';
 import { useDoctorProfile } from '@/features/doctors/hooks';
 import { useDashboard } from '@/features/dashboard/hooks';
 import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/Avatar';
@@ -190,7 +190,7 @@ export default function DashboardPage() {
                             </div>
                         </div>
 
-                        <div className="grid grid-cols-1 lg:grid-cols-2 gap-10">
+                        <div className="w-full">
                                     {/* Upcoming Appointments (Actionable) */}
                                     <div className="space-y-4">
                                         <h3 className="text-xs font-black text-slate-400 uppercase tracking-widest">Recent patients</h3>
@@ -223,31 +223,6 @@ export default function DashboardPage() {
                                                   className="p-8 border-dashed"
                                                 />
                                             )}
-                                        </div>
-                                    </div>
-
-                                    {/* Efficiency Metrics */}
-                                    <div className="space-y-4">
-                                        <h3 className="text-xs font-black text-slate-400 uppercase tracking-widest">Performance KPIs</h3>
-                                        <div className="grid grid-cols-1 gap-3">
-                                            <div className="p-5 bg-linear-to-br from-[#3e4998] to-primary-700 rounded-2xl shadow-xl relative overflow-hidden">
-                                                <Star className="absolute -right-4 -bottom-4 w-24 h-24 text-white/5" />
-                                                <p className="text-[10px] font-black text-white/60 uppercase tracking-widest mb-1">Patient Satisfaction</p>
-                                                <p className="text-3xl font-black text-white leading-none mb-4 tracking-tight">{stats?.satisfactionScore || "5.0"}<span className="text-sm">/5</span></p>
-                                                <div className="flex items-center gap-1">
-                                                    {[1, 2, 3, 4, 5].map(s => <Star key={s} size={10} className={cn("fill-amber-400", s <= Math.floor(stats?.satisfactionScore || 5) ? "text-amber-400" : "text-white/20")} />)}
-                                                    <span className="text-[10px] font-bold text-white/80 ml-2">Based on adherence</span>
-                                                </div>
-                                            </div>
-                                            <div className="flex items-center justify-between p-4 bg-[#3e4998]/5 border border-[#3e4998]/10 rounded-2xl">
-                                                <div className="flex items-center gap-3">
-                                                    <div className="w-8 h-8 rounded-full bg-white flex items-center justify-center text-[#3e4998] shadow-sm">
-                                                        <Zap size={14} className="fill-[#3e4998]" />
-                                                    </div>
-                                                    <span className="text-xs font-bold text-slate-700">Digital efficiency</span>
-                                                </div>
-                                                <span className="text-sm font-black text-[#3e4998]">{stats?.efficiencyRate || 100}%</span>
-                                            </div>
                                         </div>
                                     </div>
                                 </div>

@@ -5,8 +5,10 @@ import { useAuthStore } from '@/stores/authStore';
 //   baseURL: 'https://noor-einak-backend-production.up.railway.app/api/v1',
 //   headers: { 'Content-Type': 'application/json' },
 // });
+export const BASE_URL = "https://noor-einak-backend-production-551f.up.railway.app/api/v1/"
+
 const apiClient = axios.create({
-  baseURL: 'http://localhost:3001/api/v1',
+  baseURL: BASE_URL,
   headers: { 'Content-Type': 'application/json' },
 });
 

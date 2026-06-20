@@ -1,0 +1,12 @@
+{
+  "expo": {
+    "extra": {
+      "eas": {
+        "projectId": "d3397cd7-df6f-48dc-8734-2f2448c08503"
+      }
+    },
+    "android": {
+      "package": "com.ahmedaaamribrahem.doctorportal"
+    }
+  }
+}

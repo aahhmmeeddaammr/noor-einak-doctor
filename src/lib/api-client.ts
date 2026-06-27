@@ -5,7 +5,7 @@ import { useAuthStore } from '@/stores/authStore';
 //   baseURL: 'https://noor-einak-backend-production.up.railway.app/api/v1',
 //   headers: { 'Content-Type': 'application/json' },
 // });
-export const BASE_URL = "http://77.37.121.86/api/api/v1"
+export const BASE_URL = "https://api.nooreinak.com/api/v1"
 
 const apiClient = axios.create({
   baseURL: BASE_URL,

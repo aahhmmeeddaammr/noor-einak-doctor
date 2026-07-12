@@ -1,12 +1,19 @@
-import { useState, useEffect } from 'react';
+import { useState, useEffect, useRef } from 'react';
 import { useParams, Link } from 'react-router-dom';
 import {
   FileText, MessageSquare, Plus, ChevronRight,
   ShieldAlert, Mail, Phone, Calendar, Zap, Clock,
   Eye, ClipboardCheck, LayoutDashboard, Pill, Activity, Bell, ExternalLink, Loader2,
   TrendingUp, Table as TableIcon, Filter, Info, ArrowUpRight, ArrowDownRight,
+  Upload, Camera, Image as ImageIcon, CheckCircle2, Trash2, Microscope,
 } from 'lucide-react';
-import { usePatientDetail, useTogglePermission, usePatientReminders, useUpdateMedicalInfo } from '@/features/patients/hooks';
+import {
+  usePatientDetail,
+  useTogglePermission,
+  usePatientReminders,
+  useUpdateMedicalInfo,
+  useCreatePatientMedicalRecord,
+} from '@/features/patients/hooks';
 import { getInitials, formatDate, formatDateTime, formatTime, cn, getStatusColor } from '@/lib/utils';
 import { Button } from '@/components/ui/Button';
 import { useAuthStore } from '@/stores/authStore';
@@ -20,6 +27,7 @@ import {
 } from 'recharts';
 import { motion, AnimatePresence } from 'framer-motion';
 import dayjs from 'dayjs';
+import { filesApi } from '@/features/files/api';
 
 const tabs = [
   { label: 'Overview', icon: LayoutDashboard },
@@ -29,6 +37,21 @@ const tabs = [
   { label: 'Medication Reminders', icon: Bell }
 ];
 
+const TEST_TYPES = [
+  { en: 'Tonometry', ar: 'قياس ضغط العين', key: 'tonometry', dbValue: 'Intraocular Pressure' },
+  { en: 'Fundoscopy Test', ar: 'اختبار قاع العين', key: 'fundoscopy', dbValue: 'Fundus Photography' },
+  { en: 'Perimetry Test', ar: 'قياس المجال البصري', key: 'perimetry', dbValue: 'Visual Field Test' },
+  { en: 'OCT Test', ar: 'التصوير المقطعي البصري التوافقي', key: 'oct', dbValue: 'OCT Scan' },
+  { en: 'Vision Test', ar: 'اختبار النظر', key: 'vision', dbValue: 'Visual Acuity' },
+  { en: 'Pachymetry Test', ar: 'قياس سُمك القرنية', key: 'pachymetry', dbValue: 'Pachymetry Test' },
+] as const;
+
+const EYE_OPTIONS = [
+  { id: 'Left', label: 'Left Eye' },
+  { id: 'Right', label: 'Right Eye' },
+  { id: 'Both', label: 'Both Eyes' },
+] as const;
+
 export default function PatientDetailPage() {
   const { patientId } = useParams();
   const user = useAuthStore((s) => s.user);
@@ -37,6 +60,19 @@ export default function PatientDetailPage() {
   const [reminderPage, setReminderPage] = useState(1);
   const [allReminders, setAllReminders] = useState<any[]>([]);
   const [selectedRx, setSelectedRx] = useState<any>(null);
+  const [selectedTestType, setSelectedTestType] = useState<(typeof TEST_TYPES)[number] | null>(TEST_TYPES[0]);
+  const [selectedEye, setSelectedEye] = useState<'Left' | 'Right' | 'Both'>('Left');
+  const [recordDate, setRecordDate] = useState(dayjs().format('YYYY-MM-DD'));
+  const [recordDescription, setRecordDescription] = useState('');
+  const [recordDoctorNotes, setRecordDoctorNotes] = useState('');
+  const [recordFile, setRecordFile] = useState<File | null>(null);
+  const [recordFilePreview, setRecordFilePreview] = useState('');
+  const [recordIopOD, setRecordIopOD] = useState('');
+  const [recordIopOS, setRecordIopOS] = useState('');
+  const [isUploadingRecord, setIsUploadingRecord] = useState(false);
+  const documentInputRef = useRef<HTMLInputElement>(null);
+  const imageInputRef = useRef<HTMLInputElement>(null);
+  const cameraInputRef = useRef<HTMLInputElement>(null);
 
   const { data: remindersData, isLoading: isLoadingReminders } = usePatientReminders(patientId!, {
     page: reminderPage,
@@ -49,6 +85,7 @@ export default function PatientDetailPage() {
   const [iopEyeFilter, setIopEyeFilter] = useState<'both' | 'od' | 'os'>('both');
   const [iopTimeFilter, setIopTimeFilter] = useState<'week' | 'month' | 'three_months' | 'all'>('month');
   const updateMutation = useUpdateMedicalInfo();
+  const createMedicalRecordMutation = useCreatePatientMedicalRecord();
 
   useEffect(() => {
     if (patient) {
@@ -71,6 +108,120 @@ export default function PatientDetailPage() {
         setIsEditing(false);
       }
     });
+  };
+
+  useEffect(() => {
+    if (!recordFile) {
+      setRecordFilePreview('');
+      return;
+    }
+
+    const nextPreview = URL.createObjectURL(recordFile);
+    setRecordFilePreview(nextPreview);
+
+    return () => {
+      URL.revokeObjectURL(nextPreview);
+    };
+  }, [recordFile]);
+
+  const isIopRecord = selectedTestType?.dbValue === 'Intraocular Pressure';
+
+  const resetRecordComposer = () => {
+    setSelectedTestType(TEST_TYPES[0]);
+    setSelectedEye('Left');
+    setRecordDate(dayjs().format('YYYY-MM-DD'));
+    setRecordDescription('');
+    setRecordDoctorNotes('');
+    setRecordFile(null);
+    setRecordIopOD('');
+    setRecordIopOS('');
+
+    if (documentInputRef.current) documentInputRef.current.value = '';
+    if (imageInputRef.current) imageInputRef.current.value = '';
+    if (cameraInputRef.current) cameraInputRef.current.value = '';
+  };
+
+  const handleRecordFileChange = (event: React.ChangeEvent<HTMLInputElement>) => {
+    const file = event.target.files?.[0];
+    if (!file) return;
+
+    const isAccepted = file.type.startsWith('image/') || file.type === 'application/pdf';
+    if (!isAccepted) {
+      toast.error('Please upload a PDF or image file');
+      event.target.value = '';
+      return;
+    }
+
+    setRecordFile(file);
+  };
+
+  const clearRecordFile = () => {
+    setRecordFile(null);
+    if (documentInputRef.current) documentInputRef.current.value = '';
+    if (imageInputRef.current) imageInputRef.current.value = '';
+    if (cameraInputRef.current) cameraInputRef.current.value = '';
+  };
+
+  const handleMedicalRecordSubmit = async () => {
+    if (!patientId) return;
+    if (!selectedTestType) {
+      toast.error('Select the analysis type first');
+      return;
+    }
+
+    if (!recordDate) {
+      toast.error('Add the analysis date');
+      return;
+    }
+
+    if (!isIopRecord && !recordFile) {
+      toast.error('Attach the analysis file before submitting');
+      return;
+    }
+
+    if (isIopRecord) {
+      const needsRight = selectedEye === 'Right' || selectedEye === 'Both';
+      const needsLeft = selectedEye === 'Left' || selectedEye === 'Both';
+
+      if ((needsRight && !recordIopOD) || (needsLeft && !recordIopOS)) {
+        toast.error('Enter the required IOP readings for the selected eye');
+        return;
+      }
+    }
+
+    setIsUploadingRecord(true);
+    try {
+      let uploadedFile: any = null;
+
+      if (recordFile) {
+        uploadedFile = await filesApi.upload(recordFile);
+      }
+
+      await createMedicalRecordMutation.mutateAsync({
+        id: patientId,
+        data: {
+          titleAr: selectedTestType.ar,
+          titleEn: selectedTestType.en,
+          description: recordDescription || undefined,
+          doctorNotes: recordDoctorNotes || undefined,
+          category: 'test_result',
+          testType: selectedTestType.dbValue,
+          testDate: recordDate,
+          fileUrl: uploadedFile?.data?.fileUrl || uploadedFile?.fileUrl,
+          fileType: uploadedFile?.data?.fileType || uploadedFile?.fileType,
+          fileSize: uploadedFile?.data?.fileSize || uploadedFile?.fileSize,
+          eye: selectedEye,
+          iopOD: recordIopOD ? Number(recordIopOD) : undefined,
+          iopOS: recordIopOS ? Number(recordIopOS) : undefined,
+        },
+      });
+
+      resetRecordComposer();
+    } catch (error) {
+      console.error('Failed to upload doctor analysis:', error);
+    } finally {
+      setIsUploadingRecord(false);
+    }
   };
 
   // Append new reminders to the list
@@ -135,7 +286,11 @@ export default function PatientDetailPage() {
   const avgOS = filteredIopRecords.length ? Math.round(filteredIopRecords.reduce((acc: number, r: any) => acc + (r.os || 0), 0) / filteredIopRecords.filter((r:any) => r.os > 0).length) || 0 : 0;
 
   // Sort collections by date
-  const sortedRecords = [...(patient?.medicalRecords || [])].sort((a, b) => new Date(b.createdAt).getTime() - new Date(a.createdAt).getTime());
+  const sortedRecords = [...(patient?.medicalRecords || [])].sort(
+    (a, b) => new Date(b.testDate || b.createdAt).getTime() - new Date(a.testDate || a.createdAt).getTime()
+  );
+  const isRecordSubmitting = isUploadingRecord || createMedicalRecordMutation.isPending;
+  const isRecordImage = recordFile?.type?.startsWith('image/');
 
   if (isLoading) {
     return (
@@ -468,95 +623,422 @@ export default function PatientDetailPage() {
         </TabsContent>
 
         <TabsContent value="Electronic Medical Records">
-          <div className="bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-800 rounded-4xl p-8 shadow-sm">
-            <div className="flex items-center justify-between mb-8">
-              <h3 className="font-black text-slate-900 dark:text-white uppercase tracking-widest text-[10px]">Archival Health Records</h3>
-              <span className="px-3 py-1 bg-amber-50 dark:bg-amber-950 text-[10px] font-black text-amber-600 dark:text-amber-400 border border-amber-100 dark:border-amber-900 rounded-lg">
-                {sortedRecords.length} DOCUMENTS
-              </span>
-            </div>
-
-            {sortedRecords.length > 0 ? (
-              <div className="grid grid-cols-1 md:grid-cols-3 gap-5">
-                {sortedRecords.map((item: any) => (
-                  <div key={item._id || item.id} className="p-6 rounded-4xl border border-slate-100 dark:border-slate-800 hover:shadow-2xl hover:shadow-primary/5 transition-all group flex flex-col h-full bg-white dark:bg-slate-900">
-                    <div className="flex items-center justify-between mb-2">
-                      <span className="text-[10px] font-black text-slate-400 uppercase tracking-widest">
-                        Issued: {formatDate(item.createdAt)}
-                      </span>
-                    </div>
-
-                    <div className="flex items-center justify-between gap-4 mb-6">
-                      <h4 className="font-black text-slate-900 dark:text-white text-lg leading-snug group-hover:text-primary-500 transition-colors">
-                        {item.testType || item.title || 'Medical Record'}
-                      </h4>
-                      {item.eye && (
-                        <span className="flex items-center gap-2 px-4 py-2 bg-secondary text-white rounded-2xl text-xs font-black shadow-md shadow-secondary/20 shrink-0 transition-transform hover:scale-105">
-                          <Eye size={16} strokeWidth={3} />
-                          {item.eye} Eye
-                        </span>
-                      )}
-                    </div>
-
-                    <div className="space-y-4 mb-6">
-                      <div className="p-4 rounded-2xl bg-slate-50/50 dark:bg-slate-800/30 border border-slate-100 dark:border-slate-800">
-                        <p className="text-[8px] font-black text-slate-400 uppercase tracking-widest mb-1.5">Patient Narrative</p>
-                        <p className="text-xs text-slate-600 dark:text-slate-400 font-medium leading-relaxed italic">
-                          "{item.description || 'No description provided by patient.'}"
+          <div className="space-y-6">
+            <div className="grid grid-cols-1 xl:grid-cols-12 gap-6">
+              <div className="xl:col-span-5 bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-800 rounded-[2.5rem] p-7 shadow-sm overflow-hidden relative">
+                <div className="absolute inset-x-0 top-0 h-40 bg-gradient-to-br from-primary/10 via-sky-100/50 to-transparent pointer-events-none" />
+                <div className="relative space-y-6">
+                  <div className="flex items-start justify-between gap-4">
+                    <div className="space-y-3">
+                      <div className="w-12 h-12 rounded-2xl bg-primary/10 text-primary flex items-center justify-center shadow-inner">
+                        <Microscope size={22} />
+                      </div>
+                      <div>
+                        <h3 className="text-lg font-black text-slate-900 dark:text-white">Upload Patient Analysis</h3>
+                        <p className="text-xs text-slate-500 dark:text-slate-400 font-semibold leading-relaxed max-w-md">
+                          Doctor-submitted analyses are approved instantly and added directly to the patient's record timeline.
                         </p>
                       </div>
+                    </div>
+                    <div className="px-3 py-2 rounded-2xl bg-emerald-50 text-emerald-600 border border-emerald-100 shadow-sm">
+                      <div className="flex items-center gap-2 text-[10px] font-black uppercase tracking-widest">
+                        <CheckCircle2 size={14} />
+                        Auto Approved
+                      </div>
+                    </div>
+                  </div>
 
-                      {item.doctorNotes && (
-                        <div className="p-4 rounded-2xl bg-amber-50/30 dark:bg-amber-500/5 border border-amber-100/50 dark:border-amber-900/50 relative overflow-hidden">
-                          <div className="absolute top-0 right-0 p-2 opacity-10">
-                            <ClipboardCheck size={40} />
-                          </div>
-                          <p className="text-[8px] font-black text-amber-600 dark:text-amber-400 uppercase tracking-widest mb-1.5 flex items-center gap-1.5">
-                            <ClipboardCheck size={10} />
-                            Clinical Evaluation
-                          </p>
-                          <p className="text-xs text-amber-700 dark:text-amber-300 font-bold leading-relaxed">
-                            {item.doctorNotes}
-                          </p>
+                  <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+                    <div className="space-y-2">
+                      <label className="text-[10px] font-black uppercase tracking-widest text-slate-400">Analysis Type</label>
+                      <select
+                        value={selectedTestType?.key || ''}
+                        onChange={(e) => {
+                          const nextType = TEST_TYPES.find((type) => type.key === e.target.value) || TEST_TYPES[0];
+                          setSelectedTestType(nextType);
+                          setRecordFile(null);
+                          if (documentInputRef.current) documentInputRef.current.value = '';
+                          if (imageInputRef.current) imageInputRef.current.value = '';
+                          if (cameraInputRef.current) cameraInputRef.current.value = '';
+                        }}
+                        className="w-full h-12 px-4 rounded-2xl border border-slate-200 dark:border-slate-800 bg-slate-50/80 dark:bg-slate-800/60 text-sm font-bold text-slate-900 dark:text-white outline-none focus:border-primary"
+                      >
+                        {TEST_TYPES.map((type) => (
+                          <option key={type.key} value={type.key}>
+                            {type.en}
+                          </option>
+                        ))}
+                      </select>
+                    </div>
+
+                    <div className="space-y-2">
+                      <label className="text-[10px] font-black uppercase tracking-widest text-slate-400">Analysis Date</label>
+                      <input
+                        type="date"
+                        value={recordDate}
+                        onChange={(e) => setRecordDate(e.target.value)}
+                        className="w-full h-12 px-4 rounded-2xl border border-slate-200 dark:border-slate-800 bg-slate-50/80 dark:bg-slate-800/60 text-sm font-bold text-slate-900 dark:text-white outline-none focus:border-primary"
+                      />
+                    </div>
+                  </div>
+
+                  <div className="space-y-2">
+                    <label className="text-[10px] font-black uppercase tracking-widest text-slate-400">Eye Assignment</label>
+                    <div className="grid grid-cols-3 gap-2 rounded-[1.25rem] bg-slate-100/70 dark:bg-slate-800/60 p-1.5 border border-slate-200/80 dark:border-slate-800">
+                      {EYE_OPTIONS.map((option) => (
+                        <button
+                          key={option.id}
+                          type="button"
+                          onClick={() => setSelectedEye(option.id)}
+                          className={cn(
+                            'h-11 rounded-2xl text-[11px] font-black transition-all',
+                            selectedEye === option.id
+                              ? 'bg-white dark:bg-slate-900 text-primary shadow-lg shadow-primary/5'
+                              : 'text-slate-500 dark:text-slate-400 hover:text-slate-900 dark:hover:text-white'
+                          )}
+                        >
+                          {option.label}
+                        </button>
+                      ))}
+                    </div>
+                  </div>
+
+                  {isIopRecord ? (
+                    <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+                      {(selectedEye === 'Right' || selectedEye === 'Both') && (
+                        <div className="space-y-2">
+                          <label className="text-[10px] font-black uppercase tracking-widest text-slate-400">IOP Right (OD)</label>
+                          <input
+                            type="number"
+                            min="0"
+                            step="1"
+                            value={recordIopOD}
+                            onChange={(e) => setRecordIopOD(e.target.value)}
+                            placeholder="mmHg"
+                            className="w-full h-12 px-4 rounded-2xl border border-slate-200 dark:border-slate-800 bg-slate-50/80 dark:bg-slate-800/60 text-sm font-bold text-slate-900 dark:text-white outline-none focus:border-primary"
+                          />
+                        </div>
+                      )}
+                      {(selectedEye === 'Left' || selectedEye === 'Both') && (
+                        <div className="space-y-2">
+                          <label className="text-[10px] font-black uppercase tracking-widest text-slate-400">IOP Left (OS)</label>
+                          <input
+                            type="number"
+                            min="0"
+                            step="1"
+                            value={recordIopOS}
+                            onChange={(e) => setRecordIopOS(e.target.value)}
+                            placeholder="mmHg"
+                            className="w-full h-12 px-4 rounded-2xl border border-slate-200 dark:border-slate-800 bg-slate-50/80 dark:bg-slate-800/60 text-sm font-bold text-slate-900 dark:text-white outline-none focus:border-primary"
+                          />
                         </div>
                       )}
                     </div>
-
-                    <div className="mt-auto pt-4 border-t border-slate-50 dark:border-slate-800 flex items-center justify-between">
-                      <div className="flex items-center gap-3">
-                        <div className="w-8 h-8 rounded-xl bg-slate-50 dark:bg-slate-800 flex items-center justify-center text-slate-400">
-                          <ShieldAlert size={14} />
-                        </div>
-                        <div className="flex flex-col">
-                          <span className="text-[9px] font-black text-slate-900 dark:text-white uppercase leading-none mb-1">
-                            {item.fileType?.split('/')[1]?.toUpperCase() || 'FILE'}
-                          </span>
-                          <span className="text-[9px] font-bold text-slate-400 uppercase leading-none">
-                            {item.fileSize ? `${(item.fileSize / 1024).toFixed(1)} KB` : 'Secured'}
-                          </span>
-                        </div>
+                  ) : (
+                    <div className="space-y-3">
+                      <div className="flex items-center justify-between">
+                        <label className="text-[10px] font-black uppercase tracking-widest text-slate-400">Attachment</label>
+                        <span className="text-[10px] font-bold text-slate-400">PDF or image</span>
                       </div>
 
-                      <a href={item.fileUrl} target="_blank" rel="noopener noreferrer">
-                        <button className="h-10 px-5 bg-primary/5 hover:bg-primary/10 text-primary-600 rounded-2xl border border-primary/10 flex items-center gap-2.5 transition-all hover:-translate-y-0.5 hover:shadow-lg hover:shadow-primary/5">
-                          <span className="text-[10px] font-black uppercase tracking-widest">Open File</span>
-                          <ExternalLink size={14} strokeWidth={3} />
-                        </button>
-                      </a>
+                      <input
+                        ref={documentInputRef}
+                        type="file"
+                        accept="application/pdf,image/*"
+                        className="hidden"
+                        onChange={handleRecordFileChange}
+                      />
+                      <input
+                        ref={imageInputRef}
+                        type="file"
+                        accept="image/*"
+                        className="hidden"
+                        onChange={handleRecordFileChange}
+                      />
+                      <input
+                        ref={cameraInputRef}
+                        type="file"
+                        accept="image/*"
+                        capture="environment"
+                        className="hidden"
+                        onChange={handleRecordFileChange}
+                      />
+
+                      {recordFile ? (
+                        <div className="rounded-[2rem] border border-primary/15 bg-slate-50/80 dark:bg-slate-800/40 p-4">
+                          <div className="flex items-start gap-4">
+                            <div className="w-24 h-24 rounded-3xl overflow-hidden border border-slate-200 dark:border-slate-700 bg-white dark:bg-slate-900 flex items-center justify-center shrink-0">
+                              {isRecordImage && recordFilePreview ? (
+                                <img src={recordFilePreview} alt="Analysis preview" className="w-full h-full object-cover" />
+                              ) : (
+                                <div className="flex flex-col items-center gap-2 text-rose-500">
+                                  <FileText size={28} />
+                                  <span className="text-[9px] font-black uppercase">PDF</span>
+                                </div>
+                              )}
+                            </div>
+                            <div className="flex-1 min-w-0">
+                              <div className="flex items-start justify-between gap-3">
+                                <div>
+                                  <p className="text-sm font-black text-slate-900 dark:text-white truncate">{recordFile.name}</p>
+                                  <p className="text-[11px] font-semibold text-slate-500 dark:text-slate-400 mt-1">
+                                    {recordFile.type || 'Secured file'} • {(recordFile.size / 1024 / 1024).toFixed(2)} MB
+                                  </p>
+                                </div>
+                                <button
+                                  type="button"
+                                  onClick={clearRecordFile}
+                                  className="w-10 h-10 rounded-2xl border border-slate-200 dark:border-slate-700 text-slate-400 hover:text-rose-500 hover:border-rose-200 transition-colors flex items-center justify-center shrink-0"
+                                >
+                                  <Trash2 size={16} />
+                                </button>
+                              </div>
+                              <p className="text-[11px] text-slate-500 dark:text-slate-400 mt-3 leading-relaxed">
+                                This file will be stored directly inside the patient's approved medical record archive.
+                              </p>
+                            </div>
+                          </div>
+                        </div>
+                      ) : (
+                        <div className="rounded-[2rem] border border-dashed border-slate-300 dark:border-slate-700 bg-slate-50/80 dark:bg-slate-800/30 p-5 space-y-4">
+                          <div className="flex items-center gap-3">
+                            <div className="w-11 h-11 rounded-2xl bg-primary/10 text-primary flex items-center justify-center">
+                              <Upload size={20} />
+                            </div>
+                            <div>
+                              <p className="text-sm font-black text-slate-900 dark:text-white">Select how you want to attach the analysis</p>
+                              <p className="text-[11px] text-slate-500 dark:text-slate-400 font-medium">Supports existing files, image gallery, or instant camera capture.</p>
+                            </div>
+                          </div>
+                          <div className="grid grid-cols-1 sm:grid-cols-3 gap-3">
+                            <button
+                              type="button"
+                              onClick={() => documentInputRef.current?.click()}
+                              className="h-12 rounded-2xl bg-primary text-white font-black text-[11px] tracking-wide flex items-center justify-center gap-2 shadow-lg shadow-primary/15 hover:scale-[1.01] transition-transform"
+                            >
+                              <Upload size={16} />
+                              Browse Files
+                            </button>
+                            <button
+                              type="button"
+                              onClick={() => imageInputRef.current?.click()}
+                              className="h-12 rounded-2xl border border-slate-200 dark:border-slate-700 bg-white dark:bg-slate-900 text-slate-700 dark:text-slate-200 font-black text-[11px] tracking-wide flex items-center justify-center gap-2 hover:border-primary/40 transition-colors"
+                            >
+                              <ImageIcon size={16} />
+                              Choose Image
+                            </button>
+                            <button
+                              type="button"
+                              onClick={() => cameraInputRef.current?.click()}
+                              className="h-12 rounded-2xl border border-slate-200 dark:border-slate-700 bg-white dark:bg-slate-900 text-slate-700 dark:text-slate-200 font-black text-[11px] tracking-wide flex items-center justify-center gap-2 hover:border-primary/40 transition-colors"
+                            >
+                              <Camera size={16} />
+                              Use Camera
+                            </button>
+                          </div>
+                        </div>
+                      )}
+                    </div>
+                  )}
+
+                  <div className="space-y-2">
+                    <label className="text-[10px] font-black uppercase tracking-widest text-slate-400">Summary</label>
+                    <textarea
+                      value={recordDescription}
+                      onChange={(e) => setRecordDescription(e.target.value)}
+                      rows={3}
+                      placeholder="Add a concise summary for what was uploaded, patient context, or expected follow-up."
+                      className="w-full px-4 py-3 rounded-[1.5rem] border border-slate-200 dark:border-slate-800 bg-slate-50/80 dark:bg-slate-800/60 text-sm font-medium text-slate-700 dark:text-slate-300 outline-none resize-none focus:border-primary"
+                    />
+                  </div>
+
+                  <div className="space-y-2">
+                    <label className="text-[10px] font-black uppercase tracking-widest text-slate-400">Clinical Assessment</label>
+                    <textarea
+                      value={recordDoctorNotes}
+                      onChange={(e) => setRecordDoctorNotes(e.target.value)}
+                      rows={4}
+                      placeholder="Add your interpretation, relevant findings, or what should be emphasized during follow-up."
+                      className="w-full px-4 py-3 rounded-[1.5rem] border border-slate-200 dark:border-slate-800 bg-slate-50/80 dark:bg-slate-800/60 text-sm font-medium text-slate-700 dark:text-slate-300 outline-none resize-none focus:border-primary"
+                    />
+                  </div>
+
+                  <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-3 pt-2">
+                    <p className="text-[11px] text-slate-500 dark:text-slate-400 font-semibold max-w-md leading-relaxed">
+                      The uploaded result becomes part of the official patient archive immediately, so it is ready for review in both timelines and historical charts.
+                    </p>
+                    <div className="flex items-center gap-3">
+                      <button
+                        type="button"
+                        onClick={resetRecordComposer}
+                        disabled={isRecordSubmitting}
+                        className="h-12 px-5 rounded-2xl border border-slate-200 dark:border-slate-700 text-slate-600 dark:text-slate-300 font-black text-[11px] uppercase tracking-widest disabled:opacity-60"
+                      >
+                        Reset
+                      </button>
+                      <button
+                        type="button"
+                        onClick={handleMedicalRecordSubmit}
+                        disabled={isRecordSubmitting}
+                        className="h-12 px-6 rounded-2xl bg-primary text-white font-black text-[11px] uppercase tracking-widest shadow-lg shadow-primary/20 hover:scale-[1.01] disabled:opacity-60 disabled:hover:scale-100 transition-all flex items-center gap-2"
+                      >
+                        {isRecordSubmitting ? <Loader2 size={16} className="animate-spin" /> : <CheckCircle2 size={16} />}
+                        {isRecordSubmitting ? 'Publishing...' : 'Publish Analysis'}
+                      </button>
                     </div>
                   </div>
-                ))}
-              </div>
-            ) : (
-              <div className="py-20 text-center space-y-4">
-                <div className="w-16 h-16 bg-slate-50/50 rounded-full flex items-center justify-center mx-auto border border-dashed border-slate-200">
-                  <ShieldAlert className="text-slate-200" size={24} />
                 </div>
-                <p className="text-slate-400 font-bold text-sm tracking-tight text-center max-w-xs mx-auto">
-                  No archival health records found.
-                </p>
               </div>
-            )}
+
+              <div className="xl:col-span-7 bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-800 rounded-[2.5rem] p-8 shadow-sm">
+                <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4 mb-8">
+                  <div>
+                    <h3 className="font-black text-slate-900 dark:text-white uppercase tracking-widest text-[10px]">Archival Health Records</h3>
+                    <p className="text-xs text-slate-500 dark:text-slate-400 font-semibold mt-2">
+                      Approved records from patient uploads and doctor-published analyses live together here.
+                    </p>
+                  </div>
+                  <span className="px-3 py-1 bg-amber-50 dark:bg-amber-950 text-[10px] font-black text-amber-600 dark:text-amber-400 border border-amber-100 dark:border-amber-900 rounded-lg self-start sm:self-auto">
+                    {sortedRecords.length} DOCUMENTS
+                  </span>
+                </div>
+
+                {sortedRecords.length > 0 ? (
+                  <div className="grid grid-cols-1 md:grid-cols-2 gap-5">
+                    {sortedRecords.map((item: any) => {
+                      const isDoctorDirectUpload = !!item.doctorId && !item.medicalTestId;
+                      const recordDateLabel = formatDate(item.testDate || item.createdAt);
+                      const narrativeLabel = isDoctorDirectUpload ? 'Doctor Summary' : 'Patient Narrative';
+                      const narrativeFallback = isDoctorDirectUpload
+                        ? 'No summary was attached to this doctor-published analysis.'
+                        : 'No description provided by patient.';
+
+                      return (
+                        <div key={item._id || item.id} className="p-6 rounded-4xl border border-slate-100 dark:border-slate-800 hover:shadow-2xl hover:shadow-primary/5 transition-all group flex flex-col h-full bg-white dark:bg-slate-900">
+                          <div className="flex items-center justify-between gap-3 mb-3">
+                            <span className="text-[10px] font-black text-slate-400 uppercase tracking-widest">
+                              Dated: {recordDateLabel}
+                            </span>
+                            {isDoctorDirectUpload && (
+                              <span className="px-3 py-1 rounded-full bg-emerald-50 text-emerald-600 border border-emerald-100 text-[9px] font-black uppercase tracking-widest">
+                                Doctor Submitted
+                              </span>
+                            )}
+                          </div>
+
+                          <div className="flex items-center justify-between gap-4 mb-6">
+                            <h4 className="font-black text-slate-900 dark:text-white text-lg leading-snug group-hover:text-primary-500 transition-colors">
+                              {item.testType || item.titleEn || item.title || 'Medical Record'}
+                            </h4>
+                            {item.eye && (
+                              <span className="flex items-center gap-2 px-4 py-2 bg-secondary text-white rounded-2xl text-xs font-black shadow-md shadow-secondary/20 shrink-0 transition-transform hover:scale-105">
+                                <Eye size={16} strokeWidth={3} />
+                                {item.eye} Eye
+                              </span>
+                            )}
+                          </div>
+
+                          {item.fileUrl && item.fileType?.startsWith('image/') && (
+                            <div className="w-full h-36 rounded-3xl overflow-hidden border border-slate-100 dark:border-slate-800 bg-slate-50 dark:bg-slate-900/50 mb-5">
+                              <img src={item.fileUrl} alt={item.testType || 'Medical record'} className="w-full h-full object-cover group-hover:scale-[1.03] transition-transform duration-500" />
+                            </div>
+                          )}
+
+                          <div className="space-y-4 mb-6">
+                            <div className="p-4 rounded-2xl bg-slate-50/50 dark:bg-slate-800/30 border border-slate-100 dark:border-slate-800">
+                              <p className="text-[8px] font-black text-slate-400 uppercase tracking-widest mb-1.5">{narrativeLabel}</p>
+                              <p className="text-xs text-slate-600 dark:text-slate-400 font-medium leading-relaxed italic">
+                                "{item.description || narrativeFallback}"
+                              </p>
+                            </div>
+
+                            {(item.iopOD !== undefined || item.iopOS !== undefined) && (
+                              <div className="grid grid-cols-2 gap-3 p-4 rounded-2xl bg-slate-50 dark:bg-slate-800/40 border border-slate-100 dark:border-slate-800">
+                                {item.iopOD !== undefined && (
+                                  <div>
+                                    <p className="text-[8px] font-black text-slate-400 uppercase tracking-widest">Right (OD)</p>
+                                    <p className={cn(
+                                      'text-sm font-black mt-1',
+                                      item.iopOD > 21 ? 'text-rose-500' : item.iopOD < 10 ? 'text-amber-500' : 'text-emerald-500'
+                                    )}>
+                                      {item.iopOD} <span className="text-[9px] font-bold text-slate-400">mmHg</span>
+                                    </p>
+                                  </div>
+                                )}
+                                {item.iopOS !== undefined && (
+                                  <div>
+                                    <p className="text-[8px] font-black text-slate-400 uppercase tracking-widest">Left (OS)</p>
+                                    <p className={cn(
+                                      'text-sm font-black mt-1',
+                                      item.iopOS > 21 ? 'text-rose-500' : item.iopOS < 10 ? 'text-amber-500' : 'text-emerald-500'
+                                    )}>
+                                      {item.iopOS} <span className="text-[9px] font-bold text-slate-400">mmHg</span>
+                                    </p>
+                                  </div>
+                                )}
+                              </div>
+                            )}
+
+                            {item.doctorNotes && (
+                              <div className="p-4 rounded-2xl bg-amber-50/30 dark:bg-amber-500/5 border border-amber-100/50 dark:border-amber-900/50 relative overflow-hidden">
+                                <div className="absolute top-0 right-0 p-2 opacity-10">
+                                  <ClipboardCheck size={40} />
+                                </div>
+                                <p className="text-[8px] font-black text-amber-600 dark:text-amber-400 uppercase tracking-widest mb-1.5 flex items-center gap-1.5">
+                                  <ClipboardCheck size={10} />
+                                  Clinical Evaluation
+                                </p>
+                                <p className="text-xs text-amber-700 dark:text-amber-300 font-bold leading-relaxed">
+                                  {item.doctorNotes}
+                                </p>
+                              </div>
+                            )}
+                          </div>
+
+                          <div className="mt-auto pt-4 border-t border-slate-50 dark:border-slate-800 flex items-center justify-between gap-4">
+                            <div className="flex items-center gap-3">
+                              <div className="w-8 h-8 rounded-xl bg-slate-50 dark:bg-slate-800 flex items-center justify-center text-slate-400">
+                                <ShieldAlert size={14} />
+                              </div>
+                              <div className="flex flex-col">
+                                <span className="text-[9px] font-black text-slate-900 dark:text-white uppercase leading-none mb-1">
+                                  {item.fileType?.split('/')[1]?.toUpperCase() || 'CLINICAL ENTRY'}
+                                </span>
+                                <span className="text-[9px] font-bold text-slate-400 uppercase leading-none">
+                                  {item.fileSize ? `${(item.fileSize / 1024).toFixed(1)} KB` : 'No file attached'}
+                                </span>
+                              </div>
+                            </div>
+
+                            {item.fileUrl ? (
+                              <a href={item.fileUrl} target="_blank" rel="noopener noreferrer">
+                                <button className="h-10 px-5 bg-primary/5 hover:bg-primary/10 text-primary-600 rounded-2xl border border-primary/10 flex items-center gap-2.5 transition-all hover:-translate-y-0.5 hover:shadow-lg hover:shadow-primary/5">
+                                  <span className="text-[10px] font-black uppercase tracking-widest">Open File</span>
+                                  <ExternalLink size={14} strokeWidth={3} />
+                                </button>
+                              </a>
+                            ) : (
+                              <div className="px-4 py-2 rounded-2xl bg-slate-50 dark:bg-slate-800 text-[10px] font-black uppercase tracking-widest text-slate-400">
+                                Numeric Entry
+                              </div>
+                            )}
+                          </div>
+                        </div>
+                      );
+                    })}
+                  </div>
+                ) : (
+                  <div className="py-20 text-center space-y-4">
+                    <div className="w-16 h-16 bg-slate-50/50 rounded-full flex items-center justify-center mx-auto border border-dashed border-slate-200">
+                      <ShieldAlert className="text-slate-200" size={24} />
+                    </div>
+                    <p className="text-slate-400 font-bold text-sm tracking-tight text-center max-w-xs mx-auto">
+                      No archival health records found.
+                    </p>
+                  </div>
+                )}
+              </div>
+            </div>
           </div>
         </TabsContent>
 

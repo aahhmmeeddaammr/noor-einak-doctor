@@ -1,4 +1,5 @@
-import { useQuery } from '@tanstack/react-query';
+import { useQuery, useMutation, useQueryClient } from '@tanstack/react-query';
+import toast from 'react-hot-toast';
 import { patientsApi } from './api';
 
 export function usePatients(params?: Record<string, unknown>) {
@@ -15,8 +16,6 @@ export function usePatientDetail(patientId: string) {
     enabled: !!patientId,
   });
 }
-
-import { useMutation, useQueryClient } from '@tanstack/react-query';
 
 export function useTogglePermission() {
   const queryClient = useQueryClient();
@@ -55,6 +54,42 @@ export function useUpdateMedicalInfo() {
       patientsApi.updateMedicalInfo(id, data),
     onSuccess: (_, { id }) => {
       queryClient.invalidateQueries({ queryKey: ['patients', id] });
+    },
+  });
+}
+
+export function useCreatePatientMedicalRecord() {
+  const queryClient = useQueryClient();
+
+  return useMutation({
+    mutationFn: ({
+      id,
+      data,
+    }: {
+      id: string;
+      data: {
+        titleAr: string;
+        titleEn: string;
+        description?: string;
+        doctorNotes?: string;
+        category: 'test_result';
+        testType: string;
+        testDate: string;
+        fileUrl?: string;
+        fileType?: string;
+        fileSize?: number;
+        eye: 'Left' | 'Right' | 'Both';
+        iopOD?: number;
+        iopOS?: number;
+      };
+    }) => patientsApi.createMedicalRecord(id, data),
+    onSuccess: (_, { id }) => {
+      queryClient.invalidateQueries({ queryKey: ['patients', id] });
+      queryClient.invalidateQueries({ queryKey: ['dashboard'] });
+      toast.success('Analysis uploaded and approved');
+    },
+    onError: (error: any) => {
+      toast.error(error.error?.message || 'Failed to upload analysis');
     },
   });
 }

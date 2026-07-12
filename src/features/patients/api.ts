@@ -18,4 +18,20 @@ export const patientsApi = {
 
   updateMedicalInfo: (id: string, data: { allergies?: string; medicalNotes?: string }) =>
     apiClient.patch(`/patients/${id}/medical-info`, data),
+
+  createMedicalRecord: (id: string, data: {
+    titleAr: string;
+    titleEn: string;
+    description?: string;
+    doctorNotes?: string;
+    category: 'test_result';
+    testType: string;
+    testDate: string;
+    fileUrl?: string;
+    fileType?: string;
+    fileSize?: number;
+    eye: 'Left' | 'Right' | 'Both';
+    iopOD?: number;
+    iopOS?: number;
+  }) => apiClient.post(`/doctors/me/patients/${id}/medical-records`, data),
 };

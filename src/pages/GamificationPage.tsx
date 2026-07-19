@@ -1,8 +1,8 @@
 import React from 'react';
-import { useQuery } from '@tanstack/react-query';
+import { useQuery, useInfiniteQuery } from '@tanstack/react-query';
 import apiClient from '@/lib/api-client';
 import { Award, Wallet, History, Coins, Medal, Star } from 'lucide-react';
-
+import { Button } from '@/components/ui/Button';
 
 export default function GamificationPage() {
     const statsQuery = useQuery({
@@ -10,13 +10,18 @@ export default function GamificationPage() {
         queryFn: () => apiClient.get('/gamification/stats')
     });
 
-    const transactionsQuery = useQuery({
+    const transactionsQuery = useInfiniteQuery({
         queryKey: ['gamification-transactions'],
-        queryFn: () => apiClient.get('/gamification/transactions', { params: { page: 1, limit: 50 } })
+        queryFn: ({ pageParam = 1 }) => apiClient.get(`/gamification/transactions?page=${pageParam}&limit=10`),
+        initialPageParam: 1,
+        getNextPageParam: (lastPage: any) => {
+            const data = lastPage.data || lastPage;
+            return data?.hasMore ? data.page + 1 : undefined;
+        }
     });
 
     const stats = statsQuery.data?.data;
-    const transactions = transactionsQuery.data?.data || [];
+    const transactions = transactionsQuery.data?.pages.flatMap((page: any) => page.data?.items || page.items || []) || [];
 
     if (statsQuery.isLoading) {
         return (
@@ -44,14 +49,14 @@ export default function GamificationPage() {
                         <div className="flex justify-between items-start">
                             <div>
                                 <p className="text-indigo-100 font-medium text-sm">Available Balance</p>
-                                <h3 className="text-4xl font-bold mt-2">{stats?.wallet?.currentPoints?.toLocaleString() || 0}</h3>
+                                <h3 className="text-4xl font-bold mt-2">{stats?.currentPoints?.toLocaleString() || 0}</h3>
                             </div>
                             <div className="p-3 bg-white/20 rounded-xl">
                                 <Wallet size={24} className="text-white" />
                             </div>
                         </div>
                         <p className="text-indigo-100 text-sm mt-6 flex items-center gap-1.5">
-                            <Star size={16} /> Lifetime: {stats?.wallet?.totalPoints?.toLocaleString() || 0} points
+                            <Star size={16} /> Lifetime: {stats?.totalPoints?.toLocaleString() || 0} points
                         </p>
                     </div>
                 </div>
@@ -76,17 +81,17 @@ export default function GamificationPage() {
                         {stats?.nextLevel ? (
                             <>
                                 <div className="flex justify-between text-sm font-bold text-slate-700 mb-2">
-                                    <span>{stats.wallet?.totalPoints || 0}</span>
+                                    <span>{stats.totalPoints || 0}</span>
                                     <span>{stats.nextLevel.pointsRequired} pts</span>
                                 </div>
                                 <div className="h-3 w-full bg-slate-100 rounded-full overflow-hidden">
                                     <div 
                                         className="h-full bg-indigo-500 rounded-full" 
-                                        style={{ width: `${Math.min(100, ((stats.wallet?.totalPoints || 0) / stats.nextLevel.pointsRequired) * 100)}%` }} 
+                                        style={{ width: `${Math.min(100, ((stats.totalPoints || 0) / stats.nextLevel.pointsRequired) * 100)}%` }} 
                                     />
                                 </div>
                                 <p className="text-xs text-slate-500 font-medium mt-3 text-center">
-                                    {stats.nextLevel.pointsRequired - (stats.wallet?.totalPoints || 0)} points to {stats.nextLevel.name}
+                                    {stats.nextLevel.pointsRequired - (stats.totalPoints || 0)} points to {stats.nextLevel.name}
                                 </p>
                             </>
                         ) : (
@@ -118,12 +123,14 @@ export default function GamificationPage() {
                         <tbody className="divide-y divide-slate-100">
                             {transactions.length > 0 ? transactions.map((t: any) => (
                                 <tr key={t._id} className="hover:bg-slate-50/50">
-                                    <td className="px-6 py-4 font-medium text-slate-900">{t.label}</td>
-                                    <td className={`px-6 py-4 text-right font-bold ${t.points > 0 ? 'text-emerald-600' : 'text-rose-500'}`}>
-                                        {t.points > 0 ? '+' : ''}{t.points}
+                                    <td className="px-6 py-4 font-medium text-slate-900">
+                                        {t.reason || (t.type === 'earned' ? 'Points Earned' : 'Points Redeemed')}
+                                    </td>
+                                    <td className={`px-6 py-4 text-right font-bold ${t.type === 'earned' ? 'text-emerald-600' : 'text-rose-500'}`}>
+                                        {t.type === 'earned' ? '+' : '-'}{t.points}
                                     </td>
                                     <td className="px-6 py-4 text-right text-slate-500">
-                                        {new Date(t.createdAt).toLocaleDateString()}
+                                        {new Date(t.createdAt).toLocaleDateString()} {new Date(t.createdAt).toLocaleTimeString()}
                                     </td>
                                 </tr>
                             )) : (
@@ -135,6 +142,17 @@ export default function GamificationPage() {
                             )}
                         </tbody>
                     </table>
+                    {transactionsQuery.hasNextPage && (
+                        <div className="flex justify-center p-6 border-t border-slate-100">
+                            <Button 
+                                variant="outline" 
+                                onClick={() => transactionsQuery.fetchNextPage()}
+                                disabled={transactionsQuery.isFetchingNextPage}
+                            >
+                                {transactionsQuery.isFetchingNextPage ? 'Loading...' : 'Load More Transactions'}
+                            </Button>
+                        </div>
+                    )}
                 </div>
             </div>
         </div>

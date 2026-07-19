@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { useQuery, useMutation, useQueryClient } from '@tanstack/react-query';
+import { useQuery, useInfiniteQuery, useMutation, useQueryClient } from '@tanstack/react-query';
 import toast from 'react-hot-toast';
 import apiClient from '@/lib/api-client';
 import { Gift, Coins, AlertCircle, CheckCircle2, Download } from 'lucide-react';
@@ -18,9 +18,14 @@ export default function RewardsPage() {
         queryFn: () => apiClient.get('/gamification/stats')
     });
 
-    const rewardsQuery = useQuery({
+    const rewardsQuery = useInfiniteQuery({
         queryKey: ['rewards'],
-        queryFn: () => apiClient.get('/rewards')
+        queryFn: ({ pageParam = 1 }) => apiClient.get(`/rewards?page=${pageParam}&limit=12`),
+        initialPageParam: 1,
+        getNextPageParam: (lastPage: any) => {
+            const meta = lastPage.meta || lastPage.data?.meta;
+            return meta && meta.page < meta.pages ? meta.page + 1 : undefined;
+        }
     });
 
     const redeemMutation = useMutation({
@@ -37,8 +42,8 @@ export default function RewardsPage() {
         }
     });
 
-    const rewards = rewardsQuery.data?.data || [];
-    const points = statsQuery.data?.data?.wallet?.currentPoints || 0;
+    const rewards = rewardsQuery.data?.pages.flatMap((page: any) => page.data?.data || page.data || []) || [];
+    const points = statsQuery.data?.data?.currentPoints || 0;
 
     return (
         <div className="space-y-6 animate-in fade-in">
@@ -72,44 +77,58 @@ export default function RewardsPage() {
                     <p className="text-slate-500 font-medium">Check back later for new rewards!</p>
                 </div>
             ) : (
-                <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6">
-                    {rewards.map((reward: any) => (
-                        <div key={reward._id} className="overflow-hidden border border-slate-200 rounded-xl shadow-sm hover:shadow-md transition-shadow flex flex-col bg-white">
-                            <div className="h-48 bg-slate-100 relative">
-                                {reward.imageUrl ? (
-                                    <img src={reward.imageUrl} alt={reward.name} className="w-full h-full object-cover" />
-                                ) : (
-                                    <div className="w-full h-full flex items-center justify-center text-slate-300">
-                                        <Gift size={48} />
+                <>
+                    <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6">
+                        {rewards.map((reward: any) => (
+                            <div key={reward._id} className="overflow-hidden border border-slate-200 rounded-xl shadow-sm hover:shadow-md transition-shadow flex flex-col bg-white">
+                                <div className="h-48 bg-slate-100 relative">
+                                    {reward.imageUrl ? (
+                                        <img src={reward.imageUrl} alt={reward.name} className="w-full h-full object-cover" />
+                                    ) : (
+                                        <div className="w-full h-full flex items-center justify-center text-slate-300">
+                                            <Gift size={48} />
+                                        </div>
+                                    )}
+                                    <div className="absolute top-3 right-3 bg-white/90 backdrop-blur-sm px-3 py-1.5 rounded-full font-bold text-sm text-amber-600 shadow-sm flex items-center gap-1.5">
+                                        <Coins size={14} />
+                                        {reward.pointsCost.toLocaleString()} pts
                                     </div>
-                                )}
-                                <div className="absolute top-3 right-3 bg-white/90 backdrop-blur-sm px-3 py-1.5 rounded-full font-bold text-sm text-amber-600 shadow-sm flex items-center gap-1.5">
-                                    <Coins size={14} />
-                                    {reward.pointsCost.toLocaleString()} pts
+                                </div>
+                                <div className="p-5 flex-1">
+                                    <h3 className="font-bold text-lg text-slate-900 mb-2">{reward.name}</h3>
+                                    <p className="text-sm text-slate-500 line-clamp-2 leading-relaxed">{reward.description}</p>
+                                    {reward.partnerId && (
+                                        <Badge variant="outline" className="mt-3 bg-slate-50 text-slate-600 border-slate-200">
+                                            {reward.partnerId.name}
+                                        </Badge>
+                                    )}
+                                </div>
+                                <div className="p-5 pt-0">
+                                    <Button 
+                                        className="w-full font-bold shadow-sm"
+                                        onClick={() => setSelectedReward(reward)}
+                                        disabled={points < reward.pointsCost}
+                                        variant={points >= reward.pointsCost ? 'default' : 'secondary'}
+                                    >
+                                        {points >= reward.pointsCost ? 'Redeem Reward' : 'Not Enough Points'}
+                                    </Button>
                                 </div>
                             </div>
-                            <div className="p-5 flex-1">
-                                <h3 className="font-bold text-lg text-slate-900 mb-2">{reward.name}</h3>
-                                <p className="text-sm text-slate-500 line-clamp-2 leading-relaxed">{reward.description}</p>
-                                {reward.partnerId && (
-                                    <Badge variant="outline" className="mt-3 bg-slate-50 text-slate-600 border-slate-200">
-                                        {reward.partnerId.name}
-                                    </Badge>
-                                )}
-                            </div>
-                            <div className="p-5 pt-0">
-                                <Button 
-                                    className="w-full font-bold shadow-sm"
-                                    onClick={() => setSelectedReward(reward)}
-                                    disabled={points < reward.pointsCost}
-                                    variant={points >= reward.pointsCost ? 'default' : 'secondary'}
-                                >
-                                    {points >= reward.pointsCost ? 'Redeem Reward' : 'Not Enough Points'}
-                                </Button>
-                            </div>
+                        ))}
+                    </div>
+                    {rewardsQuery.hasNextPage && (
+                        <div className="flex justify-center mt-8">
+                            <Button
+                                variant="outline"
+                                onClick={() => rewardsQuery.fetchNextPage()}
+                                disabled={rewardsQuery.isFetchingNextPage}
+                                className="font-bold px-8 border-amber-200 text-amber-700 hover:bg-amber-50"
+                            >
+                                {rewardsQuery.isFetchingNextPage ? 'Loading...' : 'Load More Rewards'}
+                            </Button>
                         </div>
-                    ))}
-                </div>
+                    )}
+                </>
             )}
 
             <Dialog 

@@ -2,7 +2,7 @@ import React, { useState } from 'react';
 import { useQuery, useMutation, useQueryClient } from '@tanstack/react-query';
 import toast from 'react-hot-toast';
 import apiClient from '@/lib/api-client';
-import { Gift, Coins, AlertCircle } from 'lucide-react';
+import { Gift, Coins, AlertCircle, CheckCircle2, Download } from 'lucide-react';
 import { Button } from '@/components/ui/Button';
 import { Badge } from '@/components/ui/Badge';
 import { Dialog, DialogContent, DialogDescription, DialogFooter, DialogHeader, DialogTitle } from '@/components/ui/Dialog';
@@ -10,6 +10,8 @@ import { Dialog, DialogContent, DialogDescription, DialogFooter, DialogHeader, D
 export default function RewardsPage() {
     const queryClient = useQueryClient();
     const [selectedReward, setSelectedReward] = useState<any>(null);
+    const [redemptionData, setRedemptionData] = useState<any>(null);
+    const [isDownloaded, setIsDownloaded] = useState(false);
 
     const statsQuery = useQuery({
         queryKey: ['gamification-stats'],
@@ -23,12 +25,12 @@ export default function RewardsPage() {
 
     const redeemMutation = useMutation({
         mutationFn: (id: string) => apiClient.post(`/rewards/${id}/redeem`),
-        onSuccess: () => {
+        onSuccess: (response: any) => {
             queryClient.invalidateQueries({ queryKey: ['gamification-stats'] });
             queryClient.invalidateQueries({ queryKey: ['gamification-transactions'] });
             queryClient.invalidateQueries({ queryKey: ['rewards'] });
             toast.success('Reward redeemed successfully!');
-            setSelectedReward(null);
+            setRedemptionData(response?.data?.redemption);
         },
         onError: (error: any) => {
             toast.error(error.response?.data?.message || error.message || 'Failed to redeem reward');
@@ -110,32 +112,124 @@ export default function RewardsPage() {
                 </div>
             )}
 
-            <Dialog open={Boolean(selectedReward)} onOpenChange={(open) => !open && setSelectedReward(null)}>
+            <Dialog 
+                open={Boolean(selectedReward)} 
+                onOpenChange={(open) => {
+                    if (!open) {
+                        if (redemptionData && !isDownloaded) {
+                            const confirmClose = window.confirm("Please make sure you have saved or downloaded the QR code. If you close this window, you might lose access to it. Close anyway?");
+                            if (!confirmClose) return;
+                        }
+                        setSelectedReward(null);
+                        setRedemptionData(null);
+                        setIsDownloaded(false);
+                    }
+                }}
+            >
                 <DialogContent className="sm:max-w-[425px]">
-                    <DialogHeader>
-                        <DialogTitle>Confirm Redemption</DialogTitle>
-                        <DialogDescription>
-                            Are you sure you want to redeem <strong>{selectedReward?.name}</strong>?
-                        </DialogDescription>
-                    </DialogHeader>
-                    <div className="py-4">
-                        <div className="flex items-center justify-between p-4 bg-slate-50 rounded-xl border border-slate-100">
-                            <span className="font-medium text-slate-600">Points Cost</span>
-                            <span className="font-bold text-rose-500 text-lg">-{selectedReward?.pointsCost?.toLocaleString()}</span>
-                        </div>
-                    </div>
-                    <DialogFooter>
-                        <Button variant="outline" onClick={() => setSelectedReward(null)} disabled={redeemMutation.isPending}>
-                            Cancel
-                        </Button>
-                        <Button 
-                            onClick={() => redeemMutation.mutate(selectedReward?._id)} 
-                            disabled={redeemMutation.isPending}
-                            className="bg-amber-500 hover:bg-amber-600 text-white font-bold"
-                        >
-                            {redeemMutation.isPending ? 'Redeeming...' : 'Confirm Redemption'}
-                        </Button>
-                    </DialogFooter>
+                    {!redemptionData ? (
+                        <>
+                            <DialogHeader>
+                                <DialogTitle>Confirm Redemption</DialogTitle>
+                                <DialogDescription>
+                                    Are you sure you want to redeem <strong>{selectedReward?.name}</strong>?
+                                </DialogDescription>
+                            </DialogHeader>
+                            <div className="py-4">
+                                <div className="flex items-center justify-between p-4 bg-slate-50 rounded-xl border border-slate-100">
+                                    <span className="font-medium text-slate-600">Points Cost</span>
+                                    <span className="font-bold text-rose-500 text-lg">-{selectedReward?.pointsCost?.toLocaleString()}</span>
+                                </div>
+                            </div>
+                            <DialogFooter>
+                                <Button variant="outline" onClick={() => setSelectedReward(null)} disabled={redeemMutation.isPending}>
+                                    Cancel
+                                </Button>
+                                <Button 
+                                    onClick={() => redeemMutation.mutate(selectedReward?._id)} 
+                                    disabled={redeemMutation.isPending}
+                                    className="bg-amber-500 hover:bg-amber-600 text-white font-bold"
+                                >
+                                    {redeemMutation.isPending ? 'Redeeming...' : 'Confirm Redemption'}
+                                </Button>
+                            </DialogFooter>
+                        </>
+                    ) : (
+                        <>
+                            <DialogHeader className="text-center flex flex-col items-center">
+                                <div className="p-3 bg-emerald-50 text-emerald-600 rounded-full mb-2">
+                                    <CheckCircle2 size={36} />
+                                </div>
+                                <DialogTitle className="text-xl font-bold text-slate-900">Reward Redeemed!</DialogTitle>
+                                <DialogDescription className="text-sm text-slate-500 mt-1">
+                                    Show this QR code to the partner to claim your reward.
+                                </DialogDescription>
+                            </DialogHeader>
+
+                            <div className="py-6 flex flex-col items-center gap-4">
+                                <div className="bg-white border-2 border-slate-100 rounded-2xl p-4 shadow-inner">
+                                    <img 
+                                        src={redemptionData.qrCodeDataUrl} 
+                                        alt="Redemption QR Code" 
+                                        className="w-48 h-48 object-contain"
+                                    />
+                                </div>
+                                <p className="text-xs text-slate-400 font-medium bg-slate-50 px-3 py-1.5 rounded-full border border-slate-100">
+                                    This QR code can only be used once
+                                </p>
+                            </div>
+
+                            <div className="border border-slate-100 bg-slate-50/50 rounded-xl p-4 space-y-3 text-sm">
+                                <div className="flex justify-between items-center">
+                                    <span className="text-slate-500 font-medium">Reward</span>
+                                    <span className="font-bold text-slate-800 text-right max-w-[65%] truncate">{selectedReward?.name}</span>
+                                </div>
+                                <div className="flex justify-between items-center border-t border-slate-100 pt-3">
+                                    <span className="text-slate-500 font-medium">Points Spent</span>
+                                    <span className="font-bold text-indigo-600">{selectedReward?.pointsCost?.toLocaleString()} pts</span>
+                                </div>
+                                <div className="flex justify-between items-center border-t border-slate-100 pt-3">
+                                    <span className="text-slate-500 font-medium">Serial Number</span>
+                                    <span className="font-mono font-bold text-slate-700 tracking-wider">{redemptionData.serialNumber}</span>
+                                </div>
+                            </div>
+
+                            <DialogFooter className="flex flex-col sm:flex-row gap-2 mt-4">
+                                <Button 
+                                    className={`w-full font-bold flex items-center justify-center gap-2 ${
+                                        isDownloaded 
+                                            ? 'border-emerald-200 bg-emerald-50 text-emerald-700 hover:bg-emerald-100 hover:text-emerald-800' 
+                                            : 'border-indigo-200 bg-indigo-50 text-indigo-700 hover:bg-indigo-100 hover:text-indigo-800'
+                                    }`}
+                                    variant="outline"
+                                    onClick={() => {
+                                        if (!redemptionData?.qrCodeDataUrl) return;
+                                        const link = document.createElement('a');
+                                        link.href = redemptionData.qrCodeDataUrl;
+                                        link.download = `QR_${redemptionData.serialNumber || 'reward'}.png`;
+                                        document.body.appendChild(link);
+                                        link.click();
+                                        document.body.removeChild(link);
+                                        setIsDownloaded(true);
+                                        toast.success('QR Code saved successfully!');
+                                    }}
+                                >
+                                    <Download size={16} />
+                                    {isDownloaded ? 'QR Saved!' : 'Download QR Code'}
+                                </Button>
+                                <Button 
+                                    className="w-full bg-slate-900 hover:bg-slate-800 text-white font-bold"
+                                    onClick={() => {
+                                        setSelectedReward(null);
+                                        setRedemptionData(null);
+                                        setIsDownloaded(false);
+                                    }}
+                                >
+                                    Done
+                                </Button>
+                            </DialogFooter>
+                        </>
+                    )}
                 </DialogContent>
             </Dialog>
         </div>

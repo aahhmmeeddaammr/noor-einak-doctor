@@ -5,7 +5,7 @@ import {
   ShieldAlert, Mail, Phone, Calendar, Zap, Clock,
   Eye, ClipboardCheck, LayoutDashboard, Pill, Activity, Bell, ExternalLink, Loader2,
   TrendingUp, Table as TableIcon, Filter, Info, ArrowUpRight, ArrowDownRight,
-  Upload, Camera, Image as ImageIcon, CheckCircle2, Trash2, Microscope,
+  Upload, Camera, Image as ImageIcon, CheckCircle2, Trash2, Microscope, Download,
 } from 'lucide-react';
 import {
   usePatientDetail,
@@ -13,6 +13,7 @@ import {
   usePatientReminders,
   useUpdateMedicalInfo,
   useCreatePatientMedicalRecord,
+  useExportPatientData,
 } from '@/features/patients/hooks';
 import { getInitials, formatDate, formatDateTime, formatTime, cn, getStatusColor } from '@/lib/utils';
 import { Button } from '@/components/ui/Button';
@@ -57,6 +58,7 @@ export default function PatientDetailPage() {
   const user = useAuthStore((s) => s.user);
   const { data, isLoading } = usePatientDetail(patientId!);
   const patient = (data as any)?.data;
+  const exportPatientData = useExportPatientData();
   const [reminderPage, setReminderPage] = useState(1);
   const [allReminders, setAllReminders] = useState<any[]>([]);
   const [selectedRx, setSelectedRx] = useState<any>(null);
@@ -376,6 +378,20 @@ export default function PatientDetailPage() {
                 <span>Chat</span>
               </Button>
             </Link>
+            <Button
+              variant="outline"
+              isLoading={exportPatientData.isPending}
+              onClick={() =>
+                exportPatientData.mutate({
+                  id: patientId!,
+                  fileName: `patient_${(patient?.user?.name || 'report').replace(/\s+/g, '_')}_${dayjs().format('YYYY-MM-DD')}.xlsx`,
+                })
+              }
+              className="h-12 px-6 gap-2 rounded-2xl font-bold text-slate-600 dark:text-slate-300 border-slate-200 cursor-pointer dark:border-slate-800 hover:bg-slate-50 transition-all"
+            >
+              <Download size={18} />
+              <span>Download Data</span>
+            </Button>
           </div>
         </div>
       </div>

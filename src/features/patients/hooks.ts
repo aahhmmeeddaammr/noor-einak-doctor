@@ -58,6 +58,26 @@ export function useUpdateMedicalInfo() {
   });
 }
 
+export function useExportPatientData() {
+  return useMutation({
+    mutationFn: ({ id }: { id: string; fileName?: string }) => patientsApi.exportData(id),
+    onSuccess: (blob: any, { fileName }) => {
+      const url = URL.createObjectURL(blob as Blob);
+      const link = document.createElement('a');
+      link.href = url;
+      link.download = fileName || `patient_report_${Date.now()}.xlsx`;
+      document.body.appendChild(link);
+      link.click();
+      document.body.removeChild(link);
+      URL.revokeObjectURL(url);
+      toast.success('Patient data downloaded');
+    },
+    onError: () => {
+      toast.error('Failed to download patient data');
+    },
+  });
+}
+
 export function useCreatePatientMedicalRecord() {
   const queryClient = useQueryClient();
 

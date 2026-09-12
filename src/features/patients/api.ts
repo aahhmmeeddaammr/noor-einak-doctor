@@ -19,6 +19,9 @@ export const patientsApi = {
   updateMedicalInfo: (id: string, data: { allergies?: string; medicalNotes?: string }) =>
     apiClient.patch(`/patients/${id}/medical-info`, data),
 
+  exportData: (id: string) =>
+    apiClient.get(`/patients/${id}/export`, { responseType: 'blob' }),
+
   createMedicalRecord: (id: string, data: {
     titleAr: string;
     titleEn: string;

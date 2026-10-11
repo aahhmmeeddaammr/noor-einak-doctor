@@ -98,14 +98,14 @@ export default function MedicalTestsPage() {
                 )}
               </div>
 
-              {test.patientId?.userId && (
+              {(test.patientId?.user || test.patientId?.userId) && (
                 <div className="flex items-center gap-3 mb-4 p-3 rounded-2xl bg-slate-50 dark:bg-slate-800/50 border border-slate-100 dark:border-slate-800">
                    <div className="w-10 h-10 rounded-xl bg-primary/10 flex items-center justify-center text-primary font-black shadow-inner">
-                     {test.patientId.userId.name?.charAt(0) || 'P'}
+                     {(test.patientId.user || test.patientId.userId).name?.charAt(0) || 'P'}
                    </div>
                    <div className="flex flex-col">
-                      <span className="text-xs font-bold text-slate-900 dark:text-white">{test.patientId.userId.name || 'Anonymous Patient'}</span>
-                      <span className="text-[10px] text-slate-500 font-medium">{test.patientId.userId.phone || test.patientId.userId.email || 'No Contact Info'}</span>
+                      <span className="text-xs font-bold text-slate-900 dark:text-white">{(test.patientId.user || test.patientId.userId).name || 'Anonymous Patient'}</span>
+                      <span className="text-[10px] text-slate-500 font-medium">{(test.patientId.user || test.patientId.userId).phone || (test.patientId.user || test.patientId.userId).email || 'No Contact Info'}</span>
                    </div>
                 </div>
               )}
@@ -207,7 +207,7 @@ export default function MedicalTestsPage() {
               <div className="p-6 md:p-8 bg-white dark:bg-slate-900 border-b border-slate-100 dark:border-slate-800 flex flex-col md:flex-row md:items-center justify-between gap-4 shrink-0">
                 <div className="flex items-center gap-4">
                   <div className="w-12 h-12 rounded-2xl bg-primary/10 flex items-center justify-center text-primary font-black shadow-inner text-xl">
-                    {reviewModal.patientId?.userId?.name?.charAt(0) || 'P'}
+                    {(reviewModal.patientId?.user || reviewModal.patientId?.userId)?.name?.charAt(0) || 'P'}
                   </div>
                   <div>
                     <span className="text-[10px] font-black text-slate-400 uppercase tracking-widest block mb-0.5">
@@ -298,13 +298,13 @@ export default function MedicalTestsPage() {
                       <div>
                         <span className="text-[9px] font-black text-slate-400 uppercase tracking-widest block mb-0.5">Patient Info</span>
                         <p className="text-sm font-black text-slate-800 dark:text-slate-200">
-                          {reviewModal.patientId?.userId?.name || 'Anonymous Patient'}
+                          {(reviewModal.patientId?.user || reviewModal.patientId?.userId)?.name || 'Anonymous Patient'}
                         </p>
                       </div>
                       <div className="text-right">
                         <span className="text-[9px] font-black text-slate-400 uppercase tracking-widest block mb-0.5">Contact</span>
                         <p className="text-xs font-bold text-slate-600 dark:text-slate-400">
-                          {reviewModal.patientId?.userId?.phone || reviewModal.patientId?.userId?.email || 'N/A'}
+                          {(reviewModal.patientId?.user || reviewModal.patientId?.userId)?.phone || (reviewModal.patientId?.user || reviewModal.patientId?.userId)?.email || 'N/A'}
                         </p>
                       </div>
                     </div>

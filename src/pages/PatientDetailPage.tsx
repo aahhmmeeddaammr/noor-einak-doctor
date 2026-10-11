@@ -5,15 +5,15 @@ import {
   ShieldAlert, Mail, Phone, Calendar, Zap, Clock,
   Eye, ClipboardCheck, LayoutDashboard, Pill, Activity, Bell, ExternalLink, Loader2,
   TrendingUp, Table as TableIcon, Filter, Info, ArrowUpRight, ArrowDownRight,
-  Upload, Camera, Image as ImageIcon, CheckCircle2, Trash2, Microscope,
+  Upload, CheckCircle2, Trash2, Microscope,
 } from 'lucide-react';
 import {
   usePatientDetail,
   useTogglePermission,
   usePatientReminders,
   useUpdateMedicalInfo,
-  useCreatePatientMedicalRecord,
 } from '@/features/patients/hooks';
+import { useUploadTestForPatient } from '@/features/tests/hooks';
 import { getInitials, formatDate, formatDateTime, formatTime, cn, getStatusColor } from '@/lib/utils';
 import { Button } from '@/components/ui/Button';
 import { useAuthStore } from '@/stores/authStore';
@@ -27,23 +27,23 @@ import {
 } from 'recharts';
 import { motion, AnimatePresence } from 'framer-motion';
 import dayjs from 'dayjs';
-import { filesApi } from '@/features/files/api';
+import { getIopAverage, getIopReadings } from '@/lib/iop';
 
 const tabs = [
   { label: 'Overview', icon: LayoutDashboard },
   { label: 'IOP Tracking', icon: TrendingUp },
   { label: 'Prescriptions', icon: Pill },
-  { label: 'Electronic Medical Records', icon: Activity },
+  { label: 'Tests & Medical Records', icon: Activity },
   { label: 'Medication Reminders', icon: Bell }
 ];
 
 const TEST_TYPES = [
-  { en: 'Tonometry', ar: 'قياس ضغط العين', key: 'tonometry', dbValue: 'Intraocular Pressure' },
-  { en: 'Fundoscopy Test', ar: 'اختبار قاع العين', key: 'fundoscopy', dbValue: 'Fundus Photography' },
-  { en: 'Perimetry Test', ar: 'قياس المجال البصري', key: 'perimetry', dbValue: 'Visual Field Test' },
-  { en: 'OCT Test', ar: 'التصوير المقطعي البصري التوافقي', key: 'oct', dbValue: 'OCT Scan' },
-  { en: 'Vision Test', ar: 'اختبار النظر', key: 'vision', dbValue: 'Visual Acuity' },
-  { en: 'Pachymetry Test', ar: 'قياس سُمك القرنية', key: 'pachymetry', dbValue: 'Pachymetry Test' },
+  { en: 'Tonometry', ar: 'قياس ضغط العين', key: 'tonometry', dbValue: 'Intraocular Pressure', inputHint: 'Numbers' },
+  { en: 'Fundoscopy Test', ar: 'اختبار قاع العين', key: 'fundoscopy', dbValue: 'Fundus Photography', inputHint: 'PDF or image' },
+  { en: 'Perimetry Test', ar: 'قياس المجال البصري', key: 'perimetry', dbValue: 'Visual Field Test', inputHint: 'PDF or image' },
+  { en: 'OCT Test', ar: 'التصوير المقطعي البصري التوافقي', key: 'oct', dbValue: 'OCT Scan', inputHint: 'PDF or image' },
+  { en: 'Vision Test', ar: 'اختبار النظر', key: 'vision', dbValue: 'Visual Acuity', inputHint: 'PDF or image' },
+  { en: 'Pachymetry Test', ar: 'قياس سُمك القرنية', key: 'pachymetry', dbValue: 'Pachymetry Test', inputHint: 'Numbers' },
 ] as const;
 
 const EYE_OPTIONS = [
@@ -55,13 +55,15 @@ const EYE_OPTIONS = [
 export default function PatientDetailPage() {
   const { patientId } = useParams();
   const user = useAuthStore((s) => s.user);
-  const { data, isLoading } = usePatientDetail(patientId!);
+  const { data, isLoading, isFetching, refetch } = usePatientDetail(patientId!);
   const patient = (data as any)?.data;
   const [reminderPage, setReminderPage] = useState(1);
   const [allReminders, setAllReminders] = useState<any[]>([]);
   const [selectedRx, setSelectedRx] = useState<any>(null);
+  const [activeTab, setActiveTab] = useState('Overview');
+  const tabsRef = useRef<HTMLDivElement>(null);
   const [selectedTestType, setSelectedTestType] = useState<(typeof TEST_TYPES)[number] | null>(TEST_TYPES[0]);
-  const [selectedEye, setSelectedEye] = useState<'Left' | 'Right' | 'Both'>('Left');
+  const [selectedEye, setSelectedEye] = useState<'Left' | 'Right' | 'Both'>('Both');
   const [recordDate, setRecordDate] = useState(dayjs().format('YYYY-MM-DD'));
   const [recordDescription, setRecordDescription] = useState('');
   const [recordDoctorNotes, setRecordDoctorNotes] = useState('');
@@ -69,10 +71,10 @@ export default function PatientDetailPage() {
   const [recordFilePreview, setRecordFilePreview] = useState('');
   const [recordIopOD, setRecordIopOD] = useState('');
   const [recordIopOS, setRecordIopOS] = useState('');
+  const [recordCctOD, setRecordCctOD] = useState('');
+  const [recordCctOS, setRecordCctOS] = useState('');
   const [isUploadingRecord, setIsUploadingRecord] = useState(false);
   const documentInputRef = useRef<HTMLInputElement>(null);
-  const imageInputRef = useRef<HTMLInputElement>(null);
-  const cameraInputRef = useRef<HTMLInputElement>(null);
 
   const { data: remindersData, isLoading: isLoadingReminders } = usePatientReminders(patientId!, {
     page: reminderPage,
@@ -83,9 +85,9 @@ export default function PatientDetailPage() {
   const [medicalNotes, setMedicalNotes] = useState('');
   const [isEditing, setIsEditing] = useState(false);
   const [iopEyeFilter, setIopEyeFilter] = useState<'both' | 'od' | 'os'>('both');
-  const [iopTimeFilter, setIopTimeFilter] = useState<'week' | 'month' | 'three_months' | 'all'>('month');
+  const [iopTimeFilter, setIopTimeFilter] = useState<'week' | 'month' | 'three_months' | 'all'>('all');
   const updateMutation = useUpdateMedicalInfo();
-  const createMedicalRecordMutation = useCreatePatientMedicalRecord();
+  const uploadTestMutation = useUploadTestForPatient();
 
   useEffect(() => {
     if (patient) {
@@ -125,20 +127,21 @@ export default function PatientDetailPage() {
   }, [recordFile]);
 
   const isIopRecord = selectedTestType?.dbValue === 'Intraocular Pressure';
+  const isCctRecord = selectedTestType?.dbValue === 'Pachymetry Test';
 
   const resetRecordComposer = () => {
     setSelectedTestType(TEST_TYPES[0]);
-    setSelectedEye('Left');
+    setSelectedEye('Both');
     setRecordDate(dayjs().format('YYYY-MM-DD'));
     setRecordDescription('');
     setRecordDoctorNotes('');
     setRecordFile(null);
     setRecordIopOD('');
     setRecordIopOS('');
+    setRecordCctOD('');
+    setRecordCctOS('');
 
     if (documentInputRef.current) documentInputRef.current.value = '';
-    if (imageInputRef.current) imageInputRef.current.value = '';
-    if (cameraInputRef.current) cameraInputRef.current.value = '';
   };
 
   const handleRecordFileChange = (event: React.ChangeEvent<HTMLInputElement>) => {
@@ -158,8 +161,6 @@ export default function PatientDetailPage() {
   const clearRecordFile = () => {
     setRecordFile(null);
     if (documentInputRef.current) documentInputRef.current.value = '';
-    if (imageInputRef.current) imageInputRef.current.value = '';
-    if (cameraInputRef.current) cameraInputRef.current.value = '';
   };
 
   const handleMedicalRecordSubmit = async () => {
@@ -174,11 +175,6 @@ export default function PatientDetailPage() {
       return;
     }
 
-    if (!isIopRecord && !recordFile) {
-      toast.error('Attach the analysis file before submitting');
-      return;
-    }
-
     if (isIopRecord) {
       const needsRight = selectedEye === 'Right' || selectedEye === 'Both';
       const needsLeft = selectedEye === 'Left' || selectedEye === 'Both';
@@ -187,34 +183,45 @@ export default function PatientDetailPage() {
         toast.error('Enter the required IOP readings for the selected eye');
         return;
       }
+      if ((needsRight && (!Number.isFinite(Number(recordIopOD)) || Number(recordIopOD) <= 0)) ||
+          (needsLeft && (!Number.isFinite(Number(recordIopOS)) || Number(recordIopOS) <= 0))) {
+        toast.error('Enter valid IOP readings greater than zero');
+        return;
+      }
+    }
+
+    if (isCctRecord) {
+      const needsRight = selectedEye === 'Right' || selectedEye === 'Both';
+      const needsLeft = selectedEye === 'Left' || selectedEye === 'Both';
+      if ((needsRight && (!recordCctOD || !Number.isFinite(Number(recordCctOD)) || Number(recordCctOD) <= 0)) ||
+          (needsLeft && (!recordCctOS || !Number.isFinite(Number(recordCctOS)) || Number(recordCctOS) <= 0))) {
+        toast.error('Enter corneal thickness in µm for the selected eye');
+        return;
+      }
+    }
+
+    if (!isIopRecord && !isCctRecord && !recordFile) {
+      toast.error('Attach a PDF or image for this test');
+      return;
     }
 
     setIsUploadingRecord(true);
     try {
-      let uploadedFile: any = null;
+      const formData = new FormData();
+      formData.append('titleAr', selectedTestType.ar);
+      formData.append('titleEn', selectedTestType.en);
+      formData.append('testType', selectedTestType.dbValue);
+      formData.append('testDate', recordDate);
+      formData.append('eye', selectedEye);
+      if (recordDescription.trim()) formData.append('description', recordDescription.trim());
+      if (recordDoctorNotes.trim()) formData.append('doctorNotes', recordDoctorNotes.trim());
+      if (isIopRecord && selectedEye !== 'Left' && recordIopOD) formData.append('iopOD', recordIopOD);
+      if (isIopRecord && selectedEye !== 'Right' && recordIopOS) formData.append('iopOS', recordIopOS);
+      if (isCctRecord && selectedEye !== 'Left') formData.append('cctOD', recordCctOD);
+      if (isCctRecord && selectedEye !== 'Right') formData.append('cctOS', recordCctOS);
+      if (recordFile) formData.append('file', recordFile);
 
-      if (recordFile) {
-        uploadedFile = await filesApi.upload(recordFile);
-      }
-
-      await createMedicalRecordMutation.mutateAsync({
-        id: patientId,
-        data: {
-          titleAr: selectedTestType.ar,
-          titleEn: selectedTestType.en,
-          description: recordDescription || undefined,
-          doctorNotes: recordDoctorNotes || undefined,
-          category: 'test_result',
-          testType: selectedTestType.dbValue,
-          testDate: recordDate,
-          fileUrl: uploadedFile?.data?.fileUrl || uploadedFile?.fileUrl,
-          fileType: uploadedFile?.data?.fileType || uploadedFile?.fileType,
-          fileSize: uploadedFile?.data?.fileSize || uploadedFile?.fileSize,
-          eye: selectedEye,
-          iopOD: recordIopOD ? Number(recordIopOD) : undefined,
-          iopOS: recordIopOS ? Number(recordIopOS) : undefined,
-        },
-      });
+      await uploadTestMutation.mutateAsync({ patientId, data: formData });
 
       resetRecordComposer();
     } catch (error) {
@@ -235,67 +242,49 @@ export default function PatientDetailPage() {
     }
   }, [remindersData]);
 
-  // Process IOP Data for Analytics - Combine records and tests
-  const rawIopData = [
-    ...(patient?.medicalRecords || []),
-    ...(patient?.medicalTests || [])
-  ];
-
-  // Map and de-duplicate (prefer medicalRecords as they represent approved tests)
-  const iopRecordsMap = rawIopData
-    .filter((r: any) => r.testType === 'Intraocular Pressure' || r.testType === 'iop')
-    .reduce((acc: any, r: any) => {
-      const id = r.medicalTestId || r._id;
-      const readingDate = r.testDate || r.createdAt;
-      
-      // If we don't have this reading yet, or if the current one is an approved record (medicalRecord)
-      // replace the pending test one.
-      const isApprovedRecord = !!r.category && r.category === 'test_result';
-      
-      if (!acc[id] || isApprovedRecord) {
-          acc[id] = {
-            ...r,
-            od: r.iopOD || 0,
-            os: r.iopOS || 0,
-            date: readingDate ? new Date(readingDate) : new Date(),
-            formattedDate: dayjs(readingDate).format('MMM DD'),
-            fullDate: dayjs(readingDate).format('MMMM DD, YYYY'),
-            isPending: r.status === 'pending'
-          };
-      }
-      return acc;
-    }, {});
-
-  const iopRecords = Object.values(iopRecordsMap)
-    .sort((a: any, b: any) => a.date.getTime() - b.date.getTime());
-
-  const filteredIopRecords = iopRecords.filter((r: any) => {
+  const iopRecords = getIopReadings(patient?.medicalRecords || [], patient?.medicalTests || []);
+  const filteredIopRecords = iopRecords.filter((r) => {
     if (iopTimeFilter === 'all') return true;
     const itemDay = dayjs(r.date);
-    const now = dayjs();
-    
-    if (iopTimeFilter === 'week') return itemDay.isAfter(now.subtract(7, 'days'));
-    if (iopTimeFilter === 'month') return itemDay.isAfter(now.subtract(30, 'days'));
-    if (iopTimeFilter === 'three_months') return itemDay.isAfter(now.subtract(90, 'days'));
-    return true;
+    const days = iopTimeFilter === 'week' ? 7 : iopTimeFilter === 'month' ? 30 : 90;
+    const firstDay = dayjs().startOf('day').subtract(days - 1, 'days');
+    return !itemDay.isBefore(firstDay) && !itemDay.isAfter(dayjs().endOf('day'));
   });
-
-  // Calculate stats for IOP - Use filtered records for stats
-  const lastIop: any = filteredIopRecords[filteredIopRecords.length - 1];
-  const avgOD = filteredIopRecords.length ? Math.round(filteredIopRecords.reduce((acc: number, r: any) => acc + (r.od || 0), 0) / filteredIopRecords.filter((r:any) => r.od > 0).length) || 0 : 0;
-  const avgOS = filteredIopRecords.length ? Math.round(filteredIopRecords.reduce((acc: number, r: any) => acc + (r.os || 0), 0) / filteredIopRecords.filter((r:any) => r.os > 0).length) || 0 : 0;
+  const visibleIopRecords = filteredIopRecords.filter((r) =>
+    iopEyeFilter === 'both' || r[iopEyeFilter] !== null
+  );
+  const latestODReading = [...filteredIopRecords].reverse().find((r) => r.od !== null);
+  const latestOSReading = [...filteredIopRecords].reverse().find((r) => r.os !== null);
+  const latestOD = latestODReading?.od ?? null;
+  const latestOS = latestOSReading?.os ?? null;
+  const approvedIopRecords = filteredIopRecords.filter((r) => !r.isPending);
+  const avgOD = getIopAverage(approvedIopRecords, 'od');
+  const avgOS = getIopAverage(approvedIopRecords, 'os');
 
   // Sort collections by date
   const sortedRecords = [...(patient?.medicalRecords || [])].sort(
     (a, b) => new Date(b.testDate || b.createdAt).getTime() - new Date(a.testDate || a.createdAt).getTime()
   );
-  const isRecordSubmitting = isUploadingRecord || createMedicalRecordMutation.isPending;
+  const submittedTests = [...(patient?.medicalTests || [])]
+    .filter((test: any) => test.status && test.status !== 'approved')
+    .sort((a: any, b: any) => new Date(b.testDate || b.createdAt).getTime() - new Date(a.testDate || a.createdAt).getTime());
+  const isRecordSubmitting = isUploadingRecord || uploadTestMutation.isPending;
   const isRecordImage = recordFile?.type?.startsWith('image/');
 
   if (isLoading) {
     return (
       <div className="space-y-6 animate-pulse">
         <div className="w-full h-48 bg-gray-200 rounded-3xl" />
+      </div>
+    );
+  }
+
+  if (!patient) {
+    return (
+      <div className="rounded-3xl border border-rose-200 bg-white dark:bg-slate-900 p-8 text-center space-y-4">
+        <h2 className="text-lg font-bold text-slate-900 dark:text-white">Patient data could not be loaded</h2>
+        <p className="text-sm text-slate-500">Please check your connection and try again. If this continues, confirm that this patient is assigned to your account.</p>
+        <Button onClick={() => void refetch()} disabled={isFetching}>{isFetching ? 'Retrying...' : 'Retry'}</Button>
       </div>
     );
   }
@@ -352,6 +341,17 @@ export default function PatientDetailPage() {
 
           {/* Actions Section */}
           <div className="flex flex-col sm:flex-row gap-3 shrink-0">
+            <Button
+              type="button"
+              onClick={() => {
+                setActiveTab('Tests & Medical Records');
+                requestAnimationFrame(() => tabsRef.current?.scrollIntoView({ behavior: 'smooth', block: 'start' }));
+              }}
+              className="h-12 px-6 bg-primary text-white shadow-lg shadow-primary/10 rounded-2xl font-bold gap-2 cursor-pointer"
+            >
+              <Microscope size={18} />
+              <span>Add Patient Test</span>
+            </Button>
             <Link 
               to={user?.doctor?.verificationStatus === 'verified' ? `/prescriptions/create/${patientId}` : '#'}
               className={cn(user?.doctor?.verificationStatus !== 'verified' && "cursor-not-allowed opacity-60")}
@@ -381,8 +381,8 @@ export default function PatientDetailPage() {
       </div>
 
       {/* Tabs System */}
-      <Tabs defaultValue="Overview" className="space-y-6">
-        <div className="flex items-center justify-between">
+      <Tabs value={activeTab} onValueChange={setActiveTab} className="space-y-6">
+        <div ref={tabsRef} className="flex items-center justify-between scroll-mt-6">
           <TabsList className="bg-slate-100/50 dark:bg-slate-800/50 p-1 rounded-[1.25rem] overflow-x-auto overflow-y-hidden max-w-full custom-scrollbar flex flex-nowrap">
             {tabs.map((tab) => (
               <TabsTrigger
@@ -403,7 +403,7 @@ export default function PatientDetailPage() {
             <StatCard icon={FileText} label="Medications" value={patient?.prescriptionCount ?? 0} color="text-primary-600 bg-primary/10" />
             <StatCard icon={ShieldAlert} label="Archival Records" value={patient?.medicalRecordCount ?? 0} color="text-amber-600 bg-amber-100/60" />
             <StatCard icon={Clock} label="Past Doses" value={patient?.pastCount ?? 0} color="text-emerald-600 bg-emerald-100/60" />
-            <StatCard icon={Zap} label="Overall Adherence" value={typeof patient?.adherenceRate === 'number' ? `${Math.round(patient.adherenceRate * 100)}%` : 'N/A'} color="text-rose-600 bg-rose-100/60" />
+            <StatCard icon={Zap} label="Overall Adherence" value={typeof patient?.adherenceRate === 'number' ? `${patient.adherenceEstimated ? '≈' : ''}${Math.round(patient.adherenceRate * 100)}%` : 'N/A'} color="text-rose-600 bg-rose-100/60" />
           </div>
 
           <div className="grid grid-cols-1 lg:grid-cols-12 gap-6 items-stretch">
@@ -517,21 +517,22 @@ export default function PatientDetailPage() {
 
               {/* System Permissions */}
               <div className="bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-800 rounded-4xl p-8 shadow-sm">
-                <h3 className="font-black text-slate-900 dark:text-white mb-6 text-xs">Digital Reach</h3>
+                <h3 className="font-black text-slate-900 dark:text-white text-sm">Patient app permissions</h3>
+                <p className="text-xs text-slate-500 dark:text-slate-400 mt-1 mb-5">Choose what this patient can do in their app.</p>
                 <div className="space-y-4">
-                  <div className="flex items-center justify-between p-4 rounded-xl border border-slate-50 dark:border-slate-800 bg-slate-50/50 dark:bg-slate-800/30">
-                    <div>
-                      <h4 className="text-[11px] font-black text-slate-900 dark:text-white">Messaging</h4>
-                      <p className="text-[9px] text-slate-400 font-bold">Direct Chat Access</p>
+                  <div className="flex items-center justify-between gap-4 p-4 rounded-xl border border-slate-200 dark:border-slate-700 bg-slate-50/50 dark:bg-slate-800/30">
+                    <div className="min-w-0">
+                      <h4 className="text-sm font-bold text-slate-900 dark:text-white">Chat with you</h4>
+                      <p className="text-xs text-slate-500 dark:text-slate-400">Allow this patient to send you messages.</p>
                     </div>
-                    <PermissionToggle id={patientId!} type="chat" enabled={patient?.canChat} />
+                    <PermissionToggle id={patientId!} type="chat" enabled={!!patient?.canChat} label="Chat with you" />
                   </div>
-                  <div className="flex items-center justify-between p-4 rounded-xl border border-slate-50 dark:border-slate-800 bg-slate-50/50 dark:bg-slate-800/30">
-                    <div>
-                      <h4 className="text-[11px] font-black text-slate-900 dark:text-white">Diagnostics</h4>
-                      <p className="text-[9px] text-slate-400 font-bold">Self-Upload Uploads</p>
+                  <div className="flex items-center justify-between gap-4 p-4 rounded-xl border border-slate-200 dark:border-slate-700 bg-slate-50/50 dark:bg-slate-800/30">
+                    <div className="min-w-0">
+                      <h4 className="text-sm font-bold text-slate-900 dark:text-white">Upload test results</h4>
+                      <p className="text-xs text-slate-500 dark:text-slate-400">Allow this patient to add their own test files.</p>
                     </div>
-                    <PermissionToggle id={patientId!} type="test" enabled={patient?.canUploadTests} />
+                    <PermissionToggle id={patientId!} type="test" enabled={!!patient?.canUploadTests} label="Upload test results" />
                   </div>
                 </div>
               </div>
@@ -622,124 +623,199 @@ export default function PatientDetailPage() {
           </div>
         </TabsContent>
 
-        <TabsContent value="Electronic Medical Records">
+        <TabsContent value="Tests & Medical Records">
           <div className="space-y-6">
-            <div className="grid grid-cols-1 xl:grid-cols-12 gap-6">
-              <div className="xl:col-span-5 bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-800 rounded-[2.5rem] p-7 shadow-sm overflow-hidden relative">
-                <div className="absolute inset-x-0 top-0 h-40 bg-gradient-to-br from-primary/10 via-sky-100/50 to-transparent pointer-events-none" />
-                <div className="relative space-y-6">
-                  <div className="flex items-start justify-between gap-4">
-                    <div className="space-y-3">
-                      <div className="w-12 h-12 rounded-2xl bg-primary/10 text-primary flex items-center justify-center shadow-inner">
-                        <Microscope size={22} />
+            <div className="space-y-6">
+              {submittedTests.length > 0 && (
+                <div className="bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-800 rounded-3xl p-5 sm:p-8 shadow-sm">
+                  <div className="flex flex-wrap items-center justify-between gap-3 mb-4">
+                    <div>
+                      <h3 className="text-lg font-bold text-slate-900 dark:text-white">Submitted tests</h3>
+                      <p className="text-sm text-slate-500 dark:text-slate-400 mt-1">These tests are saved but are not approved medical records yet.</p>
+                    </div>
+                    <Link to="/tests" className="text-sm font-bold text-primary hover:underline">Review tests</Link>
+                  </div>
+                  <div className="space-y-2">
+                    {submittedTests.map((test: any) => (
+                      <div key={test._id || test.id} className="flex flex-wrap items-center justify-between gap-2 rounded-xl border border-slate-100 dark:border-slate-800 p-3">
+                        <div>
+                          <p className="text-sm font-bold text-slate-900 dark:text-white">{test.testType || test.titleEn || 'Test'}</p>
+                          <p className="text-xs text-slate-500">{formatDate(test.testDate || test.createdAt)} · {test.eye || 'Eye not specified'}</p>
+                        </div>
+                        <span className={cn('rounded-full px-3 py-1 text-xs font-bold', getStatusColor(test.status))}>
+                          {test.status.replace(/_/g, ' ')}
+                        </span>
+                      </div>
+                    ))}
+                  </div>
+                </div>
+              )}
+
+              <div className="bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-800 rounded-3xl p-5 sm:p-8 shadow-sm">
+                <div className="space-y-7">
+                  <div className="flex flex-col sm:flex-row sm:items-start sm:justify-between gap-4 pb-6 border-b border-slate-200 dark:border-slate-800">
+                    <div className="flex items-start gap-4">
+                      <div className="w-12 h-12 shrink-0 rounded-2xl bg-primary/10 text-primary flex items-center justify-center">
+                        <Microscope size={23} />
                       </div>
                       <div>
-                        <h3 className="text-lg font-black text-slate-900 dark:text-white">Upload Patient Analysis</h3>
-                        <p className="text-xs text-slate-500 dark:text-slate-400 font-semibold leading-relaxed max-w-md">
-                          Doctor-submitted analyses are approved instantly and added directly to the patient's record timeline.
-                        </p>
+                        <h3 className="text-xl font-bold text-slate-900 dark:text-white">Add patient test</h3>
+                        <p className="text-sm text-slate-600 dark:text-slate-400 mt-1" dir="rtl">إضافة تحليل للمريض</p>
+                        <p className="text-sm text-slate-500 dark:text-slate-400 mt-2">Choose a test, enter its details, and save it to this patient's record.</p>
                       </div>
                     </div>
-                    <div className="px-3 py-2 rounded-2xl bg-emerald-50 text-emerald-600 border border-emerald-100 shadow-sm">
-                      <div className="flex items-center gap-2 text-[10px] font-black uppercase tracking-widest">
-                        <CheckCircle2 size={14} />
-                        Auto Approved
+                    <span className="inline-flex items-center gap-2 self-start px-3 py-1.5 rounded-full bg-emerald-50 dark:bg-emerald-950/30 text-emerald-700 dark:text-emerald-400 text-xs font-semibold">
+                      <CheckCircle2 size={15} /> Saved as approved
+                    </span>
+                  </div>
+
+                  <section className="space-y-4" aria-labelledby="test-type-heading">
+                    <div className="flex items-start gap-3">
+                      <span className="w-7 h-7 shrink-0 rounded-full bg-primary text-white text-sm font-bold flex items-center justify-center">1</span>
+                      <div>
+                        <h4 id="test-type-heading" className="text-base font-bold text-slate-900 dark:text-white">Choose the test</h4>
+                        <p className="text-sm text-slate-500 dark:text-slate-400">Select the type that matches the result you're recording.</p>
                       </div>
                     </div>
-                  </div>
-
-                  <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
-                    <div className="space-y-2">
-                      <label className="text-[10px] font-black uppercase tracking-widest text-slate-400">Analysis Type</label>
-                      <select
-                        value={selectedTestType?.key || ''}
-                        onChange={(e) => {
-                          const nextType = TEST_TYPES.find((type) => type.key === e.target.value) || TEST_TYPES[0];
-                          setSelectedTestType(nextType);
-                          setRecordFile(null);
-                          if (documentInputRef.current) documentInputRef.current.value = '';
-                          if (imageInputRef.current) imageInputRef.current.value = '';
-                          if (cameraInputRef.current) cameraInputRef.current.value = '';
-                        }}
-                        className="w-full h-12 px-4 rounded-2xl border border-slate-200 dark:border-slate-800 bg-slate-50/80 dark:bg-slate-800/60 text-sm font-bold text-slate-900 dark:text-white outline-none focus:border-primary"
-                      >
-                        {TEST_TYPES.map((type) => (
-                          <option key={type.key} value={type.key}>
-                            {type.en}
-                          </option>
-                        ))}
-                      </select>
-                    </div>
-
-                    <div className="space-y-2">
-                      <label className="text-[10px] font-black uppercase tracking-widest text-slate-400">Analysis Date</label>
-                      <input
-                        type="date"
-                        value={recordDate}
-                        onChange={(e) => setRecordDate(e.target.value)}
-                        className="w-full h-12 px-4 rounded-2xl border border-slate-200 dark:border-slate-800 bg-slate-50/80 dark:bg-slate-800/60 text-sm font-bold text-slate-900 dark:text-white outline-none focus:border-primary"
-                      />
-                    </div>
-                  </div>
-
-                  <div className="space-y-2">
-                    <label className="text-[10px] font-black uppercase tracking-widest text-slate-400">Eye Assignment</label>
-                    <div className="grid grid-cols-3 gap-2 rounded-[1.25rem] bg-slate-100/70 dark:bg-slate-800/60 p-1.5 border border-slate-200/80 dark:border-slate-800">
-                      {EYE_OPTIONS.map((option) => (
+                    <div className="grid grid-cols-2 md:grid-cols-3 xl:grid-cols-6 gap-3">
+                      {TEST_TYPES.map((type) => (
                         <button
-                          key={option.id}
+                          key={type.key}
                           type="button"
-                          onClick={() => setSelectedEye(option.id)}
+                          aria-pressed={selectedTestType?.key === type.key}
+                          onClick={() => {
+                            if (selectedTestType?.key !== type.key) {
+                              setSelectedTestType(type);
+                              setRecordCctOD('');
+                              setRecordCctOS('');
+                            }
+                          }}
                           className={cn(
-                            'h-11 rounded-2xl text-[11px] font-black transition-all',
-                            selectedEye === option.id
-                              ? 'bg-white dark:bg-slate-900 text-primary shadow-lg shadow-primary/5'
-                              : 'text-slate-500 dark:text-slate-400 hover:text-slate-900 dark:hover:text-white'
+                            'min-h-20 p-3 rounded-2xl border text-left transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary',
+                            selectedTestType?.key === type.key
+                              ? 'border-primary bg-primary/5 text-primary shadow-sm'
+                              : 'border-slate-200 dark:border-slate-700 text-slate-700 dark:text-slate-200 hover:border-primary/50 hover:bg-slate-50 dark:hover:bg-slate-800'
                           )}
                         >
-                          {option.label}
+                          <span className="block text-sm font-bold leading-snug">{type.en}</span>
+                          <span className="block text-xs mt-1 opacity-75" dir="rtl">{type.ar}</span>
+                          <span className="block text-[11px] font-semibold mt-2">{type.inputHint}</span>
                         </button>
                       ))}
                     </div>
-                  </div>
+                  </section>
 
-                  {isIopRecord ? (
-                    <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+                  <section className="space-y-4 border-t border-slate-200 dark:border-slate-800 pt-6" aria-labelledby="test-details-heading">
+                    <div className="flex items-start gap-3">
+                      <span className="w-7 h-7 shrink-0 rounded-full bg-primary text-white text-sm font-bold flex items-center justify-center">2</span>
+                      <div>
+                        <h4 id="test-details-heading" className="text-base font-bold text-slate-900 dark:text-white">Add test details</h4>
+                        <p className="text-sm text-slate-500 dark:text-slate-400">Set the date and eye, then enter the results reported for this test.</p>
+                      </div>
+                    </div>
+                    <div className="grid grid-cols-1 lg:grid-cols-2 gap-5">
+                      <div className="space-y-2">
+                        <label htmlFor="patient-test-date" className="text-sm font-semibold text-slate-700 dark:text-slate-200">Test date</label>
+                        <input
+                          id="patient-test-date"
+                          type="date"
+                          value={recordDate}
+                          onChange={(e) => setRecordDate(e.target.value)}
+                          className="w-full h-12 px-4 rounded-xl border border-slate-300 dark:border-slate-700 bg-white dark:bg-slate-800 text-sm font-medium text-slate-900 dark:text-white outline-none focus-visible:ring-2 focus-visible:ring-primary"
+                        />
+                      </div>
+                      <div className="space-y-2">
+                        <p className="text-sm font-semibold text-slate-700 dark:text-slate-200">Eye examined</p>
+                        <div className="grid grid-cols-3 gap-2">
+                          {EYE_OPTIONS.map((option) => (
+                            <button
+                              key={option.id}
+                              type="button"
+                              aria-pressed={selectedEye === option.id}
+                              onClick={() => setSelectedEye(option.id)}
+                              className={cn(
+                                'min-h-12 px-2 rounded-xl border text-sm font-semibold transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary',
+                                selectedEye === option.id
+                                  ? 'border-primary bg-primary text-white'
+                                  : 'border-slate-300 dark:border-slate-700 text-slate-600 dark:text-slate-300 hover:border-primary'
+                              )}
+                            >
+                              {option.label}
+                            </button>
+                          ))}
+                        </div>
+                      </div>
+                    </div>
+
+                    {isIopRecord && (
+                    <div className="rounded-2xl bg-blue-50/60 dark:bg-blue-950/20 border border-blue-100 dark:border-blue-900 p-4 sm:p-5 space-y-3">
+                      <p className="text-sm font-semibold text-slate-800 dark:text-slate-200">Eye pressure readings <span className="text-rose-600">*</span> <span className="font-normal text-slate-500">(mmHg)</span></p>
+                      <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
                       {(selectedEye === 'Right' || selectedEye === 'Both') && (
                         <div className="space-y-2">
-                          <label className="text-[10px] font-black uppercase tracking-widest text-slate-400">IOP Right (OD)</label>
+                          <label htmlFor="iop-right" className="text-sm font-medium text-slate-700 dark:text-slate-200">Right eye (OD)</label>
                           <input
+                            id="iop-right"
                             type="number"
-                            min="0"
+                            min="1"
                             step="1"
                             value={recordIopOD}
                             onChange={(e) => setRecordIopOD(e.target.value)}
-                            placeholder="mmHg"
-                            className="w-full h-12 px-4 rounded-2xl border border-slate-200 dark:border-slate-800 bg-slate-50/80 dark:bg-slate-800/60 text-sm font-bold text-slate-900 dark:text-white outline-none focus:border-primary"
+                            placeholder="Enter reading"
+                            className="w-full h-12 px-4 rounded-xl border border-slate-300 dark:border-slate-700 bg-white dark:bg-slate-800 text-sm text-slate-900 dark:text-white outline-none focus-visible:ring-2 focus-visible:ring-primary"
                           />
                         </div>
                       )}
                       {(selectedEye === 'Left' || selectedEye === 'Both') && (
                         <div className="space-y-2">
-                          <label className="text-[10px] font-black uppercase tracking-widest text-slate-400">IOP Left (OS)</label>
+                          <label htmlFor="iop-left" className="text-sm font-medium text-slate-700 dark:text-slate-200">Left eye (OS)</label>
                           <input
+                            id="iop-left"
                             type="number"
-                            min="0"
+                            min="1"
                             step="1"
                             value={recordIopOS}
                             onChange={(e) => setRecordIopOS(e.target.value)}
-                            placeholder="mmHg"
-                            className="w-full h-12 px-4 rounded-2xl border border-slate-200 dark:border-slate-800 bg-slate-50/80 dark:bg-slate-800/60 text-sm font-bold text-slate-900 dark:text-white outline-none focus:border-primary"
+                            placeholder="Enter reading"
+                            className="w-full h-12 px-4 rounded-xl border border-slate-300 dark:border-slate-700 bg-white dark:bg-slate-800 text-sm text-slate-900 dark:text-white outline-none focus-visible:ring-2 focus-visible:ring-primary"
                           />
                         </div>
                       )}
-                    </div>
-                  ) : (
-                    <div className="space-y-3">
-                      <div className="flex items-center justify-between">
-                        <label className="text-[10px] font-black uppercase tracking-widest text-slate-400">Attachment</label>
-                        <span className="text-[10px] font-bold text-slate-400">PDF or image</span>
                       </div>
+                    </div>
+                    )}
+                    {isCctRecord && (
+                      <div className="rounded-2xl bg-blue-50/60 dark:bg-blue-950/20 border border-blue-100 dark:border-blue-900 p-4 sm:p-5 space-y-3">
+                        <p className="text-sm font-semibold text-slate-800 dark:text-slate-200">Central corneal thickness <span className="text-rose-600">*</span> <span className="font-normal text-slate-500">(µm)</span></p>
+                        <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+                          {(selectedEye === 'Right' || selectedEye === 'Both') && (
+                            <div className="space-y-2">
+                              <label htmlFor="cct-right" className="text-sm font-medium text-slate-700 dark:text-slate-200">Right eye (OD)</label>
+                              <input id="cct-right" type="number" min="1" step="1" value={recordCctOD} onChange={(e) => setRecordCctOD(e.target.value)} placeholder="Enter thickness" className="w-full h-12 px-4 rounded-xl border border-slate-300 dark:border-slate-700 bg-white dark:bg-slate-800 text-sm text-slate-900 dark:text-white outline-none focus-visible:ring-2 focus-visible:ring-primary" />
+                            </div>
+                          )}
+                          {(selectedEye === 'Left' || selectedEye === 'Both') && (
+                            <div className="space-y-2">
+                              <label htmlFor="cct-left" className="text-sm font-medium text-slate-700 dark:text-slate-200">Left eye (OS)</label>
+                              <input id="cct-left" type="number" min="1" step="1" value={recordCctOS} onChange={(e) => setRecordCctOS(e.target.value)} placeholder="Enter thickness" className="w-full h-12 px-4 rounded-xl border border-slate-300 dark:border-slate-700 bg-white dark:bg-slate-800 text-sm text-slate-900 dark:text-white outline-none focus-visible:ring-2 focus-visible:ring-primary" />
+                            </div>
+                          )}
+                        </div>
+                      </div>
+                    )}
+                  </section>
+
+                  <section className="space-y-4 border-t border-slate-200 dark:border-slate-800 pt-6" aria-labelledby="test-supporting-heading">
+                    <div className="flex items-start gap-3">
+                      <span className="w-7 h-7 shrink-0 rounded-full bg-primary text-white text-sm font-bold flex items-center justify-center">3</span>
+                      <div>
+                        <h4 id="test-supporting-heading" className="text-base font-bold text-slate-900 dark:text-white">Attach supporting information</h4>
+                        <p className="text-sm text-slate-500 dark:text-slate-400">{isIopRecord || isCctRecord ? 'A file and notes are optional for numeric results.' : 'Attach the test report as a PDF or image. Notes are optional.'}</p>
+                      </div>
+                    </div>
+
+                    <div className="space-y-3">
+                      <p className="text-sm font-semibold text-slate-700 dark:text-slate-200">File {!(isIopRecord || isCctRecord) && <span className="text-rose-600">*</span>} <span className="font-normal text-slate-500">(PDF or image)</span></p>
 
                       <input
                         ref={documentInputRef}
@@ -748,24 +824,8 @@ export default function PatientDetailPage() {
                         className="hidden"
                         onChange={handleRecordFileChange}
                       />
-                      <input
-                        ref={imageInputRef}
-                        type="file"
-                        accept="image/*"
-                        className="hidden"
-                        onChange={handleRecordFileChange}
-                      />
-                      <input
-                        ref={cameraInputRef}
-                        type="file"
-                        accept="image/*"
-                        capture="environment"
-                        className="hidden"
-                        onChange={handleRecordFileChange}
-                      />
-
                       {recordFile ? (
-                        <div className="rounded-[2rem] border border-primary/15 bg-slate-50/80 dark:bg-slate-800/40 p-4">
+                        <div className="rounded-2xl border border-primary/30 bg-primary/5 p-4">
                           <div className="flex items-start gap-4">
                             <div className="w-24 h-24 rounded-3xl overflow-hidden border border-slate-200 dark:border-slate-700 bg-white dark:bg-slate-900 flex items-center justify-center shrink-0">
                               {isRecordImage && recordFilePreview ? (
@@ -788,130 +848,103 @@ export default function PatientDetailPage() {
                                 <button
                                   type="button"
                                   onClick={clearRecordFile}
-                                  className="w-10 h-10 rounded-2xl border border-slate-200 dark:border-slate-700 text-slate-400 hover:text-rose-500 hover:border-rose-200 transition-colors flex items-center justify-center shrink-0"
+                                  aria-label="Remove attached file"
+                                  className="w-10 h-10 rounded-xl border border-slate-200 dark:border-slate-700 text-slate-500 hover:text-rose-500 hover:border-rose-200 transition-colors flex items-center justify-center shrink-0"
                                 >
                                   <Trash2 size={16} />
                                 </button>
                               </div>
-                              <p className="text-[11px] text-slate-500 dark:text-slate-400 mt-3 leading-relaxed">
-                                This file will be stored directly inside the patient's approved medical record archive.
-                              </p>
+                              <p className="text-xs text-slate-500 dark:text-slate-400 mt-3">Ready to upload with this test.</p>
                             </div>
                           </div>
                         </div>
                       ) : (
-                        <div className="rounded-[2rem] border border-dashed border-slate-300 dark:border-slate-700 bg-slate-50/80 dark:bg-slate-800/30 p-5 space-y-4">
-                          <div className="flex items-center gap-3">
-                            <div className="w-11 h-11 rounded-2xl bg-primary/10 text-primary flex items-center justify-center">
-                              <Upload size={20} />
-                            </div>
-                            <div>
-                              <p className="text-sm font-black text-slate-900 dark:text-white">Select how you want to attach the analysis</p>
-                              <p className="text-[11px] text-slate-500 dark:text-slate-400 font-medium">Supports existing files, image gallery, or instant camera capture.</p>
-                            </div>
-                          </div>
-                          <div className="grid grid-cols-1 sm:grid-cols-3 gap-3">
+                        <div className="rounded-2xl border border-dashed border-slate-300 dark:border-slate-700 bg-slate-50/70 dark:bg-slate-800/30 p-4">
+                          <div className="flex flex-wrap gap-3">
                             <button
                               type="button"
                               onClick={() => documentInputRef.current?.click()}
-                              className="h-12 rounded-2xl bg-primary text-white font-black text-[11px] tracking-wide flex items-center justify-center gap-2 shadow-lg shadow-primary/15 hover:scale-[1.01] transition-transform"
+                              className="min-h-11 px-4 rounded-xl bg-primary text-white font-semibold text-sm flex items-center justify-center gap-2 hover:bg-primary/90"
                             >
                               <Upload size={16} />
-                              Browse Files
-                            </button>
-                            <button
-                              type="button"
-                              onClick={() => imageInputRef.current?.click()}
-                              className="h-12 rounded-2xl border border-slate-200 dark:border-slate-700 bg-white dark:bg-slate-900 text-slate-700 dark:text-slate-200 font-black text-[11px] tracking-wide flex items-center justify-center gap-2 hover:border-primary/40 transition-colors"
-                            >
-                              <ImageIcon size={16} />
-                              Choose Image
-                            </button>
-                            <button
-                              type="button"
-                              onClick={() => cameraInputRef.current?.click()}
-                              className="h-12 rounded-2xl border border-slate-200 dark:border-slate-700 bg-white dark:bg-slate-900 text-slate-700 dark:text-slate-200 font-black text-[11px] tracking-wide flex items-center justify-center gap-2 hover:border-primary/40 transition-colors"
-                            >
-                              <Camera size={16} />
-                              Use Camera
+                              Upload PDF or Image
                             </button>
                           </div>
                         </div>
                       )}
                     </div>
-                  )}
 
-                  <div className="space-y-2">
-                    <label className="text-[10px] font-black uppercase tracking-widest text-slate-400">Summary</label>
-                    <textarea
-                      value={recordDescription}
-                      onChange={(e) => setRecordDescription(e.target.value)}
-                      rows={3}
-                      placeholder="Add a concise summary for what was uploaded, patient context, or expected follow-up."
-                      className="w-full px-4 py-3 rounded-[1.5rem] border border-slate-200 dark:border-slate-800 bg-slate-50/80 dark:bg-slate-800/60 text-sm font-medium text-slate-700 dark:text-slate-300 outline-none resize-none focus:border-primary"
-                    />
+                  <div className="grid grid-cols-1 lg:grid-cols-2 gap-5">
+                    <div className="space-y-2">
+                      <label htmlFor="test-summary" className="text-sm font-semibold text-slate-700 dark:text-slate-200">Summary</label>
+                      <textarea
+                        id="test-summary"
+                        value={recordDescription}
+                        onChange={(e) => setRecordDescription(e.target.value)}
+                        rows={3}
+                        placeholder="Briefly describe the result or follow-up."
+                        className="w-full px-4 py-3 rounded-xl border border-slate-300 dark:border-slate-700 bg-white dark:bg-slate-800 text-sm text-slate-700 dark:text-slate-200 outline-none resize-y focus-visible:ring-2 focus-visible:ring-primary"
+                      />
+                    </div>
+
+                    <div className="space-y-2">
+                      <label htmlFor="test-assessment" className="text-sm font-semibold text-slate-700 dark:text-slate-200">Clinical assessment</label>
+                      <textarea
+                        id="test-assessment"
+                        value={recordDoctorNotes}
+                        onChange={(e) => setRecordDoctorNotes(e.target.value)}
+                        rows={3}
+                        placeholder="Add your interpretation or clinical notes."
+                        className="w-full px-4 py-3 rounded-xl border border-slate-300 dark:border-slate-700 bg-white dark:bg-slate-800 text-sm text-slate-700 dark:text-slate-200 outline-none resize-y focus-visible:ring-2 focus-visible:ring-primary"
+                      />
+                    </div>
                   </div>
+                  </section>
 
-                  <div className="space-y-2">
-                    <label className="text-[10px] font-black uppercase tracking-widest text-slate-400">Clinical Assessment</label>
-                    <textarea
-                      value={recordDoctorNotes}
-                      onChange={(e) => setRecordDoctorNotes(e.target.value)}
-                      rows={4}
-                      placeholder="Add your interpretation, relevant findings, or what should be emphasized during follow-up."
-                      className="w-full px-4 py-3 rounded-[1.5rem] border border-slate-200 dark:border-slate-800 bg-slate-50/80 dark:bg-slate-800/60 text-sm font-medium text-slate-700 dark:text-slate-300 outline-none resize-none focus:border-primary"
-                    />
-                  </div>
-
-                  <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-3 pt-2">
-                    <p className="text-[11px] text-slate-500 dark:text-slate-400 font-semibold max-w-md leading-relaxed">
-                      The uploaded result becomes part of the official patient archive immediately, so it is ready for review in both timelines and historical charts.
+                  <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4 pt-6 border-t border-slate-200 dark:border-slate-800">
+                    <p className="text-sm text-slate-500 dark:text-slate-400">
+                      Saving adds this test to the patient's record immediately.
                     </p>
-                    <div className="flex items-center gap-3">
+                    <div className="flex flex-col-reverse sm:flex-row gap-3 w-full sm:w-auto">
                       <button
                         type="button"
                         onClick={resetRecordComposer}
                         disabled={isRecordSubmitting}
-                        className="h-12 px-5 rounded-2xl border border-slate-200 dark:border-slate-700 text-slate-600 dark:text-slate-300 font-black text-[11px] uppercase tracking-widest disabled:opacity-60"
+                        className="h-12 px-5 rounded-xl border border-slate-300 dark:border-slate-700 text-slate-600 dark:text-slate-300 font-semibold text-sm disabled:opacity-60 hover:bg-slate-50 dark:hover:bg-slate-800"
                       >
-                        Reset
+                        Clear form
                       </button>
                       <button
                         type="button"
                         onClick={handleMedicalRecordSubmit}
                         disabled={isRecordSubmitting}
-                        className="h-12 px-6 rounded-2xl bg-primary text-white font-black text-[11px] uppercase tracking-widest shadow-lg shadow-primary/20 hover:scale-[1.01] disabled:opacity-60 disabled:hover:scale-100 transition-all flex items-center gap-2"
+                        className="h-12 px-6 rounded-xl bg-primary text-white font-bold text-sm shadow-sm hover:bg-primary/90 disabled:opacity-60 flex items-center justify-center gap-2"
                       >
                         {isRecordSubmitting ? <Loader2 size={16} className="animate-spin" /> : <CheckCircle2 size={16} />}
-                        {isRecordSubmitting ? 'Publishing...' : 'Publish Analysis'}
+                        {isRecordSubmitting ? 'Saving test...' : 'Save test to patient record'}
                       </button>
                     </div>
                   </div>
                 </div>
               </div>
 
-              <div className="xl:col-span-7 bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-800 rounded-[2.5rem] p-8 shadow-sm">
+              <div className="bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-800 rounded-3xl p-5 sm:p-8 shadow-sm">
                 <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4 mb-8">
                   <div>
-                    <h3 className="font-black text-slate-900 dark:text-white uppercase tracking-widest text-[10px]">Archival Health Records</h3>
-                    <p className="text-xs text-slate-500 dark:text-slate-400 font-semibold mt-2">
-                      Approved records from patient uploads and doctor-published analyses live together here.
+                    <h3 className="text-lg font-bold text-slate-900 dark:text-white">Previous test records</h3>
+                    <p className="text-sm text-slate-500 dark:text-slate-400 mt-1">
+                      Approved results and documents for this patient.
                     </p>
                   </div>
-                  <span className="px-3 py-1 bg-amber-50 dark:bg-amber-950 text-[10px] font-black text-amber-600 dark:text-amber-400 border border-amber-100 dark:border-amber-900 rounded-lg self-start sm:self-auto">
-                    {sortedRecords.length} DOCUMENTS
+                  <span className="px-3 py-1.5 bg-slate-100 dark:bg-slate-800 text-xs font-semibold text-slate-600 dark:text-slate-300 rounded-full self-start sm:self-auto">
+                    {sortedRecords.length} {sortedRecords.length === 1 ? 'record' : 'records'}
                   </span>
                 </div>
 
                 {sortedRecords.length > 0 ? (
                   <div className="grid grid-cols-1 md:grid-cols-2 gap-5">
                     {sortedRecords.map((item: any) => {
-                      const isDoctorDirectUpload = !!item.doctorId && !item.medicalTestId;
                       const recordDateLabel = formatDate(item.testDate || item.createdAt);
-                      const narrativeLabel = isDoctorDirectUpload ? 'Doctor Summary' : 'Patient Narrative';
-                      const narrativeFallback = isDoctorDirectUpload
-                        ? 'No summary was attached to this doctor-published analysis.'
-                        : 'No description provided by patient.';
 
                       return (
                         <div key={item._id || item.id} className="p-6 rounded-4xl border border-slate-100 dark:border-slate-800 hover:shadow-2xl hover:shadow-primary/5 transition-all group flex flex-col h-full bg-white dark:bg-slate-900">
@@ -919,9 +952,9 @@ export default function PatientDetailPage() {
                             <span className="text-[10px] font-black text-slate-400 uppercase tracking-widest">
                               Dated: {recordDateLabel}
                             </span>
-                            {isDoctorDirectUpload && (
+                            {item.category === 'test_result' && (
                               <span className="px-3 py-1 rounded-full bg-emerald-50 text-emerald-600 border border-emerald-100 text-[9px] font-black uppercase tracking-widest">
-                                Doctor Submitted
+                                Approved Test
                               </span>
                             )}
                           </div>
@@ -946,9 +979,9 @@ export default function PatientDetailPage() {
 
                           <div className="space-y-4 mb-6">
                             <div className="p-4 rounded-2xl bg-slate-50/50 dark:bg-slate-800/30 border border-slate-100 dark:border-slate-800">
-                              <p className="text-[8px] font-black text-slate-400 uppercase tracking-widest mb-1.5">{narrativeLabel}</p>
+                              <p className="text-[8px] font-black text-slate-400 uppercase tracking-widest mb-1.5">Summary</p>
                               <p className="text-xs text-slate-600 dark:text-slate-400 font-medium leading-relaxed italic">
-                                "{item.description || narrativeFallback}"
+                                "{item.description || 'No summary added.'}"
                               </p>
                             </div>
 
@@ -976,6 +1009,16 @@ export default function PatientDetailPage() {
                                     </p>
                                   </div>
                                 )}
+                              </div>
+                            )}
+
+                            {(item.cctOD !== undefined || item.cctOS !== undefined) && (
+                              <div className="rounded-2xl border border-slate-200 dark:border-slate-700 p-4">
+                                <p className="text-xs font-bold text-slate-700 dark:text-slate-200 mb-3">Corneal thickness</p>
+                                <div className="flex flex-wrap gap-4 text-sm text-slate-800 dark:text-slate-200">
+                                  {item.cctOD !== undefined && <span>Right (OD): <strong>{item.cctOD} µm</strong></span>}
+                                  {item.cctOS !== undefined && <span>Left (OS): <strong>{item.cctOS} µm</strong></span>}
+                                </div>
                               </div>
                             )}
 
@@ -1114,30 +1157,30 @@ export default function PatientDetailPage() {
               <div className="grid grid-cols-1 md:grid-cols-4 gap-4">
                 <IopStat 
                   label="Latest OD (Right)" 
-                  value={lastIop?.od || 'N/A'} 
-                  sub="mmHg" 
+                  value={latestOD ?? 'N/A'}
+                  sub={latestODReading?.isPending ? 'mmHg · Pending' : 'mmHg'}
                   color="blue"
                   icon={ArrowUpRight}
-                  trend={lastIop && lastIop.od > 21 ? 'high' : lastIop && lastIop.od > 0 ? 'normal' : undefined}
+                  trend={latestOD !== null && !latestODReading?.isPending ? (latestOD > 21 ? 'high' : 'normal') : undefined}
                 />
                 <IopStat 
                   label="Latest OS (Left)" 
-                  value={lastIop?.os || 'N/A'} 
-                  sub="mmHg" 
+                  value={latestOS ?? 'N/A'}
+                  sub={latestOSReading?.isPending ? 'mmHg · Pending' : 'mmHg'}
                   color="purple"
                   icon={ArrowDownRight}
-                  trend={lastIop && lastIop.os > 21 ? 'high' : lastIop && lastIop.os > 0 ? 'normal' : undefined}
+                  trend={latestOS !== null && !latestOSReading?.isPending ? (latestOS > 21 ? 'high' : 'normal') : undefined}
                 />
                 <IopStat 
-                  label="Average OD" 
-                  value={avgOD} 
+                  label="Average OD (approved)"
+                  value={avgOD ?? 'N/A'}
                   sub="mmHg" 
                   color="indigo"
                   icon={Activity}
                 />
                 <IopStat 
-                  label="Average OS" 
-                  value={avgOS} 
+                  label="Average OS (approved)"
+                  value={avgOS ?? 'N/A'}
                   sub="mmHg" 
                   color="cyan"
                   icon={Activity}
@@ -1159,11 +1202,16 @@ export default function PatientDetailPage() {
                       {iopEyeFilter !== 'od' && <div className="flex items-center gap-2 text-[10px] font-black text-purple-500"><div className="w-2.5 h-2.5 rounded-full bg-purple-500" /> OS</div>}
                     </div>
                   </div>
+                  {visibleIopRecords.some((r) => r.isPending) && (
+                    <p className="mb-4 text-xs font-semibold text-amber-700 dark:text-amber-400">
+                      Pending review readings are shown in the timeline. Averages include approved readings only.
+                    </p>
+                  )}
 
                   <div className="h-[350px] w-full" key={`${iopTimeFilter}-${iopEyeFilter}`}>
-                    {filteredIopRecords.length > 0 ? (
+                    {visibleIopRecords.length > 0 ? (
                       <ResponsiveContainer width="100%" height="100%">
-                        <AreaChart data={filteredIopRecords}>
+                        <AreaChart data={visibleIopRecords}>
                           <defs>
                             <linearGradient id="colorOD" x1="0" y1="0" x2="0" y2="1">
                               <stop offset="5%" stopColor="#3b82f6" stopOpacity={0.3}/>
@@ -1187,7 +1235,7 @@ export default function PatientDetailPage() {
                             tickLine={false} 
                             tick={{ fontSize: 10, fontWeight: 700, fill: '#94a3b8' }}
                             dx={-10}
-                            domain={[10, 'auto']}
+                            domain={[0, 'auto']}
                           />
                           <Tooltip 
                             content={({ active, payload, label }) => {
@@ -1195,7 +1243,8 @@ export default function PatientDetailPage() {
                                 return (
                                   <div className="bg-white dark:bg-slate-800 border border-slate-100 dark:border-slate-700 p-4 rounded-2xl shadow-2xl flex flex-col gap-2">
                                     <p className="text-[10px] font-black text-slate-400 mb-1">{payload[0].payload.fullDate}</p>
-                                    {payload.map((p: any) => (
+                                    {payload[0].payload.isPending && <p className="text-[10px] font-black text-amber-600">Pending Review</p>}
+                                    {payload.filter((p: any) => p.value !== null && p.value !== undefined).map((p: any) => (
                                       <div key={p.dataKey} className="flex items-center justify-between gap-6">
                                         <div className="flex items-center gap-2">
                                           <div className="w-2 h-2 rounded-full" style={{ backgroundColor: p.color }} />
@@ -1210,7 +1259,7 @@ export default function PatientDetailPage() {
                               return null;
                             }}
                           />
-                          <ReferenceLine y={21} stroke="#ef4444" strokeDasharray="5 5" label={{ position: 'right', value: 'Abnormal (21+)', fill: '#ef4444', fontSize: 10, fontWeight: 900 }} />
+                          <ReferenceLine y={21} stroke="#ef4444" strokeDasharray="5 5" label={{ position: 'right', value: '21 mmHg', fill: '#ef4444', fontSize: 10, fontWeight: 900 }} />
                           {iopEyeFilter !== 'os' && (
                             <Area 
                               type="monotone" 
@@ -1219,6 +1268,7 @@ export default function PatientDetailPage() {
                               strokeWidth={3}
                               fillOpacity={1} 
                               fill="url(#colorOD)" 
+                              dot={{ r: 4 }}
                               animationDuration={1500}
                             />
                           )}
@@ -1230,6 +1280,7 @@ export default function PatientDetailPage() {
                               strokeWidth={3}
                               fillOpacity={1} 
                               fill="url(#colorOS)" 
+                              dot={{ r: 4 }}
                               animationDuration={1500}
                               animationBegin={300}
                             />
@@ -1239,7 +1290,18 @@ export default function PatientDetailPage() {
                     ) : (
                       <div className="flex flex-col items-center justify-center h-full text-slate-400 gap-4">
                         <TrendingUp size={48} className="opacity-10" />
-                        <p className="font-bold text-sm">Insufficient data for charting</p>
+                        <p className="font-bold text-sm">
+                          {iopRecords.length > 0 ? 'No IOP readings for this eye and time range' : 'No IOP readings recorded yet'}
+                        </p>
+                        {iopRecords.length > 0 && (iopTimeFilter !== 'all' || iopEyeFilter !== 'both') && (
+                          <button
+                            type="button"
+                            onClick={() => { setIopTimeFilter('all'); setIopEyeFilter('both'); }}
+                            className="text-sm font-bold text-primary hover:underline"
+                          >
+                            Show all readings
+                          </button>
+                        )}
                       </div>
                     )}
                   </div>
@@ -1263,8 +1325,8 @@ export default function PatientDetailPage() {
                           </tr>
                         </thead>
                         <tbody>
-                          {[...filteredIopRecords].reverse().map((r: any, i) => (
-                            <tr key={i} className="border-b border-slate-50/50 dark:border-slate-800/50 group hover:bg-slate-50/50 dark:hover:bg-slate-800/30 transition-colors">
+                          {[...visibleIopRecords].reverse().map((r) => (
+                            <tr key={r.id} className="border-b border-slate-50/50 dark:border-slate-800/50 group hover:bg-slate-50/50 dark:hover:bg-slate-800/30 transition-colors">
                               <td className="py-3 text-[11px] font-bold text-slate-600 dark:text-slate-400">
                                 <div className="flex flex-col">
                                   <span>{r.formattedDate}</span>
@@ -1274,18 +1336,18 @@ export default function PatientDetailPage() {
                               <td className="py-3 text-center">
                                 <span className={cn(
                                   "text-[11px] font-black",
-                                  r.od > 21 ? "text-rose-500" : "text-slate-900 dark:text-white"
-                                )}>{r.od || '-'}</span>
+                                  r.od !== null && r.od > 21 ? "text-rose-500" : "text-slate-900 dark:text-white"
+                                )}>{r.od ?? '-'}</span>
                               </td>
                               <td className="py-3 text-center">
                                 <span className={cn(
                                   "text-[11px] font-black",
-                                  r.os > 21 ? "text-rose-500" : "text-slate-900 dark:text-white"
-                                )}>{r.os || '-'}</span>
+                                  r.os !== null && r.os > 21 ? "text-rose-500" : "text-slate-900 dark:text-white"
+                                )}>{r.os ?? '-'}</span>
                               </td>
                             </tr>
                           ))}
-                          {filteredIopRecords.length === 0 && (
+                          {visibleIopRecords.length === 0 && (
                             <tr>
                               <td colSpan={3} className="py-20 text-center text-[10px] font-bold text-slate-400 italic">No logs in this range</td>
                             </tr>
@@ -1311,11 +1373,13 @@ export default function PatientDetailPage() {
         <TabsContent value="Medication Reminders">
           <div className="bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-800 rounded-4xl p-8 shadow-sm">
             <div className="flex items-center justify-between mb-8">
-              <h3 className="font-black text-slate-900 dark:text-white uppercase tracking-widest text-[10px]">Reminder History</h3>
+              <h3 className="font-black text-slate-900 dark:text-white uppercase tracking-widest text-[10px]">Medication Schedules</h3>
               {typeof patient?.adherenceRate === 'number' && (
                 <div className="flex items-center gap-2 px-4 py-2 bg-slate-50 dark:bg-slate-800 rounded-xl border border-slate-100 dark:border-slate-700">
                   <span className="text-[10px] font-black text-slate-400 uppercase tracking-tight">Overall Adherence:</span>
                   <span className="text-sm font-black text-primary-500">{Math.round(patient.adherenceRate * 100)}%</span>
+                  <span className="text-[10px] font-semibold text-slate-500">({patient.adherenceCounts?.taken ?? 0}/{patient.adherenceCounts?.due ?? 0} due doses)</span>
+                  {patient.adherenceEstimated && <span className="text-[10px] font-semibold text-amber-600">Estimate: older schedule has no saved time zone</span>}
                 </div>
               )}
             </div>
@@ -1324,35 +1388,46 @@ export default function PatientDetailPage() {
               <div className="space-y-4">
                 <div className="space-y-4">
                   {allReminders.map((reminder: any) => {
-                    const isPast = new Date(reminder.scheduledAt) < new Date();
+                    const isRecurring = reminder.frequency === 'daily' || reminder.frequency === 'weekly';
+                    const displayStatus = reminder.todayStatus || (reminder.archivedAt ? 'archived' : isRecurring ? 'not_scheduled' : reminder.status);
+                    const isPast = displayStatus === 'missed';
                     return (
                       <div key={reminder._id || reminder.id} className="p-5 rounded-3xl border border-slate-100 dark:border-slate-800 hover:bg-slate-50/50 transition-all flex flex-wrap items-center justify-between gap-4">
                         <div className="flex items-center gap-5">
                           <div className={cn(
                             "w-12 h-12 rounded-2xl flex items-center justify-center transition-colors shadow-sm",
-                            reminder.status === 'taken' ? "bg-emerald-50 text-emerald-500 dark:bg-emerald-500/10" :
-                              reminder.status === 'skipped' ? "bg-rose-50 text-rose-500 dark:bg-rose-500/10" :
+                            displayStatus === 'taken' ? "bg-emerald-50 text-emerald-500 dark:bg-emerald-500/10" :
+                              displayStatus === 'skipped' ? "bg-rose-50 text-rose-500 dark:bg-rose-500/10" :
                                 isPast ? "bg-amber-50 text-amber-500 dark:bg-amber-500/10" : "bg-slate-50 text-slate-400 dark:bg-slate-800"
                           )}>
-                            {reminder.status === 'taken' ? <Plus size={20} strokeWidth={3} /> : <Clock size={20} strokeWidth={2.5} />}
+                            {displayStatus === 'taken' ? <Plus size={20} strokeWidth={3} /> : <Clock size={20} strokeWidth={2.5} />}
                           </div>
                           <div>
                             <h4 className="font-black text-slate-900 dark:text-white text-sm">{reminder.medicationName || "Prescribed Medication"}</h4>
                             <p className="text-[11px] text-slate-500 dark:text-slate-400 font-bold">
-                              {reminder.dosage} • Scheduled for {new Date(reminder.scheduledAt).toLocaleString([], { dateStyle: 'medium', timeStyle: 'short' })}
+                              {reminder.dosage} • {isRecurring
+                                ? `${reminder.frequency === 'daily' ? 'Daily' : 'Weekly'} at ${formatTime(reminder.scheduledAt)}`
+                                : `Scheduled for ${new Date(reminder.scheduledAt).toLocaleString([], { dateStyle: 'medium', timeStyle: 'short' })}`}
                             </p>
+                            {reminder.adherenceCounts?.due > 0 && (
+                              <p className="text-[10px] text-slate-500 dark:text-slate-400 font-semibold mt-1">
+                                {reminder.adherenceCounts.taken}/{reminder.adherenceCounts.due} taken • {reminder.adherenceCounts.skipped} skipped • {reminder.adherenceCounts.missed} missed
+                              </p>
+                            )}
                           </div>
                         </div>
                         <div className="flex items-center gap-4 ml-auto">
                           <span className={cn(
                             "px-4 py-1.5 rounded-full text-[9px] font-black uppercase tracking-widest",
-                            reminder.status === 'taken' ? "bg-emerald-500 text-white" :
-                              reminder.status === 'skipped' ? "bg-rose-500 text-white" :
+                            displayStatus === 'taken' ? "bg-emerald-500 text-white" :
+                              displayStatus === 'skipped' ? "bg-rose-500 text-white" :
                                 isPast ? "bg-amber-100 text-amber-600" : "bg-slate-100 text-slate-400"
                           )}>
-                            {reminder.status === 'taken' ? 'Taken' :
-                              reminder.status === 'skipped' ? 'Skipped' :
-                                isPast ? 'Missed' : 'Upcoming'}
+                            {displayStatus === 'taken' ? 'Taken today' :
+                              displayStatus === 'skipped' ? 'Skipped today' :
+                              displayStatus === 'archived' ? 'Archived' :
+                              displayStatus === 'not_scheduled' ? 'Not scheduled today' :
+                                isPast ? 'Missed today' : 'Upcoming today'}
                           </span>
                           {reminder.respondedAt && (
                             <span className="text-[9px] font-bold text-slate-400 uppercase tracking-tight">
@@ -1564,14 +1639,24 @@ function StatCard({ icon: Icon, label, value, color }: { icon: any; label: strin
   );
 }
 
-function PermissionToggle({ id, type, enabled }: { id: string; type: 'chat' | 'test'; enabled: boolean }) {
+function PermissionToggle({ id, type, enabled, label }: { id: string; type: 'chat' | 'test'; enabled: boolean; label: string }) {
   const { mutate, isPending } = useTogglePermission();
 
   return (
-    <Switch
-      checked={enabled}
-      onCheckedChange={(val) => mutate({ id, type, enabled: val })}
-      disabled={isPending}
-    />
+    <div className="flex shrink-0 flex-col items-center gap-1.5">
+      <Switch
+        checked={enabled}
+        onCheckedChange={(val) => mutate({ id, type, enabled: val }, {
+          onSuccess: () => toast.success(`${label} ${val ? 'enabled' : 'disabled'}`),
+          onError: () => toast.error(`Could not update ${label.toLowerCase()}. Please try again.`),
+        })}
+        disabled={isPending}
+        aria-label={`${enabled ? 'Disable' : 'Enable'} ${label.toLowerCase()}`}
+      />
+      <span aria-live="polite" className={cn('flex items-center gap-1 text-xs font-bold', isPending ? 'text-primary' : enabled ? 'text-emerald-600 dark:text-emerald-400' : 'text-slate-500 dark:text-slate-400')}>
+        {isPending && <Loader2 size={12} className="animate-spin" />}
+        {isPending ? 'Saving...' : enabled ? 'On' : 'Off'}
+      </span>
+    </div>
   );
 }

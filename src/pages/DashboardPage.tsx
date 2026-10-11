@@ -1,5 +1,5 @@
 import { motion } from 'framer-motion';
-import { Briefcase, MapPin, Phone, Mail, Users2, Microscope, FileText, Zap, Edit3, Globe, ChevronRight, BookOpen, Building2, Plus } from 'lucide-react';
+import { Briefcase, MapPin, Phone, Mail, Users2, Microscope, FileText, Zap, Edit3, ChevronRight, BookOpen, Building2, Plus } from 'lucide-react';
 import { useDoctorProfile } from '@/features/doctors/hooks';
 import { useDashboard } from '@/features/dashboard/hooks';
 import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/Avatar';
@@ -154,24 +154,18 @@ export default function DashboardPage() {
                         <div className="absolute top-0 right-0 w-48 h-48 bg-primary/5 rounded-full -mr-24 -mt-24 blur-3xl" />
 
                                 {[
-                                    { label: 'Total patients', value: stats?.totalPatients ?? 0, trend: '+12% this month', icon: Users2, color: 'text-blue-500', bg: 'bg-blue-50' },
-                                    { label: 'Pending reviews', value: stats?.pendingTestReviews ?? 0, trend: 'Action required', icon: Microscope, color: 'text-rose-500', bg: 'bg-rose-50' },
-                                    { label: 'Total prescriptions', value: stats?.totalPrescriptions ?? 0, trend: 'High adherence', icon: FileText, color: 'text-emerald-500', bg: 'bg-emerald-50' },
-                                    { label: 'Portal reach', value: stats?.portalReach ? `${(stats.portalReach / 1000).toFixed(1)}k` : '0', trend: 'Global engagement', icon: Globe, color: 'text-indigo-500', bg: 'bg-indigo-50' },
+                                    { label: 'Total patients', value: stats?.totalPatients ?? 0, icon: Users2, color: 'text-blue-500', bg: 'bg-blue-50' },
+                                    { label: 'Pending reviews', value: stats?.pendingTestReviews ?? 0, icon: Microscope, color: 'text-rose-500', bg: 'bg-rose-50' },
+                                    { label: 'Total prescriptions', value: stats?.totalPrescriptions ?? 0, icon: FileText, color: 'text-emerald-500', bg: 'bg-emerald-50' },
+                                    { label: 'Total tests', value: stats?.totalTests ?? 0, icon: Microscope, color: 'text-indigo-500', bg: 'bg-indigo-50' },
                                 ].map((stat, i) => (
                                     <div key={i} className="flex flex-col space-y-2 relative">
-                                        {stat.label === 'Pending reviews' && stats?.unreadMessages > 0 && (
-                                            <div className="absolute -top-2 -right-2 w-5 h-5 bg-rose-500 text-white text-[10px] font-black rounded-full flex items-center justify-center border-2 border-white dark:border-slate-900 shadow-lg">
-                                                {stats.unreadMessages}
-                                            </div>
-                                        )}
                                         <div className={cn("w-14 h-14 rounded-2xl flex items-center justify-center mb-4 shadow-sm", stat.bg)}>
                                             <stat.icon size={28} className={stat.color} />
                                         </div>
                                         <h4 className="text-3xl font-black text-slate-900 dark:text-white leading-none tracking-tight">{stat.value}</h4>
                                         <div className="space-y-1 mt-1">
                                             <p className="text-[11px] font-black text-slate-400 uppercase tracking-widest leading-none">{stat.label}</p>
-                                            <p className="text-[10px] font-bold text-emerald-500">{stat.trend}</p>
                                         </div>
                                     </div>
                                 ))}
@@ -352,25 +346,16 @@ export default function DashboardPage() {
                             <div className="absolute -right-8 -top-8 w-48 h-48 bg-[#3e4998]/5 rounded-full blur-3xl" />
                             <h3 className="text-xl font-black text-slate-900 dark:text-white mb-10 flex items-center gap-4">
                                 <Zap size={24} className="text-[#3e4998] fill-[#3e4998]" />
-                                Professional analytics
+                                Practice activity
                             </h3>
-                                <div className="space-y-6">
-                                    <div className="space-y-3">
-                                        <div className="flex items-center justify-between">
-                                            <span className="text-[10px] font-black text-slate-400 uppercase tracking-widest">Strength index</span>
-                                            <span className="text-sm font-black text-[#3e4998]">{stats?.strengthIndex || 0}%</span>
-                                        </div>
-                                        <div className="h-3 w-full bg-slate-100 dark:bg-slate-800 rounded-full overflow-hidden p-0.5">
-                                            <div
-                                                className="h-full bg-linear-to-r from-[#3e4998] to-[#476eb3] rounded-full transition-all duration-1000"
-                                                style={{ width: `${stats?.strengthIndex || 0}%` }}
-                                            />
-                                        </div>
+                                <div className="grid grid-cols-2 gap-4">
+                                    <div className="p-5 rounded-2xl bg-slate-50 dark:bg-slate-800/50">
+                                        <p className="text-2xl font-black text-slate-900 dark:text-white">{stats?.totalTests ?? 0}</p>
+                                        <p className="text-xs font-bold text-slate-500">Tests recorded</p>
                                     </div>
-                                    <div className="p-4 bg-emerald-50 dark:bg-emerald-500/5 rounded-2xl border border-emerald-100 dark:border-emerald-500/10">
-                                        <p className="text-[10px] text-emerald-600 dark:text-emerald-400 leading-relaxed font-bold">
-                                            You are in the <span className="underline">top 5%</span> of ophthalmologists in your region this quarter.
-                                        </p>
+                                    <div className="p-5 rounded-2xl bg-slate-50 dark:bg-slate-800/50">
+                                        <p className="text-2xl font-black text-slate-900 dark:text-white">{stats?.unreadMessages ?? 0}</p>
+                                        <p className="text-xs font-bold text-slate-500">Unread messages</p>
                                     </div>
                                 </div>
                             </div>

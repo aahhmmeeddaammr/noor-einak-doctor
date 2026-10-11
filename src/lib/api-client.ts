@@ -1,11 +1,8 @@
 import axios from 'axios';
 import { useAuthStore } from '@/stores/authStore';
 
-// const apiClient = axios.create({
-//   baseURL: 'https://noor-einak-backend-production.up.railway.app/api/v1',
-//   headers: { 'Content-Type': 'application/json' },
-// });
-export const BASE_URL = "https://api.nooreinak.com/api/v1"
+export const BASE_URL = import.meta.env.VITE_API_URL
+  || (import.meta.env.DEV ? 'http://192.168.1.19:3001/api/v1' : 'https://api.nooreinak.com/api/v1');
 
 const apiClient = axios.create({
   baseURL: BASE_URL,
@@ -20,16 +17,20 @@ apiClient.interceptors.request.use((config) => {
   return config;
 });
 
-let isRefreshing = false;
-let refreshSubscribers: ((token: string) => void)[] = [];
+let refreshPromise: Promise<string> | null = null;
 
-const subscribeTokenRefresh = (cb: (token: string) => void) => {
-  refreshSubscribers.push(cb);
-};
+const refreshAccessToken = async (): Promise<string> => {
+  const { refreshToken } = useAuthStore.getState();
+  if (!refreshToken) throw new Error('Refresh token is missing');
 
-const onTokenRefreshed = (token: string) => {
-  refreshSubscribers.forEach((cb) => cb(token));
-  refreshSubscribers = [];
+  // Use the same API host as every other request, without invoking this interceptor.
+  const response = await axios.post(`${BASE_URL.replace(/\/$/, '')}/auth/refresh-token`, { refreshToken }, { timeout: 15000 });
+  const { accessToken, refreshToken: nextRefreshToken } = response.data.data;
+  const state = useAuthStore.getState();
+  if (!state.user || state.refreshToken !== refreshToken) throw new Error('Session changed during refresh');
+
+  state.setAuth({ user: state.user, accessToken, refreshToken: nextRefreshToken });
+  return accessToken;
 };
 
 apiClient.interceptors.response.use(
@@ -37,48 +38,25 @@ apiClient.interceptors.response.use(
   async (error) => {
     const originalRequest = error.config;
 
-    const isAuthRequest = originalRequest.url?.includes('/auth/login') || originalRequest.url?.includes('/auth/refresh-token');
-    if (error.response?.status === 401 && !originalRequest._retry && !isAuthRequest) {
-      if (isRefreshing) {
-        return new Promise((resolve) => {
-          subscribeTokenRefresh((token: string) => {
-            originalRequest.headers.Authorization = `Bearer ${token}`;
-            resolve(apiClient(originalRequest));
-          });
-        });
-      }
-
+    const isAuthRequest = ['/auth/login', '/auth/refresh-token', '/auth/logout']
+      .some((path) => originalRequest?.url?.includes(path));
+    if (error.response?.status === 401 && originalRequest && !originalRequest._retry && !isAuthRequest) {
       originalRequest._retry = true;
-      isRefreshing = true;
-
+      if (!refreshPromise) {
+        refreshPromise = refreshAccessToken()
+          .catch((refreshError) => {
+            useAuthStore.getState().logout();
+            window.location.href = '/login';
+            throw refreshError;
+          })
+          .finally(() => { refreshPromise = null; });
+      }
       try {
-        const { refreshToken } = useAuthStore.getState();
-        // Use a separate axios instance to avoid interceptor loop if refresh fails
-        const response = await axios.post('http://localhost:3000/api/v1/auth/refresh-token', {
-          refreshToken,
-        });
-
-        const { accessToken, refreshToken: newRefreshToken } = response.data.data;
-        const currentUser = useAuthStore.getState().user;
-        if (currentUser) {
-          useAuthStore.getState().setAuth({
-            user: currentUser,
-            accessToken,
-            refreshToken: newRefreshToken,
-          });
-        }
-
-        onTokenRefreshed(accessToken);
-        isRefreshing = false;
-
+        const accessToken = await refreshPromise;
         originalRequest.headers.Authorization = `Bearer ${accessToken}`;
         return apiClient(originalRequest);
-      } catch (err) {
-        isRefreshing = false;
-        refreshSubscribers = [];
-        useAuthStore.getState().logout();
-        window.location.href = '/login';
-        return Promise.reject(err);
+      } catch (refreshError) {
+        return Promise.reject(refreshError);
       }
     }
 

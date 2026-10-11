@@ -56,20 +56,22 @@ export default function OtpPage() {
     }
   };
 
-  const handlePaste = (e: React.ClipboardEvent) => {
+  const handlePaste = (index: number, e: React.ClipboardEvent) => {
+    e.preventDefault();
     const pastedData = e.clipboardData.getData('text').replace(/\D/g, '').slice(0, 6);
     if (!pastedData) return;
 
     const newDigits = [...digits];
+    const start = pastedData.length === 6 ? 0 : index;
     pastedData.split('').forEach((char, i) => {
-      newDigits[i] = char;
+      if (start + i < 6) newDigits[start + i] = char;
     });
 
     setDigits(newDigits);
     setValue('code', newDigits.join(''));
     
     // Focus the appropriate input
-    const focusIndex = Math.min(pastedData.length, 5);
+    const focusIndex = Math.min(start + pastedData.length, 5);
     inputRefs.current[focusIndex]?.focus();
   };
 
@@ -106,7 +108,7 @@ export default function OtpPage() {
               value={digit}
               onChange={(e) => handleDigitChange(i, e.target.value)}
               onKeyDown={(e) => handleKeyDown(i, e)}
-              onPaste={handlePaste}
+              onPaste={(e) => handlePaste(i, e)}
               className="w-12 h-14 text-center text-xl font-bold bg-surface rounded-lg border border-border focus:border-primary-500 focus:outline-none focus:ring-2 focus:ring-primary-500/20 transition-all"
             />
           ))}

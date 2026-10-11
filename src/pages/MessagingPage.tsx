@@ -3,10 +3,14 @@ import { useConversations, useMessages, useSendMessage } from '@/features/messag
 import { cn, getInitials, timeAgo } from '@/lib/utils';
 import { Send, Search, Paperclip, Play, CheckCheck, Smile, ArrowUpRight, ExternalLink, Users2, Loader2, X, FileText, Download } from 'lucide-react';
 import { useAuthStore } from '@/stores/authStore';
+import { useQueryClient } from '@tanstack/react-query';
+import { io, type Socket } from 'socket.io-client';
+import apiClient, { BASE_URL } from '@/lib/api-client';
 import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/Avatar';
 import { uploadApi } from '@/features/upload/api';
 import { Link } from 'react-router-dom';
 import { Button } from '@/components/ui/Button';
+import toast from 'react-hot-toast';
 import { 
   Dialog, DialogContent, DialogHeader, DialogTitle
 } from '@/components/ui/Dialog';
@@ -21,6 +25,11 @@ export default function MessagingPage() {
   const [allMessages, setAllMessages] = useState<any[]>([]);
   const { data: msgData, isLoading: isLoadingMessages } = useMessages(selectedId, { page, limit: 15 });
   const sendMutation = useSendMessage(selectedId);
+  const queryClient = useQueryClient();
+  const accessToken = useAuthStore((s) => s.accessToken);
+  const socketRef = useRef<Socket | null>(null);
+  const selectedIdRef = useRef(selectedId);
+  selectedIdRef.current = selectedId;
 
   const [input, setInput] = useState('');
   const [isUploading, setIsUploading] = useState(false);
@@ -31,6 +40,66 @@ export default function MessagingPage() {
   const messagesEndRef = useRef<HTMLDivElement>(null);
   const scrollContainerRef = useRef<HTMLDivElement>(null);
   const scrollHeightBeforeUpdate = useRef<number>(0);
+
+  useEffect(() => {
+    if (!accessToken) return;
+
+    const socket = io(BASE_URL.replace(/\/api\/v1\/?$/, ''), {
+      transports: ['websocket'],
+      auth: (callback) => callback({ token: useAuthStore.getState().accessToken }),
+    });
+    socketRef.current = socket;
+    let authRetrying = false;
+    const onConnect = () => {
+      if (selectedIdRef.current) {
+        socket.emit('join_conversation', selectedIdRef.current);
+        queryClient.invalidateQueries({ queryKey: ['messages', selectedIdRef.current] });
+      }
+      queryClient.invalidateQueries({ queryKey: ['conversations'] });
+    };
+    const onMessage = (message: any) => {
+      if (message?.conversationId === selectedIdRef.current) {
+        setAllMessages((current) => current.some((item) => String(item._id || item.id) === String(message._id || message.id))
+          ? current
+          : [...current, message].sort((a, b) => new Date(a.createdAt).getTime() - new Date(b.createdAt).getTime()));
+      }
+      queryClient.invalidateQueries({ queryKey: ['conversations'] });
+    };
+    const onPreview = ({ conversationId, message }: any) => {
+      if (conversationId === selectedIdRef.current && message) onMessage(message);
+      else queryClient.invalidateQueries({ queryKey: ['conversations'] });
+    };
+    const onConnectError = async (error: Error) => {
+      if (!/Authentication failed|Invalid user/.test(error.message) || authRetrying) return;
+      authRetrying = true;
+      try {
+        await apiClient.get('/auth/profile');
+        if (socketRef.current === socket && !socket.connected) socket.connect();
+      } catch {
+        // The API interceptor handles expired refresh sessions.
+      } finally {
+        authRetrying = false;
+      }
+    };
+
+    socket.on('connect', onConnect);
+    socket.on('connect_error', onConnectError);
+    socket.on('new_message', onMessage);
+    socket.on('new_message_preview', onPreview);
+    return () => {
+      socket.removeAllListeners();
+      socket.disconnect();
+      if (socketRef.current === socket) socketRef.current = null;
+    };
+  }, [accessToken, queryClient]);
+
+  useEffect(() => {
+    const socket = socketRef.current;
+    if (socket?.connected && selectedId) socket.emit('join_conversation', selectedId);
+    return () => {
+      if (socket?.connected && selectedId) socket.emit('leave_conversation', selectedId);
+    };
+  }, [selectedId, accessToken]);
 
   // Reset and clear when switching conversations
   useEffect(() => {
@@ -101,23 +170,20 @@ export default function MessagingPage() {
 
   const lastMessageIdRef = useRef<string>('');
 
-  // 3. Scroll when NEW message is sent/received
+  // Scroll to every new latest message, including messages received while older pages are open.
   useEffect(() => {
-    if (page === 1 && allMessages.length > 0 && lastScrolledId.current === selectedId) {
-      const lastMsg = allMessages[allMessages.length - 1];
-      const lastId = lastMsg?._id || lastMsg?.id;
-      
-      // Only scroll if the last message is actually new
-      if (lastId !== lastMessageIdRef.current) {
-        const isOwn = lastMsg?.senderId === user?.id || lastMsg?.sender === user?.id;
-        
-        if (isOwn) {
-          scrollToBottom();
-        }
-        lastMessageIdRef.current = lastId;
-      }
+    if (!selectedId || allMessages.length === 0) return;
+
+    const lastMsg = allMessages[allMessages.length - 1];
+    const lastId = String(lastMsg?._id || lastMsg?.id || '');
+    if (!lastId) return;
+
+    const previousId = lastMessageIdRef.current;
+    lastMessageIdRef.current = lastId;
+    if (previousId && previousId !== lastId && lastScrolledId.current === selectedId) {
+      scrollToBottom();
     }
-  }, [allMessages, page]);
+  }, [allMessages, selectedId]);
 
   const [activeConv, setActiveConv] = useState<any>(null);
 
@@ -132,22 +198,53 @@ export default function MessagingPage() {
 
   const handleSend = () => {
     if ((!input.trim() && !pendingFile) || !selectedId) return;
-
-    if (pendingFile) {
-      sendMutation.mutate({
-        type: pendingFile.type.startsWith('image/') ? 'image' : pendingFile.type.startsWith('video/') ? 'video' : 'file',
-        content: input.trim() || pendingFile.name,
-        fileUrl: pendingFile.url,
-        fileName: pendingFile.name,
-        mimeType: pendingFile.type,
-        thumbnailUrl: pendingFile.thumbnailUrl,
-      });
-      setPendingFile(null);
-    } else {
-      sendMutation.mutate({ type: 'text', content: input });
-    }
-    
+    const conversationId = selectedId;
+    const sentText = input.trim();
+    const sentFile = pendingFile;
+    const payload = sentFile
+      ? {
+        type: sentFile.type.startsWith('image/') ? 'image' : sentFile.type.startsWith('video/') ? 'video' : 'file',
+        content: sentText || sentFile.name,
+        fileUrl: sentFile.url,
+        fileName: sentFile.name,
+        mimeType: sentFile.type,
+        thumbnailUrl: sentFile.thumbnailUrl,
+      }
+      : { type: 'text', content: sentText };
+    const temporaryId = `sending-${crypto.randomUUID()}`;
+    const optimisticMessage = {
+      ...payload,
+      _id: temporaryId,
+      conversationId,
+      senderId: user?.id,
+      createdAt: new Date().toISOString(),
+      isSending: true,
+    };
+    setAllMessages(current => [...current, optimisticMessage]);
     setInput('');
+    setPendingFile(null);
+    sendMutation.mutate(payload, {
+      onSuccess: (response: any) => {
+        if (selectedIdRef.current !== conversationId) return;
+        const saved = response?.data || response;
+        setAllMessages(current => {
+          const withoutTemporary = current.filter(message => message._id !== temporaryId);
+          if (!saved?._id || withoutTemporary.some(message => String(message._id) === String(saved._id))) {
+            return withoutTemporary;
+          }
+          return [...withoutTemporary, saved].sort((a, b) =>
+            new Date(a.createdAt).getTime() - new Date(b.createdAt).getTime());
+        });
+      },
+      onError: (error: any) => {
+        if (selectedIdRef.current === conversationId) {
+          setAllMessages(current => current.filter(message => message._id !== temporaryId));
+          setInput(current => current || sentText);
+          if (sentFile) setPendingFile((current: any) => current || sentFile);
+        }
+        toast.error(error?.error?.message || 'Message could not be sent. Please try again.');
+      },
+    });
   };
 
   const handleFileUpload = async (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -423,7 +520,7 @@ export default function MessagingPage() {
                                 isOwn ? 'text-white/90' : 'text-slate-400'
                               )}>
                                 <span className="pt-px">{msgTime}</span>
-                                {isOwn && <CheckCheck className="w-3.5 h-3.5" />}
+                                {isOwn && (msg.isSending ? <span>Sending...</span> : <CheckCheck className="w-3.5 h-3.5" />)}
                               </div>
                             </div>
                           </div>

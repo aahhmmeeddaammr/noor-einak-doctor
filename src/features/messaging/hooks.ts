@@ -5,7 +5,7 @@ export function useConversations(search?: string) {
   return useQuery({
     queryKey: ['conversations', search],
     queryFn: () => messagingApi.getConversations({ search }),
-    refetchInterval: 10000,
+    refetchInterval: 30000,
   });
 }
 
@@ -14,7 +14,7 @@ export function useMessages(conversationId: string, params?: any) {
     queryKey: ['messages', conversationId, params],
     queryFn: () => messagingApi.getMessages(conversationId, params),
     enabled: !!conversationId,
-    refetchInterval: 5000,
+    refetchInterval: 30000,
   });
 }
 

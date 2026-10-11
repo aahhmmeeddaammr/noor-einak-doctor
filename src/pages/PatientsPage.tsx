@@ -261,7 +261,7 @@ export default function PatientsPage() {
                       <span className="text-[10px] font-black text-slate-400 uppercase tracking-widest">adherence profile</span>
                       {typeof adherence === 'number' ? (
                         <span className={cn('text-[11px] font-black flex items-center gap-1', getAdherenceColor(adherence).split(' ')[0])}>
-                           {Math.round(adherence * 100)}% {getAdherenceLabel(adherence)}
+                           {patient.adherenceEstimated ? '≈' : ''}{Math.round(adherence * 100)}% {getAdherenceLabel(adherence)}
                         </span>
                       ) : (
                         <span className="text-[10px] font-bold text-slate-400 bg-slate-100 dark:bg-slate-800 px-2 py-0.5 rounded-md">

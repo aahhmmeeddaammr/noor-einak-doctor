@@ -6,6 +6,7 @@ import { ArrowLeft, Plus, Trash2, Loader2, X } from 'lucide-react';
 import { useCreatePrescription } from '@/features/prescriptions/hooks';
 import { usePatientDetail } from '@/features/patients/hooks';
 import { cn, getInitials } from '@/lib/utils';
+import { MedicationSearchInput } from '@/components/prescriptions/MedicationSearchInput';
 
 const medicationSchema = z.object({
   name: z.string().min(1, 'Required'),
@@ -174,7 +175,17 @@ export default function CreatePrescriptionPage() {
                 <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
                   <div>
                     <label className={labelClass}>Medication Name</label>
-                    <input {...register(`medications.${index}.name`)} placeholder="e.g. Timolol 0.5%" className={inputClass} />
+                    <MedicationSearchInput
+                      value={watchedMedications[index]?.name || ''}
+                      onChange={(name, type) => {
+                        setValue(`medications.${index}.name`, name, { shouldValidate: true });
+                        if (type) {
+                          setValue(`medications.${index}.type`, type, { shouldValidate: true });
+                        }
+                      }}
+                      error={errors.medications?.[index]?.name?.message}
+                      className={inputClass}
+                    />
                   </div>
                   <div>
                     <label className={labelClass}>Administration Type</label>

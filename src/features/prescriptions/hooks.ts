@@ -17,6 +17,17 @@ export function usePrescriptionDetail(id: string) {
   });
 }
 
+export function useSearchMedications(query: string) {
+  return useQuery({
+    queryKey: ['medications-search', query],
+    queryFn: async () => {
+      const res: any = await prescriptionsApi.searchMedications(query);
+      return res?.data || res || [];
+    },
+    enabled: query.trim().length >= 1,
+  });
+}
+
 export function useCreatePrescription() {
   const queryClient = useQueryClient();
 

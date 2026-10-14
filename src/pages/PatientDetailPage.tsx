@@ -5,8 +5,9 @@ import {
   ShieldAlert, Mail, Phone, Calendar, Zap, Clock,
   Eye, ClipboardCheck, LayoutDashboard, Pill, Activity, Bell, ExternalLink, Loader2,
   TrendingUp, Table as TableIcon, Filter, Info, ArrowUpRight, ArrowDownRight,
-  Upload, CheckCircle2, Trash2, Microscope,
+  Upload, CheckCircle2, Trash2, Microscope, Printer,
 } from 'lucide-react';
+import { printPrescription } from '@/lib/prescriptionPrinter';
 import {
   usePatientDetail,
   useTogglePermission,
@@ -1470,7 +1471,7 @@ export default function PatientDetailPage() {
           {selectedRx && (
             <div className="flex flex-col">
               {/* Streamlined Clinical Header */}
-              <div className="px-6 py-5 bg-white dark:bg-slate-900 border-b border-slate-100 dark:border-slate-800 flex items-center justify-between">
+              <div className="px-6 py-5 bg-white dark:bg-slate-900 border-b border-slate-100 dark:border-slate-800 flex items-center justify-between gap-4">
                 <div className="min-w-0 flex-1">
                   <h3 className="text-xl font-black text-slate-900 dark:text-white leading-tight truncate">
                     {selectedRx.title || selectedRx.diagnosis}
@@ -1481,6 +1482,14 @@ export default function PatientDetailPage() {
                     </p>
                   </div>
                 </div>
+                <Button
+                  onClick={() => printPrescription({ rx: selectedRx, patient, doctor: user })}
+                  variant="outline"
+                  className="flex items-center gap-2 border-slate-200 dark:border-slate-700 hover:bg-slate-50 dark:hover:bg-slate-800 text-slate-700 dark:text-slate-200 font-bold text-xs h-10 px-4 rounded-xl shadow-xs shrink-0"
+                >
+                  <Printer size={15} />
+                  Print Prescription
+                </Button>
               </div>
 
               {/* High-Density treatment review */}
@@ -1569,11 +1578,18 @@ export default function PatientDetailPage() {
               </div>
 
               {/* Simplified Footer */}
-              <div className="px-6 py-4 bg-white dark:bg-slate-900 border-t border-slate-100 dark:border-slate-800 flex justify-between items-center">
-                <p className="text-[10px] font-black text-slate-300 uppercase tracking-widest">End of Record</p>
+              <div className="px-6 py-4 bg-white dark:bg-slate-900 border-t border-slate-100 dark:border-slate-800 flex justify-between items-center gap-4">
+                <Button
+                  onClick={() => printPrescription({ rx: selectedRx, patient, doctor: user })}
+                  variant="outline"
+                  className="flex items-center gap-2 border-slate-200 dark:border-slate-700 hover:bg-slate-50 dark:hover:bg-slate-800 text-slate-700 dark:text-slate-200 font-bold text-xs h-11 px-5 rounded-xl shadow-xs"
+                >
+                  <Printer size={16} />
+                  Print Prescription
+                </Button>
                 <Button
                   onClick={() => setSelectedRx(null)}
-                  className="bg-primary hover:bg-primary/90 text-white rounded-xl px-10 font-bold text-sm h-11 shadow-lg shadow-primary/10 transition-all hover:scale-[1.02]"
+                  className="bg-primary hover:bg-primary/90 text-white rounded-xl px-8 font-bold text-sm h-11 shadow-lg shadow-primary/10 transition-all hover:scale-[1.02]"
                 >
                   Close Review
                 </Button>

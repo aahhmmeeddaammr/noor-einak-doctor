@@ -43,6 +43,11 @@ type Tab = 'all' | 'mine';
 import { EmptyState } from '@/components/shared/EmptyState';
 import { Pagination } from '@/components/shared/Pagination';
 
+function stripHtml(html?: string): string {
+  if (!html) return '';
+  return html.replace(/<[^>]*>/g, ' ').replace(/\s+/g, ' ').trim();
+}
+
 export default function ArticlesPage() {
   const navigate = useNavigate();
   const [activeTab, setActiveTab] = useState<Tab>('all');
@@ -256,7 +261,7 @@ export default function ArticlesPage() {
 
             {activeTab === 'mine' && (
               <Button
-                onClick={openAddModal}
+                onClick={() => navigate('/articles/create')}
                 className="bg-pharco-orange text-white hover:bg-pharco-orange/90 shadow-md gap-2 h-11 px-6 rounded-2xl font-bold transition-all hover:scale-105 active:scale-95 border-none group shrink-0"
               >
                 <Plus size={18} className="group-hover:rotate-90 transition-transform" />
@@ -281,7 +286,7 @@ export default function ArticlesPage() {
           description={activeTab === 'all' ? 'Published articles from all doctors will appear here.' : 'Start sharing your medical expertise with patients.'}
           action={activeTab === 'mine' ? {
             label: 'Write your first article',
-            onClick: openAddModal,
+            onClick: () => navigate('/articles/create'),
             icon: Plus
           } : undefined}
           className="mt-6"
@@ -337,7 +342,7 @@ export default function ArticlesPage() {
                         </DropdownMenuTrigger>
                         <DropdownMenuContent align="end" className="w-44 bg-white dark:bg-slate-900 rounded-xl border border-slate-200 dark:border-slate-700 p-1.5 shadow-2xl z-50">
                           <DropdownMenuItem 
-                            onClick={() => openEditModal(article)}
+                            onClick={() => navigate(`/articles/${article._id}/edit`)}
                             className="flex items-center gap-2.5 px-3.5 py-2.5 text-sm text-slate-700 dark:text-slate-300 focus:bg-[#3e4998] focus:text-white rounded-lg cursor-pointer transition-colors group outline-none"
                           >
                             <Edit className="w-3.5 h-3.5 text-slate-400 group-focus:text-white/80" /> Edit
@@ -366,7 +371,7 @@ export default function ArticlesPage() {
                 </div>
 
                 <p className="text-sm text-slate-500 dark:text-slate-400 mt-1 line-clamp-2 font-medium">
-                  {article.summary || article.description}
+                  {stripHtml(article.summary || article.description || article.content)}
                 </p>
 
                 <div className="flex items-center justify-between mt-4 pt-3 border-t border-slate-100 dark:border-slate-800">

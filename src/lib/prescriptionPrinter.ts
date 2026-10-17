@@ -10,11 +10,9 @@ export function printPrescription({ rx, patient, doctor }: PrintPrescriptionData
   const clinic = doctorUser?.doctor?.clinic || {};
 
   const doctorName = doctorUser?.name ? `Dr. ${doctorUser.name}` : 'Attending Ophthalmologist';
-  const specialization = doctorUser?.doctor?.specialization || 'Ophthalmologist / Eye Specialist';
   const clinicName = clinic?.name || 'Ophthalmology Specialty Clinic';
   const clinicAddress = clinic?.address || '';
   const clinicPhone = clinic?.phone || doctorUser?.phone || '';
-  const doctorCode = doctorUser?.doctor?.doctorCode ? `Doctor ID: ${doctorUser.doctor.doctorCode}` : '';
 
   const patientName = patientUser?.name || patient?.name || 'Patient';
   const patientAge = patient?.age ? `${patient.age} Years` : 'N/A';
@@ -308,8 +306,6 @@ export function printPrescription({ rx, patient, doctor }: PrintPrescriptionData
           <div class="header">
             <div>
               <h1 class="doc-title">${doctorName}</h1>
-              <p class="doc-spec">${specialization}</p>
-              <p class="doc-meta">${doctorCode}</p>
             </div>
             <div class="clinic-box">
               <h2 class="clinic-name">${clinicName}</h2>
@@ -337,18 +333,6 @@ export function printPrescription({ rx, patient, doctor }: PrintPrescriptionData
               <div class="patient-field-val">${issuedDate}</div>
             </div>
           </div>
-
-          <!-- Diagnosis -->
-          ${
-            rx?.diagnosis
-              ? `
-            <div class="diagnosis-section">
-              <div class="diagnosis-title">Clinical Diagnosis</div>
-              <p class="diagnosis-text">${rx.diagnosis}</p>
-            </div>
-          `
-              : ''
-          }
 
           <!-- Rx Symbol -->
           <div class="rx-symbol">℞</div>
@@ -383,9 +367,7 @@ export function printPrescription({ rx, patient, doctor }: PrintPrescriptionData
 
         <!-- Footer -->
         <div class="footer">
-          <div class="brand-footer">
-            Noor Einek Tele-Ophthalmology Portal • Powered by Pharco
-          </div>
+          <div></div>
           <div class="signature-box">
             <div class="signature-line"></div>
             <div class="signature-label">Doctor Signature & Stamp</div>

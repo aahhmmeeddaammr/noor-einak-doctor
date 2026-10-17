@@ -2,27 +2,56 @@ import { useParams, useNavigate } from 'react-router-dom';
 import { useArticleDetail, useDeleteArticle, useUpdateArticle } from '@/features/articles/hooks';
 import {
   ArrowLeft, Edit, Trash2, Clock, Eye, Tag, Globe,
-  BookOpen, Archive, CheckCircle, X,
+  BookOpen, Archive, CheckCircle, X, Share2, Check, FileText, User2,
 } from 'lucide-react';
 import { useAuthStore } from '@/stores/authStore';
 import { cn, formatDate, getStatusColor } from '@/lib/utils';
 import { useState } from 'react';
 import toast from 'react-hot-toast';
-import { useForm } from 'react-hook-form';
-import { zodResolver } from '@hookform/resolvers/zod';
-import { z } from 'zod';
-import { ArticleModal } from './ArticlesPage';
 
-const articleSchema = z.object({
-  title: z.string().min(5, 'Title must be at least 5 characters'),
-  summary: z.string().min(10, 'Summary must be at least 10 characters'),
-  content: z.string().min(20, 'Content must be at least 20 characters'),
-  category: z.string().min(1, 'Category is required'),
-  status: z.enum(['draft', 'published', 'archived']),
-  coverImage: z.any().optional(),
-});
+// Helper: Strip HTML tags for clean text snippets and word count
+function stripHtml(html: string): string {
+  if (!html) return '';
+  return html.replace(/<[^>]*>/g, ' ').replace(/\s+/g, ' ').trim();
+}
 
-type ArticleFormValues = z.infer<typeof articleSchema>;
+// Helper: Safely sanitize and format article rich text content
+function cleanAndFormatContent(content: string): string {
+  if (!content) return '<p class="text-slate-400 italic">No content available for this article.</p>';
+
+  // Check if content already contains HTML tags (e.g. from ReactQuill)
+  const hasHtml = /<\/?(p|div|h[1-6]|ul|ol|li|blockquote|strong|em|br|span|a|img|b|i|table)[^>]*>/i.test(content);
+
+  if (hasHtml) {
+    // Sanitize scripts and inline event handlers to prevent XSS
+    return content
+      .replace(/<script\b[^<]*(?:(?!<\/script>)<[^<]*)*<\/script>/gi, '')
+      .replace(/\bon\w+\s*=\s*("[^"]*"|'[^']*'|[^\s>]+)/gi, '')
+      .replace(/javascript\s*:/gi, '');
+  }
+
+  // If plain markdown or plain text, convert to proper semantic HTML
+  return content
+    .split('\n')
+    .map(line => {
+      const trimmed = line.trim();
+      if (!trimmed) return '<div class="h-4"></div>';
+      if (trimmed.startsWith('# ')) return `<h1>${trimmed.slice(2)}</h1>`;
+      if (trimmed.startsWith('## ')) return `<h2>${trimmed.slice(3)}</h2>`;
+      if (trimmed.startsWith('### ')) return `<h3>${trimmed.slice(4)}</h3>`;
+      if (trimmed.startsWith('- ') || trimmed.startsWith('* ')) return `<ul><li>${trimmed.slice(2)}</li></ul>`;
+      return `<p>${trimmed}</p>`;
+    })
+    .join('');
+}
+
+// Calculate reading time based on word count
+function calculateReadTime(text: string): string {
+  const plainText = stripHtml(text || '');
+  const words = plainText.split(/\s+/).filter(Boolean).length;
+  const minutes = Math.max(1, Math.ceil(words / 200));
+  return `${minutes} min read`;
+}
 
 export default function ArticleDetailPage() {
   const { id } = useParams<{ id: string }>();
@@ -36,63 +65,31 @@ export default function ArticleDetailPage() {
   const updateMutation = useUpdateArticle();
 
   const [showDeleteConfirm, setShowDeleteConfirm] = useState(false);
-  const [isEditModalOpen, setIsEditModalOpen] = useState(false);
+  const [copied, setCopied] = useState(false);
 
-  const editForm = useForm<ArticleFormValues>({
-    resolver: zodResolver(articleSchema),
-    defaultValues: {
-      title: '', summary: '', content: '',
-      category: 'Information', status: 'draft', coverImage: '',
-    },
-  });
-
-  const openEditModal = () => {
-    if (!article) return;
-    editForm.reset({
-      title: article.title,
-      summary: article.summary || '',
-      content: article.content,
-      category: article.category,
-      status: article.status || 'draft',
-      coverImage: article.coverImage || '',
-    });
-    setIsEditModalOpen(true);
-  };
-
-  const handleEditSubmit = async (values: ArticleFormValues) => {
-    const formData = new FormData();
-    Object.entries(values).forEach(([key, value]) => {
-      if (key !== 'coverImage' && value !== undefined) {
-        if (Array.isArray(value)) {
-          formData.append(key, JSON.stringify(value));
-        } else {
-          formData.append(key, value.toString());
-        }
-      }
-    });
-
-    if (values.coverImage instanceof File) {
-      formData.append('thumbnail', values.coverImage);
+  const handleCopyLink = () => {
+    try {
+      navigator.clipboard.writeText(window.location.href);
+      setCopied(true);
+      toast.success('Article link copied to clipboard');
+      setTimeout(() => setCopied(false), 2000);
+    } catch {
+      toast.error('Failed to copy link');
     }
-
-    updateMutation.mutate(
-      { id: article._id, data: formData as any },
-      { 
-        onSuccess: () => {
-          setIsEditModalOpen(false);
-          toast.success('Article updated successfully');
-        }
-      }
-    );
   };
 
-  const doctorId = user?.doctor?.id;
-  const isOwner = article && (article.doctorId === doctorId || article.doctorId?._id === doctorId);
+  const doctorId = user?.doctor?.id || (user?.doctor as any)?._id || (user as any)?._id;
+  const isOwner = article && (
+    article.doctorId === doctorId || 
+    article.doctorId?._id === doctorId ||
+    article.doctorId?.userId?._id === (user as any)?._id ||
+    article.doctorId?.userId === (user as any)?._id
+  );
 
   const handleDelete = () => {
     deleteMutation.mutate(article._id, {
       onSuccess: () => {
-        toast.success('Article deleted');
+        toast.success('Article deleted successfully');
         navigate('/articles');
       },
     });
@@ -102,19 +99,28 @@ export default function ArticleDetailPage() {
     const newStatus = article.status === 'published' ? 'archived' : 'published';
     updateMutation.mutate(
       { id: article._id, data: { status: newStatus } },
-      { onSuccess: () => toast.success(`Article ${newStatus}`) }
+      { onSuccess: () => toast.success(`Article status changed to ${newStatus}`) }
     );
   };
 
   if (isLoading) {
     return (
-      <div className="space-y-6 animate-pulse">
-        <div className="h-10 w-48 bg-slate-200 dark:bg-slate-800 rounded-xl" />
+      <div className="space-y-6 animate-pulse p-4 sm:p-6 max-w-7xl mx-auto">
+        <div className="flex justify-between items-center">
+          <div className="h-9 w-36 bg-slate-200 dark:bg-slate-800 rounded-xl" />
+          <div className="h-9 w-28 bg-slate-200 dark:bg-slate-800 rounded-xl" />
+        </div>
         <div className="h-72 bg-slate-200 dark:bg-slate-800 rounded-3xl" />
-        <div className="space-y-3">
-          <div className="h-8 w-3/4 bg-slate-200 dark:bg-slate-800 rounded-xl" />
-          <div className="h-4 w-full bg-slate-200 dark:bg-slate-800 rounded-lg" />
-          <div className="h-4 w-5/6 bg-slate-200 dark:bg-slate-800 rounded-lg" />
+        <div className="grid grid-cols-1 lg:grid-cols-12 gap-8">
+          <div className="lg:col-span-8 space-y-4">
+            <div className="h-10 w-3/4 bg-slate-200 dark:bg-slate-800 rounded-xl" />
+            <div className="h-24 bg-slate-200 dark:bg-slate-800 rounded-2xl" />
+            <div className="h-64 bg-slate-200 dark:bg-slate-800 rounded-3xl" />
+          </div>
+          <div className="lg:col-span-4 space-y-4">
+            <div className="h-48 bg-slate-200 dark:bg-slate-800 rounded-3xl" />
+            <div className="h-40 bg-slate-200 dark:bg-slate-800 rounded-3xl" />
+          </div>
         </div>
       </div>
     );
@@ -122,12 +128,17 @@ export default function ArticleDetailPage() {
 
   if (error || !article) {
     return (
-      <div className="h-full animate-fadeIn flex flex-col items-center justify-center py-24 gap-4 p-8 bg-slate-50/30 dark:bg-slate-950/30">
-        <BookOpen className="w-16 h-16 text-slate-300" />
-        <p className="text-xl font-black text-slate-900 dark:text-slate-100">Article not found</p>
+      <div className="h-full animate-fadeIn flex flex-col items-center justify-center py-24 gap-4 p-8 bg-slate-50/50 dark:bg-slate-950/50 rounded-3xl border border-slate-200 dark:border-slate-800 my-6">
+        <div className="w-16 h-16 rounded-2xl bg-slate-100 dark:bg-slate-900 flex items-center justify-center text-slate-400">
+          <BookOpen className="w-8 h-8" />
+        </div>
+        <h2 className="text-xl font-bold text-slate-900 dark:text-slate-100">Article not found</h2>
+        <p className="text-sm text-slate-500 max-w-md text-center">
+          The article you are looking for may have been deleted, archived, or is temporarily unavailable.
+        </p>
         <button
           onClick={() => navigate('/articles')}
-          className="px-5 py-2.5 bg-[#3e4998] text-white rounded-xl font-bold text-sm"
+          className="mt-2 px-6 py-2.5 bg-primary text-white rounded-xl font-bold text-sm shadow-md shadow-primary/20 hover:bg-primary/90 transition-all"
         >
           Back to Articles
         </button>
@@ -138,17 +149,15 @@ export default function ArticleDetailPage() {
   const doctor = article.doctorId;
   const authorUser = doctor?.userId;
   
-  // Enhanced Publisher Resolution
   const authorName = doctor 
     ? (authorUser?.name || doctor?.name || 'Medical Specialist')
     : 'Noor Einak Expert';
     
-  const authorSpec = doctor?.specialization || 'Clinical Operations';
+  const authorSpec = doctor?.specialization || 'Ophthalmology Specialist';
   const initials = doctor 
     ? (authorName.split(' ').map((n: string) => n[0]).slice(0, 2).join('').toUpperCase())
     : 'NE';
 
-  // Category Mapping
   const categoryMap: Record<string, string> = {
     'Information': 'General Information',
     'Research': 'Clinical Research',
@@ -157,209 +166,371 @@ export default function ArticleDetailPage() {
   };
   const categoryDisplay = categoryMap[article.category] || article.category;
 
-  return (
-    <div className="bg-slate-50/30 dark:bg-slate-950/30 animate-fadeIn">
-      {/* High-Resolution Hero Area (Full Width) */}
-      <div className="relative w-full h-[50vh] overflow-hidden border-b border-slate-200 dark:border-slate-800 bg-slate-900 shadow-2xl rounded-[3rem]">
-        {article.coverImage && (
-          <img 
-            src={article.coverImage} 
-            alt={article.title} 
-            className="w-full h-full object-cover opacity-70" 
-          />
-        )}
-        <div className="absolute inset-0 bg-linear-to-t from-slate-950 via-slate-950/40 to-transparent" />
-        
-        {/* Floating Interactions */}
-        <div className="absolute top-8 left-8 right-8 flex justify-between items-center z-50">
-           <button
-             onClick={() => navigate('/articles')}
-             className="flex items-center gap-2.5 px-5 py-3 rounded-2xl bg-white/10 backdrop-blur-xl border border-white/20 text-white font-bold hover:bg-white/20 transition-all group"
-           >
-             <ArrowLeft className="w-4 h-4 group-hover:-translate-x-1 transition-transform" />
-             Journal
-           </button>
+  const hasCover = Boolean(article.coverImage);
 
-            {isOwner && (
-             <div className="flex items-center gap-3">
-               <button
-                 onClick={handleStatusToggle}
-                 className="px-6 py-3 rounded-2xl bg-white/10 backdrop-blur-xl border border-white/20 text-white text-[10px] font-black uppercase tracking-widest hover:bg-white/20 transition-all"
-               >
-                 {article.status === 'published' ? 'Archive' : 'Publish'}
-               </button>
-               <button
-                 onClick={openEditModal}
-                 className="px-6 py-3 rounded-2xl bg-primary text-white text-[10px] font-black uppercase tracking-widest shadow-xl shadow-primary/20 hover:scale-105 active:scale-95 transition-all"
-               >
-                 Edit Article
-               </button>
-             </div>
-           )}
+  return (
+    <div className="animate-fadeIn max-w-7xl mx-auto pb-16 px-2 sm:px-4">
+      {/* Top Breadcrumb & Action Toolbar */}
+      <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4 mb-6 pt-2">
+        {/* Navigation Breadcrumb */}
+        <div className="flex items-center gap-2.5 text-xs">
+          <button
+            onClick={() => navigate('/articles')}
+            className="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-xl bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-800 text-slate-700 dark:text-slate-300 font-bold hover:bg-slate-50 dark:hover:bg-slate-800 hover:text-primary transition-all shadow-2xs group"
+          >
+            <ArrowLeft className="w-3.5 h-3.5 group-hover:-translate-x-0.5 transition-transform" />
+            Articles
+          </button>
+          <span className="text-slate-300 dark:text-slate-700">/</span>
+          <span className="font-semibold text-slate-500 dark:text-slate-400">
+            {categoryDisplay}
+          </span>
         </div>
 
-        {/* Hero Title */}
-        <div className="absolute bottom-12 left-12 right-12">
-           <div className="flex items-center gap-4 mb-6">
-              <span className={cn('px-4 py-1.5 rounded-full text-[10px] font-black uppercase tracking-[0.2em] bg-white text-slate-900 shadow-xl')}>
-                 {article.status || 'draft'}
-              </span>
-              <span className="text-[10px] font-black uppercase tracking-[0.2em] text-white bg-primary backdrop-blur-lg border border-white/20 px-4 py-1.5 rounded-full">
-                {categoryDisplay}
-              </span>
-           </div>
-           <h1 className="text-4xl md:text-5xl lg:text-7xl font-black text-white leading-tight tracking-tight max-w-6xl">
-             {article.title}
-           </h1>
+        {/* Action Buttons */}
+        <div className="flex items-center gap-2">
+          <button
+            onClick={handleCopyLink}
+            className="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-xl bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-800 text-slate-600 dark:text-slate-400 text-xs font-bold hover:bg-slate-50 dark:hover:bg-slate-800 transition-all shadow-2xs"
+            title="Copy article link"
+          >
+            {copied ? <Check className="w-3.5 h-3.5 text-emerald-500" /> : <Share2 className="w-3.5 h-3.5" />}
+            <span>{copied ? 'Copied' : 'Share'}</span>
+          </button>
+
+          {isOwner && (
+            <>
+              <button
+                onClick={handleStatusToggle}
+                disabled={updateMutation.isPending}
+                className={cn(
+                  "inline-flex items-center gap-1.5 px-3.5 py-1.5 rounded-xl text-xs font-bold transition-all border shadow-2xs",
+                  article.status === 'published'
+                    ? "bg-amber-50 dark:bg-amber-950/30 text-amber-700 dark:text-amber-400 border-amber-200 dark:border-amber-900/50 hover:bg-amber-100"
+                    : "bg-emerald-50 dark:bg-emerald-950/30 text-emerald-700 dark:text-emerald-400 border-emerald-200 dark:border-emerald-900/50 hover:bg-emerald-100"
+                )}
+              >
+                {article.status === 'published' ? (
+                  <>
+                    <Archive className="w-3.5 h-3.5" />
+                    <span>Archive</span>
+                  </>
+                ) : (
+                  <>
+                    <Globe className="w-3.5 h-3.5" />
+                    <span>Publish</span>
+                  </>
+                )}
+              </button>
+
+              <button
+                onClick={() => navigate(`/articles/${article._id}/edit`)}
+                className="inline-flex items-center gap-1.5 px-4 py-1.5 rounded-xl bg-primary hover:bg-primary/90 text-white text-xs font-bold shadow-sm shadow-primary/20 transition-all hover:scale-[1.02] active:scale-[0.98]"
+              >
+                <Edit className="w-3.5 h-3.5" />
+                <span>Edit</span>
+              </button>
+            </>
+          )}
         </div>
       </div>
 
-      {/* Main Grid Layout (2 Column) */}
-      <div className="w-full mt-12">
-        <div className="grid grid-cols-1 lg:grid-cols-12 gap-12 items-start">
-          
-          {/* Main Content Column (col-span-8) */}
-          <main className="col-span-1 lg:col-span-8 space-y-12">
+      {/* Hero Header Area */}
+      {hasCover ? (
+        /* Layout with Cover Image */
+        <div className="space-y-6 mb-8">
+          <div className="relative w-full h-64 sm:h-80 lg:h-96 rounded-3xl overflow-hidden border border-slate-200/80 dark:border-slate-800 shadow-md group">
+            <img 
+              src={article.coverImage} 
+              alt={article.title} 
+              className="w-full h-full object-cover group-hover:scale-102 transition-transform duration-700" 
+            />
+            <div className="absolute inset-0 bg-gradient-to-t from-slate-950/80 via-slate-950/20 to-transparent" />
             
-            <div className="bg-white dark:bg-slate-900/40 p-8 lg:p-14 rounded-[3rem] border border-slate-100 dark:border-slate-800 shadow-sm space-y-12">
-              {/* Summary */}
-              {article.summary && (
-                <p className="text-2xl font-medium text-slate-600 dark:text-slate-300 leading-relaxed italic border-l-8 border-primary/20 pl-8">
-                  {article.summary}
-                </p>
-              )}
+            {/* Category & Views overlay */}
+            <div className="absolute bottom-6 left-6 right-6 flex items-center justify-between text-white text-xs font-medium">
+              <span className="px-3.5 py-1 rounded-full bg-white/20 backdrop-blur-md border border-white/30 font-bold uppercase tracking-wider text-[11px]">
+                {categoryDisplay}
+              </span>
+              <span className="flex items-center gap-1.5 px-3 py-1 rounded-full bg-black/40 backdrop-blur-md text-[11px] font-semibold">
+                <Eye className="w-3.5 h-3.5" /> {(article.viewsCount || 0).toLocaleString()} Views
+              </span>
+            </div>
+          </div>
 
-              {/* Content body */}
-              <div className="prose prose-slate dark:prose-invert prose-xl max-w-none prose-headings:font-black prose-headings:tracking-tighter prose-p:text-slate-700 dark:prose-p:text-slate-300 prose-p:leading-relaxed">
-                 {article.content.split('\n').map((paragraph: string, i: number) => {
-                    if (paragraph.startsWith('# ')) {
-                      return <h2 key={i} className="text-4xl mt-12 mb-6">{paragraph.slice(2)}</h2>;
-                    }
-                    if (paragraph.startsWith('## ')) {
-                      return <h3 key={i} className="text-2xl font-black text-primary mt-10 mb-4">{paragraph.slice(3)}</h3>;
-                    }
-                    if (!paragraph.trim()) return <div key={i} className="h-8" />;
-                    return (
-                      <p key={i} className="mb-6">
-                        {paragraph}
-                      </p>
-                    );
-                  })}
+          {/* Title & Metadata directly below cover */}
+          <div className="space-y-3 px-1">
+            <div className="flex flex-wrap items-center gap-2.5">
+              <span className={cn(
+                "px-3 py-0.5 rounded-full text-[11px] font-bold uppercase tracking-wider",
+                article.status === 'published' 
+                  ? "bg-emerald-50 text-emerald-700 dark:bg-emerald-950/40 dark:text-emerald-400 border border-emerald-200 dark:border-emerald-900/40" 
+                  : "bg-amber-50 text-amber-700 dark:bg-amber-950/40 dark:text-amber-400 border border-amber-200 dark:border-amber-900/40"
+              )}>
+                {article.status || 'draft'}
+              </span>
+              <span className="text-xs text-slate-400">•</span>
+              <span className="text-xs font-semibold text-slate-500 dark:text-slate-400">
+                {calculateReadTime(article.content)}
+              </span>
+            </div>
+
+            <h1 className="text-2xl sm:text-3xl lg:text-4xl font-extrabold text-slate-900 dark:text-white tracking-tight leading-tight">
+              {article.title}
+            </h1>
+
+            <div className="flex flex-wrap items-center gap-4 text-xs text-slate-500 dark:text-slate-400 pt-1">
+              <span className="flex items-center gap-1.5 font-semibold text-slate-700 dark:text-slate-300">
+                <User2 className="w-3.5 h-3.5 text-primary" />
+                {doctor ? `Dr. ${authorName}` : authorName}
+              </span>
+              <span>•</span>
+              <span className="flex items-center gap-1.5">
+                <Clock className="w-3.5 h-3.5" />
+                {formatDate(article.createdAt)}
+              </span>
+            </div>
+          </div>
+        </div>
+      ) : (
+        /* Refined Editorial Banner without Cover Image */
+        <div className="relative w-full rounded-3xl overflow-hidden mb-8 p-7 sm:p-10 bg-gradient-to-br from-[#1b2149] via-[#26316e] to-[#3e4998] text-white shadow-lg border border-indigo-900/30">
+          <div className="absolute -right-12 -bottom-12 w-64 h-64 rounded-full bg-white/5 blur-2xl pointer-events-none" />
+          <div className="absolute top-4 right-6 p-4 opacity-10 pointer-events-none hidden sm:block">
+            <BookOpen className="w-36 h-36" />
+          </div>
+
+          <div className="relative z-10 space-y-4">
+            <div className="flex flex-wrap items-center gap-2.5">
+              <span className="px-3 py-1 rounded-full text-[11px] font-black uppercase tracking-wider bg-white/15 backdrop-blur-md border border-white/20 text-white">
+                {categoryDisplay}
+              </span>
+              <span className={cn(
+                "px-3 py-1 rounded-full text-[11px] font-bold uppercase tracking-wider",
+                article.status === 'published' 
+                  ? "bg-emerald-500/20 text-emerald-300 border border-emerald-400/30" 
+                  : "bg-amber-500/20 text-amber-300 border border-amber-400/30"
+              )}>
+                {article.status || 'draft'}
+              </span>
+            </div>
+
+            <h1 className="text-2xl sm:text-3xl lg:text-4xl font-extrabold text-white tracking-tight leading-tight max-w-4xl">
+              {article.title}
+            </h1>
+
+            <div className="flex flex-wrap items-center gap-4 text-xs text-indigo-100/90 pt-3 border-t border-white/10">
+              <span className="flex items-center gap-1.5 font-medium">
+                <User2 className="w-3.5 h-3.5 text-indigo-200" />
+                {doctor ? `Dr. ${authorName}` : authorName}
+              </span>
+              <span>•</span>
+              <span className="flex items-center gap-1.5">
+                <Clock className="w-3.5 h-3.5 text-indigo-200" />
+                {formatDate(article.createdAt)}
+              </span>
+              <span>•</span>
+              <span>{calculateReadTime(article.content)}</span>
+              <span>•</span>
+              <span className="flex items-center gap-1.5">
+                <Eye className="w-3.5 h-3.5 text-indigo-200" />
+                {(article.viewsCount || 0).toLocaleString()} Views
+              </span>
+            </div>
+          </div>
+        </div>
+      )}
+
+      {/* Main Grid: Content (8 Cols) & Sidebar (4 Cols) */}
+      <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 items-start">
+        
+        {/* Main Content Column */}
+        <main className="lg:col-span-8 space-y-6">
+          
+          {/* Executive Summary / Key Takeaways Box */}
+          {article.summary && (
+            <div className="rounded-2xl p-6 bg-gradient-to-r from-primary/5 via-blue-50/40 to-transparent dark:from-primary/10 dark:via-slate-900/40 dark:to-transparent border-l-4 border-primary border-y border-r border-slate-200/60 dark:border-slate-800 shadow-2xs">
+              <div className="flex items-center gap-2 mb-2 text-primary font-bold text-xs uppercase tracking-wider">
+                <FileText className="w-4 h-4" />
+                <span>Clinical Summary & Key Points</span>
+              </div>
+              <p className="text-base text-slate-700 dark:text-slate-200 leading-relaxed font-medium">
+                {stripHtml(article.summary)}
+              </p>
+            </div>
+          )}
+
+          {/* Article Main Body */}
+          <div className="bg-white dark:bg-slate-900/60 rounded-3xl p-6 sm:p-10 border border-slate-200/80 dark:border-slate-800 shadow-2xs">
+            {/* Rich HTML Content */}
+            <div
+              className="medical-article-content max-w-none"
+              dangerouslySetInnerHTML={{ __html: cleanAndFormatContent(article.content) }}
+            />
+
+            {/* Article Footer Metadata */}
+            <div className="mt-12 pt-6 border-t border-slate-100 dark:border-slate-800 flex flex-wrap items-center justify-between gap-4 text-xs text-slate-500 dark:text-slate-400">
+              <div className="flex items-center gap-2">
+                <Tag className="w-3.5 h-3.5 text-primary" />
+                <span className="font-semibold text-slate-700 dark:text-slate-300">{categoryDisplay}</span>
+                <span>•</span>
+                <span>Noor Einak Health Portal</span>
+              </div>
+              <div className="flex items-center gap-3">
+                <Clock className="w-3.5 h-3.5" />
+                <span>Last updated {formatDate(article.updatedAt || article.createdAt)}</span>
+              </div>
+            </div>
+          </div>
+        </main>
+
+        {/* Sidebar Column */}
+        <aside className="lg:col-span-4 space-y-6 lg:sticky lg:top-8">
+          
+          {/* Author Profile Card */}
+          <div className="bg-white dark:bg-slate-900/60 rounded-3xl p-6 border border-slate-200/80 dark:border-slate-800 shadow-2xs space-y-5">
+            <h4 className="text-[11px] font-bold uppercase tracking-wider text-slate-400">Published By</h4>
+            
+            <div className="flex items-center gap-4">
+              <div className="w-14 h-14 rounded-2xl bg-gradient-to-br from-primary to-indigo-600 flex items-center justify-center text-white text-lg font-black shadow-md shadow-primary/20 shrink-0">
+                {initials}
+              </div>
+              <div className="min-w-0">
+                <p className="text-base font-bold text-slate-900 dark:text-white truncate">
+                  {doctor ? `Dr. ${authorName}` : authorName}
+                </p>
+                <p className="text-xs font-semibold text-primary truncate mt-0.5">{authorSpec}</p>
               </div>
             </div>
 
-            {/* Simple Footer Metadata */}
-            <div className="flex items-center justify-between px-10 py-8 bg-slate-50 dark:bg-slate-900/50 rounded-[2.5rem] border border-slate-100 dark:border-slate-800">
-               <div className="flex items-center gap-3">
-                  <div className="w-2 h-2 rounded-full bg-primary" />
-                  <span className="text-[10px] font-black uppercase tracking-[0.2em] text-slate-400">Classification</span>
-                  <span className="text-xs font-black text-slate-700 dark:text-slate-300">{categoryDisplay}</span>
-               </div>
-               <div className="flex items-center gap-3">
-                  <Eye size={14} className="text-slate-400" />
-                  <span className="text-[10px] font-black uppercase tracking-[0.2em] text-slate-400">Engagement</span>
-                  <span className="text-xs font-black text-slate-700 dark:text-slate-300">{(article.viewsCount || 0).toLocaleString()} Views</span>
-               </div>
-               <div className="flex items-center gap-3">
-                  <Clock size={14} className="text-slate-400" />
-                  <span className="text-[10px] font-black uppercase tracking-[0.2em] text-slate-400">Published</span>
-                  <span className="text-xs font-black text-slate-700 dark:text-slate-300">{formatDate(article.createdAt)}</span>
-               </div>
+            <div className="flex items-center gap-2 text-emerald-600 dark:text-emerald-400 bg-emerald-50 dark:bg-emerald-950/30 px-3.5 py-2.5 rounded-xl text-xs font-bold justify-center border border-emerald-100 dark:border-emerald-900/30">
+              <CheckCircle className="w-4 h-4 shrink-0" />
+              <span>Noor Einak Verified Doctor</span>
             </div>
-          </main>
+          </div>
 
-          {/* Sidebar Area (col-span-4) */}
-          <aside className="col-span-1 lg:col-span-4 space-y-8 sticky top-12">
-             
-             {/* Author Profile */}
-             <div className="p-8 bg-white dark:bg-slate-950 rounded-[2.5rem] border border-slate-100 dark:border-slate-800 shadow-xl shadow-slate-200/50 dark:shadow-transparent">
-                <div className="space-y-6">
-                   <h4 className="text-[10px] font-black uppercase tracking-[0.3em] text-slate-400">Author</h4>
-                   
-                   <div className="flex items-center gap-5">
-                      <div className="w-20 h-20 rounded-3xl bg-linear-to-br from-primary to-indigo-600 flex items-center justify-center text-white text-2xl font-black shadow-xl shadow-primary/20">
-                        {initials}
-                      </div>
-                      <div>
-                        <p className="text-xl font-black text-slate-900 dark:text-white leading-tight">
-                          {doctor ? `Dr. ${authorName}` : authorName}
-                        </p>
-                        <p className="text-sm font-bold text-primary mt-1">{authorSpec}</p>
-                      </div>
-                   </div>
+          {/* Article Info & Metrics Card */}
+          <div className="bg-white dark:bg-slate-900/60 rounded-3xl p-6 border border-slate-200/80 dark:border-slate-800 shadow-2xs space-y-4">
+            <h4 className="text-[11px] font-bold uppercase tracking-wider text-slate-400">Article Details</h4>
 
-                   <div className="w-full h-px bg-slate-100 dark:bg-slate-800" />
-                   
-                   <div className="flex items-center gap-3 text-emerald-500 font-bold bg-emerald-50 dark:bg-emerald-950/30 p-4 rounded-2xl justify-center">
-                      <CheckCircle size={16} />
-                      <span className="text-xs uppercase tracking-widest font-black">NOOR EINAK VERIFIED</span>
-                   </div>
-                </div>
-             </div>
+            <div className="space-y-3 text-xs">
+              <div className="flex items-center justify-between py-1.5 border-b border-slate-100 dark:border-slate-800">
+                <span className="text-slate-500 font-medium flex items-center gap-1.5">
+                  <Tag className="w-3.5 h-3.5 text-slate-400" /> Category
+                </span>
+                <span className="font-bold text-slate-800 dark:text-slate-200">{categoryDisplay}</span>
+              </div>
 
-             {/* Simple Action Card */}
-             {isOwner && (
-               <div className="p-8 rounded-[2.5rem] bg-slate-900 dark:bg-slate-800 text-white shadow-2xl shadow-slate-900/20">
-                  <h4 className="text-[10px] font-black uppercase tracking-[0.3em] opacity-40 mb-6">Management</h4>
-                  <button
-                    onClick={() => setShowDeleteConfirm(true)}
-                    className="w-full flex items-center justify-center gap-2 p-4 rounded-2xl bg-rose-500 text-white font-black text-xs uppercase tracking-widest hover:bg-rose-600 transition-all shadow-lg shadow-rose-500/20"
-                  >
-                    <Trash2 size={16} /> Delete Story
-                  </button>
-               </div>
-             )}
-          </aside>
-        </div>
+              <div className="flex items-center justify-between py-1.5 border-b border-slate-100 dark:border-slate-800">
+                <span className="text-slate-500 font-medium flex items-center gap-1.5">
+                  <Clock className="w-3.5 h-3.5 text-slate-400" /> Read Time
+                </span>
+                <span className="font-bold text-slate-800 dark:text-slate-200">{calculateReadTime(article.content)}</span>
+              </div>
+
+              <div className="flex items-center justify-between py-1.5 border-b border-slate-100 dark:border-slate-800">
+                <span className="text-slate-500 font-medium flex items-center gap-1.5">
+                  <Eye className="w-3.5 h-3.5 text-slate-400" /> Views
+                </span>
+                <span className="font-bold text-slate-800 dark:text-slate-200">{(article.viewsCount || 0).toLocaleString()}</span>
+              </div>
+
+              <div className="flex items-center justify-between py-1.5">
+                <span className="text-slate-500 font-medium flex items-center gap-1.5">
+                  <BookOpen className="w-3.5 h-3.5 text-slate-400" /> Status
+                </span>
+                <span className={cn(
+                  "px-2.5 py-0.5 rounded-full text-[10px] font-black uppercase tracking-wider",
+                  article.status === 'published'
+                    ? "bg-emerald-100 text-emerald-800 dark:bg-emerald-950/60 dark:text-emerald-300"
+                    : "bg-amber-100 text-amber-800 dark:bg-amber-950/60 dark:text-amber-300"
+                )}>
+                  {article.status || 'draft'}
+                </span>
+              </div>
+            </div>
+          </div>
+
+          {/* Management Quick Actions (for Author) */}
+          {isOwner && (
+            <div className="bg-white dark:bg-slate-900/60 rounded-3xl p-6 border border-slate-200/80 dark:border-slate-800 shadow-2xs space-y-3">
+              <h4 className="text-[11px] font-bold uppercase tracking-wider text-slate-400 mb-2">Management</h4>
+              
+              <button
+                onClick={() => navigate(`/articles/${article._id}/edit`)}
+                className="w-full flex items-center justify-center gap-2 py-2.5 px-4 rounded-xl bg-primary hover:bg-primary/90 text-white font-bold text-xs shadow-xs transition-all hover:scale-[1.01] active:scale-[0.99]"
+              >
+                <Edit className="w-3.5 h-3.5" /> Edit Article
+              </button>
+
+              <button
+                onClick={handleStatusToggle}
+                disabled={updateMutation.isPending}
+                className={cn(
+                  "w-full flex items-center justify-center gap-2 py-2.5 px-4 rounded-xl font-bold text-xs transition-all border",
+                  article.status === 'published'
+                    ? "bg-slate-50 dark:bg-slate-800 hover:bg-slate-100 dark:hover:bg-slate-700/60 text-slate-700 dark:text-slate-200 border-slate-200 dark:border-slate-700"
+                    : "bg-emerald-50 dark:bg-emerald-950/40 hover:bg-emerald-100 dark:hover:bg-emerald-900/40 text-emerald-700 dark:text-emerald-300 border-emerald-200 dark:border-emerald-800"
+                )}
+              >
+                {article.status === 'published' ? (
+                  <>
+                    <Archive className="w-3.5 h-3.5" /> Move to Archive
+                  </>
+                ) : (
+                  <>
+                    <Globe className="w-3.5 h-3.5" /> Publish to Patients
+                  </>
+                )}
+              </button>
+
+              <button
+                onClick={() => setShowDeleteConfirm(true)}
+                className="w-full flex items-center justify-center gap-2 py-2.5 px-4 rounded-xl bg-rose-50 dark:bg-rose-950/30 hover:bg-rose-100 dark:hover:bg-rose-900/40 text-rose-600 dark:text-rose-400 border border-rose-200/80 dark:border-rose-900/40 font-bold text-xs transition-all"
+              >
+                <Trash2 className="w-3.5 h-3.5" /> Delete Story
+              </button>
+            </div>
+          )}
+        </aside>
       </div>
 
       {/* Delete Confirm Modal */}
       {showDeleteConfirm && (
         <div className="fixed inset-0 z-50 flex items-center justify-center p-4">
-          <div className="absolute inset-0 bg-black/50 backdrop-blur-sm" onClick={() => setShowDeleteConfirm(false)} />
-          <div className="bg-white dark:bg-slate-950 rounded-3xl p-10 max-w-md w-full shadow-2xl relative z-10 border dark:border-slate-800">
-            <button onClick={() => setShowDeleteConfirm(false)} className="absolute top-6 right-6 p-2 hover:bg-slate-100 dark:hover:bg-slate-800 rounded-full transition-colors">
-              <X className="w-5 h-5 text-slate-400" />
+          <div className="absolute inset-0 bg-black/50 backdrop-blur-xs" onClick={() => setShowDeleteConfirm(false)} />
+          <div className="bg-white dark:bg-slate-950 rounded-3xl p-8 max-w-md w-full shadow-2xl relative z-10 border border-slate-200 dark:border-slate-800">
+            <button 
+              onClick={() => setShowDeleteConfirm(false)} 
+              className="absolute top-5 right-5 p-2 hover:bg-slate-100 dark:hover:bg-slate-800 rounded-full transition-colors text-slate-400"
+            >
+              <X className="w-5 h-5" />
             </button>
-            <div className="w-16 h-16 rounded-2xl bg-rose-50 dark:bg-rose-900/20 flex items-center justify-center mb-6">
-              <Trash2 className="w-8 h-8 text-rose-500" />
+            <div className="w-14 h-14 rounded-2xl bg-rose-50 dark:bg-rose-900/20 flex items-center justify-center mb-5">
+              <Trash2 className="w-7 h-7 text-rose-500" />
             </div>
-            <h3 className="text-2xl font-black text-slate-900 dark:text-white mb-3">Confirm Deletion</h3>
-            <p className="text-slate-500 font-medium mb-8 leading-relaxed text-base">
-              Are you absolutely sure you want to permanently delete <span className="text-slate-900 dark:text-white font-bold">"{article.title}"</span>? This action cannot be reversed.
+            <h3 className="text-xl font-black text-slate-900 dark:text-white mb-2">Delete Article</h3>
+            <p className="text-slate-500 dark:text-slate-400 font-medium mb-6 leading-relaxed text-sm">
+              Are you sure you want to permanently delete <span className="text-slate-900 dark:text-white font-bold">"{article.title}"</span>? This action cannot be reversed.
             </p>
-            <div className="flex gap-4">
+            <div className="flex gap-3">
               <button
                 onClick={() => setShowDeleteConfirm(false)}
-                className="flex-1 px-6 py-3 text-sm font-bold text-slate-600 hover:bg-slate-100 dark:hover:bg-slate-800 rounded-2xl transition-colors"
+                className="flex-1 px-4 py-2.5 text-xs font-bold text-slate-600 dark:text-slate-300 hover:bg-slate-100 dark:hover:bg-slate-800 rounded-xl transition-colors"
               >
                 Cancel
               </button>
               <button
                 onClick={handleDelete}
                 disabled={deleteMutation.isPending}
-                className="flex-1 px-6 py-3 text-sm font-bold bg-rose-500 hover:bg-rose-600 text-white rounded-2xl transition-colors disabled:opacity-50"
+                className="flex-1 px-4 py-2.5 text-xs font-bold bg-rose-500 hover:bg-rose-600 text-white rounded-xl transition-colors disabled:opacity-50"
               >
-                Delete Permanently
+                {deleteMutation.isPending ? 'Deleting...' : 'Delete Permanently'}
               </button>
             </div>
           </div>
         </div>
       )}
-
-      {/* Edit Article Modal */}
-      <ArticleModal
-        isOpen={isEditModalOpen}
-        onClose={() => setIsEditModalOpen(false)}
-        title="Edit Article"
-        onSubmit={editForm.handleSubmit(handleEditSubmit)}
-        register={editForm.register}
-        control={editForm.control}
-        errors={editForm.formState.errors}
-        isSubmitting={updateMutation.isPending}
-        submitLabel="Update Article"
-        isPublished={!!article?.publishedAt}
-      />
     </div>
   );
 }

@@ -44,6 +44,24 @@ export function useCreatePrescription() {
   });
 }
 
+export function useUpdatePrescription() {
+  const queryClient = useQueryClient();
+
+  return useMutation({
+    mutationFn: ({ id, data }: { id: string; data: Record<string, unknown> }) =>
+      prescriptionsApi.update(id, data),
+    onSuccess: (_, variables) => {
+      queryClient.invalidateQueries({ queryKey: ['prescriptions'] });
+      queryClient.invalidateQueries({ queryKey: ['prescriptions', variables.id] });
+      queryClient.invalidateQueries({ queryKey: ['patients'] });
+      toast.success('Prescription updated successfully');
+    },
+    onError: (error: any) => {
+      toast.error(error.error?.message || 'Failed to update prescription');
+    },
+  });
+}
+
 export function useCancelPrescription() {
   const queryClient = useQueryClient();
 

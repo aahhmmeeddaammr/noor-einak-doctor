@@ -2,11 +2,13 @@ import { useParams, useNavigate, Link } from 'react-router-dom';
 import { useForm, useFieldArray } from 'react-hook-form';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { z } from 'zod';
-import { ArrowLeft, Plus, Trash2, Loader2, X } from 'lucide-react';
-import { useCreatePrescription } from '@/features/prescriptions/hooks';
+import { ArrowLeft, Plus, Trash2, Loader2, X, Save } from 'lucide-react';
+import { useEffect } from 'react';
+import { useCreatePrescription, useUpdatePrescription, usePrescriptionDetail } from '@/features/prescriptions/hooks';
 import { usePatientDetail } from '@/features/patients/hooks';
 import { cn, getInitials } from '@/lib/utils';
 import { MedicationSearchInput } from '@/components/prescriptions/MedicationSearchInput';
+import { Button } from '@/components/ui/Button';
 
 const medicationSchema = z.object({
   name: z.string().min(1, 'Required'),
@@ -30,20 +32,29 @@ const prescriptionSchema = z.object({
 
 type PrescriptionForm = z.infer<typeof prescriptionSchema>;
 
-
-import { Button } from '@/components/ui/Button';
-
 export default function CreatePrescriptionPage() {
-  const { patientId } = useParams();
+  const { patientId, id } = useParams<{ patientId?: string; id?: string }>();
   const navigate = useNavigate();
-  const createMutation = useCreatePrescription();
-  const { data: patientData } = usePatientDetail(patientId || '');
-  const patient = (patientData as any)?.data;
+  const isEditMode = Boolean(id);
 
-  const { register, control, handleSubmit, watch, setValue, formState: { errors } } = useForm<PrescriptionForm>({
+  const createMutation = useCreatePrescription();
+  const updateMutation = useUpdatePrescription();
+
+  // Load prescription detail if in edit mode
+  const { data: rxData, isLoading: isLoadingRx } = usePrescriptionDetail(id || '');
+  const rx = (rxData as any)?.data ?? rxData;
+
+  const effectivePatientId = patientId || (typeof rx?.patientId === 'object' ? rx?.patientId?._id : rx?.patientId) || '';
+  const { data: patientData } = usePatientDetail(effectivePatientId);
+  const patient = (patientData as any)?.data || (typeof rx?.patientId === 'object' ? rx?.patientId : null);
+
+  const { register, control, handleSubmit, watch, setValue, reset, formState: { errors } } = useForm<PrescriptionForm>({
     resolver: zodResolver(prescriptionSchema),
     defaultValues: {
-      patientId: patientId || '',
+      patientId: effectivePatientId,
+      title: '',
+      diagnosis: '',
+      notes: '',
       medications: [{ name: '', type: 'eyedrop', dosage: '', frequency: 1, frequencyUnit: 'daily', scheduleTimes: ['08:00'], duration: 30, instructions: '', eyeSide: 'both' }],
     },
   });
@@ -51,10 +62,62 @@ export default function CreatePrescriptionPage() {
   const { fields, append, remove } = useFieldArray({ control, name: 'medications' });
   const watchedMedications = watch('medications');
 
+  // Populate form if in edit mode
+  useEffect(() => {
+    if (isEditMode && rx) {
+      const pId = typeof rx.patientId === 'object' ? rx.patientId?._id : rx.patientId;
+      reset({
+        patientId: pId || '',
+        title: rx.title || '',
+        diagnosis: rx.diagnosis || '',
+        notes: rx.notes || '',
+        medications: (rx.medications || []).map((m: any) => ({
+          name: m.name || '',
+          type: m.type || 'eyedrop',
+          dosage: m.dosage || '',
+          frequency: m.frequency || 1,
+          frequencyUnit: m.frequencyUnit || 'daily',
+          scheduleTimes: m.scheduleTimes?.length ? m.scheduleTimes : ['08:00'],
+          duration: m.duration || 30,
+          instructions: m.instructions || '',
+          eyeSide: m.eyeSide || 'both',
+        })),
+      });
+    } else if (patientId) {
+      setValue('patientId', patientId);
+    }
+  }, [isEditMode, rx, patientId, reset, setValue]);
+
   const onSubmit = (data: PrescriptionForm) => {
-    createMutation.mutate(data, {
-      onSuccess: () => navigate('/prescriptions'),
-    });
+    if (isEditMode && id) {
+      updateMutation.mutate(
+        {
+          id,
+          data: {
+            title: data.title,
+            diagnosis: data.diagnosis,
+            notes: data.notes,
+            medications: data.medications,
+          },
+        },
+        {
+          onSuccess: () => navigate(`/prescriptions/${id}`),
+        }
+      );
+    } else {
+      createMutation.mutate(data, {
+        onSuccess: (res: any) => {
+          const newId = res?.data?._id || res?.data?.id || res?._id;
+          if (newId) {
+            navigate(`/prescriptions/${newId}`);
+          } else if (patientId) {
+            navigate(`/patients/${patientId}`);
+          } else {
+            navigate('/patients');
+          }
+        },
+      });
+    }
   };
 
   const inputClass = "w-full px-4 py-3.5 bg-slate-50 dark:bg-slate-900 border border-slate-200 dark:border-slate-800 rounded-2xl text-sm font-medium text-slate-900 dark:text-white focus:ring-4 focus:ring-primary/10 focus:border-primary transition-all outline-none placeholder:text-slate-400";
@@ -66,22 +129,26 @@ export default function CreatePrescriptionPage() {
       <div className="sticky -top-8 z-40 bg-slate-50/80 dark:bg-slate-950/80 backdrop-blur-xl border-b border-slate-200 dark:border-slate-800 -mx-8 px-8 py-5 flex items-center justify-between transition-all">
         <div className="flex items-center gap-6">
           <div>
-            <h2 className="text-2xl font-black text-slate-900 dark:text-white">New Prescription</h2>
-            <p className="text-sm text-slate-400 font-medium mt-1">Formulate a clinical treatment plan</p>
+            <h2 className="text-2xl font-black text-slate-900 dark:text-white">
+              {isEditMode ? 'Edit Prescription' : 'New Prescription'}
+            </h2>
+            <p className="text-sm text-slate-400 font-medium mt-1">
+              {isEditMode ? 'Update and refine treatment plan' : 'Formulate a clinical treatment plan'}
+            </p>
           </div>
           {patient && (
             <>
               <div className="w-px h-10 bg-slate-200 dark:bg-slate-800 hidden md:block"></div>
               <div className="hidden md:flex items-center gap-3">
                 <div className="w-10 h-10 rounded-xl bg-primary/10 flex items-center justify-center text-primary font-black text-sm">
-                  {getInitials(patient?.user?.name)}
+                  {getInitials(patient?.user?.name || patient?.name)}
                 </div>
                 <div>
                   <h4 className="text-sm font-black text-slate-900 dark:text-white leading-tight">
-                    {patient?.user?.name}
+                    {patient?.user?.name || patient?.name}
                   </h4>
                   <p className="text-[10px] font-bold text-slate-400 capitalize">
-                    {patient?.user?.dateOfBirth ? new Date().getFullYear() - new Date(patient.user.dateOfBirth).getFullYear() + ' yrs' : 'N/A'} • {patient?.user?.gender || 'N/A'}
+                    {patient?.user?.dateOfBirth ? new Date().getFullYear() - new Date(patient.user.dateOfBirth).getFullYear() + ' yrs' : 'N/A'} • {patient?.user?.gender || patient?.gender || 'N/A'}
                   </p>
                 </div>
               </div>
@@ -91,7 +158,10 @@ export default function CreatePrescriptionPage() {
         <div className="flex items-center gap-4">
           <Button 
             variant="outline"
-            onClick={() => navigate(-1)}
+            onClick={() => {
+              if (isEditMode && id) navigate(`/prescriptions/${id}`);
+              else navigate(-1);
+            }}
             type="button"
             className="h-12 px-6 rounded-2xl border-slate-200 dark:border-slate-800 font-bold text-slate-600 dark:text-slate-300 hover:bg-slate-100 dark:hover:bg-slate-800"
           >
@@ -99,11 +169,17 @@ export default function CreatePrescriptionPage() {
           </Button>
           <Button 
             onClick={handleSubmit(onSubmit)}
-            disabled={createMutation.isPending}
+            disabled={createMutation.isPending || updateMutation.isPending}
             className="bg-primary hover:bg-primary/90 text-white shadow-xl shadow-primary/20 gap-2 h-12 px-8 rounded-2xl font-bold transition-all hover:scale-[1.02] active:scale-[0.98] border-none"
           >
-            {createMutation.isPending ? <Loader2 size={18} className="animate-spin" /> : <Plus size={18} />}
-            <span>Issue Prescription</span>
+            {createMutation.isPending || updateMutation.isPending ? (
+              <Loader2 size={18} className="animate-spin" />
+            ) : isEditMode ? (
+              <Save size={18} />
+            ) : (
+              <Plus size={18} />
+            )}
+            <span>{isEditMode ? 'Save Changes' : 'Issue Prescription'}</span>
           </Button>
         </div>
       </div>

@@ -19,10 +19,12 @@ import DashboardPage from '@/pages/DashboardPage';
 import PatientsPage from '@/pages/PatientsPage';
 import PatientDetailPage from '@/pages/PatientDetailPage';
 import CreatePrescriptionPage from '@/pages/CreatePrescriptionPage';
+import PrescriptionDetailPage from '@/pages/PrescriptionDetailPage';
 import MedicalTestsPage from '@/pages/MedicalTestsPage';
 import MessagingPage from '@/pages/MessagingPage';
 import ArticlesPage from '@/pages/ArticlesPage';
 import ArticleDetailPage from '@/pages/ArticleDetailPage';
+import ArticleEditorPage from '@/pages/ArticleEditorPage';
 import ProfilePage from '@/pages/ProfilePage';
 import NotificationsPage from '@/pages/NotificationsPage';
 import GamificationPage from '@/pages/GamificationPage';
@@ -46,12 +48,17 @@ export default function App() {
             <Route path="/" element={<DashboardPage />} />
             <Route path="/patients" element={<PatientsPage />} />
             <Route path="/patients/:patientId" element={<PatientDetailPage />} />
+            <Route path="/prescriptions" element={<Navigate to="/patients" replace />} />
             <Route path="/prescriptions/create" element={<CreatePrescriptionPage />} />
             <Route path="/prescriptions/create/:patientId" element={<CreatePrescriptionPage />} />
+            <Route path="/prescriptions/:id/edit" element={<CreatePrescriptionPage />} />
+            <Route path="/prescriptions/:id" element={<PrescriptionDetailPage />} />
             <Route path="/tests" element={<MedicalTestsPage />} />
             <Route path="/messaging" element={<MessagingPage />} />
             <Route path="/messaging/:conversationId" element={<MessagingPage />} />
             <Route path="/articles" element={<ArticlesPage />} />
+            <Route path="/articles/create" element={<ArticleEditorPage />} />
+            <Route path="/articles/:id/edit" element={<ArticleEditorPage />} />
             <Route path="/articles/:id" element={<ArticleDetailPage />} />
             <Route path="/profile" element={<ProfilePage />} />
             <Route path="/notifications" element={<NotificationsPage />} />

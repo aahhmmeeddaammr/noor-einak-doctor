@@ -1,8 +1,7 @@
 import axios from 'axios';
 import { useAuthStore } from '@/stores/authStore';
 
-export const BASE_URL = import.meta.env.VITE_API_URL
-  || (import.meta.env.DEV ? 'http://192.168.1.19:3001/api/v1' : 'https://api.nooreinak.com/api/v1');
+export const BASE_URL = 'https://api.nooreinak.com/api/v1' ;
 
 const apiClient = axios.create({
   baseURL: BASE_URL,

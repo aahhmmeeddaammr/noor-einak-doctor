@@ -8,7 +8,7 @@ import { io, type Socket } from 'socket.io-client';
 import apiClient, { BASE_URL } from '@/lib/api-client';
 import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/Avatar';
 import { uploadApi } from '@/features/upload/api';
-import { Link } from 'react-router-dom';
+import { Link, useParams, useNavigate } from 'react-router-dom';
 import { Button } from '@/components/ui/Button';
 import toast from 'react-hot-toast';
 import { 
@@ -16,10 +16,12 @@ import {
 } from '@/components/ui/Dialog';
 
 export default function MessagingPage() {
+  const { conversationId } = useParams<{ conversationId: string }>();
+  const navigate = useNavigate();
   const [search, setSearch] = useState('');
   const { data: convData, isLoading: isLoadingConvs } = useConversations(search);
   const conversations = (convData as any)?.data || [];
-  const [selectedId, setSelectedId] = useState<string>('');
+  const selectedId = conversationId || '';
 
   const [page, setPage] = useState(1);
   const [allMessages, setAllMessages] = useState<any[]>([]);
@@ -360,7 +362,7 @@ export default function MessagingPage() {
                     key={conv._id || conv.id}
                     onClick={() => {
                       const cid = conv._id || conv.id;
-                      setSelectedId(selectedId === cid ? '' : cid);
+                      navigate(selectedId === cid ? '/messaging' : `/messaging/${cid}`);
                     }}
                     className={cn(
                       'w-full flex items-center gap-3 p-3 rounded-3xl transition-all duration-300 text-left border relative group',

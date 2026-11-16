@@ -105,7 +105,7 @@ export default function ArticleDetailPage() {
 
   if (isLoading) {
     return (
-      <div className="space-y-6 animate-pulse p-4 sm:p-6 max-w-7xl mx-auto">
+      <div className="space-y-6 animate-pulse p-4 sm:p-6 w-full min-w-0">
         <div className="flex justify-between items-center">
           <div className="h-9 w-36 bg-slate-200 dark:bg-slate-800 rounded-xl" />
           <div className="h-9 w-28 bg-slate-200 dark:bg-slate-800 rounded-xl" />
@@ -169,7 +169,7 @@ export default function ArticleDetailPage() {
   const hasCover = Boolean(article.coverImage);
 
   return (
-    <div className="animate-fadeIn max-w-7xl mx-auto pb-16 px-2 sm:px-4">
+    <div className="animate-fadeIn w-full min-w-0 pb-16 px-2 sm:px-4">
       {/* Top Breadcrumb & Action Toolbar */}
       <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4 mb-6 pt-2">
         {/* Navigation Breadcrumb */}

@@ -22,7 +22,7 @@ export default function PrescriptionDetailPage() {
 
   if (isLoading) {
     return (
-      <div className="space-y-6 animate-pulse p-4 sm:p-6 max-w-7xl mx-auto">
+      <div className="space-y-6 animate-pulse p-4 sm:p-6 w-full min-w-0">
         <div className="flex justify-between items-center">
           <div className="h-10 w-48 bg-slate-200 dark:bg-slate-800 rounded-xl" />
           <div className="h-10 w-32 bg-slate-200 dark:bg-slate-800 rounded-xl" />
@@ -42,7 +42,7 @@ export default function PrescriptionDetailPage() {
 
   if (error || !rx) {
     return (
-      <div className="animate-fadeIn flex flex-col items-center justify-center py-24 gap-4 p-8 bg-slate-50/50 dark:bg-slate-950/50 rounded-3xl border border-slate-200 dark:border-slate-800 my-6 max-w-xl mx-auto text-center">
+      <div className="animate-fadeIn flex flex-col items-center justify-center py-24 gap-4 p-8 bg-slate-50/50 dark:bg-slate-950/50 rounded-3xl border border-slate-200 dark:border-slate-800 my-6 w-full text-center">
         <div className="w-16 h-16 rounded-2xl bg-rose-50 dark:bg-rose-950/30 flex items-center justify-center text-rose-500">
           <AlertCircle size={32} />
         </div>
@@ -81,7 +81,7 @@ export default function PrescriptionDetailPage() {
   };
 
   return (
-    <div className="animate-fadeIn max-w-7xl mx-auto pb-16 px-2 sm:px-4 space-y-8">
+    <div className="animate-fadeIn w-full min-w-0 pb-16 px-2 sm:px-4 space-y-8">
       {/* Top Action & Breadcrumb Bar */}
       <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4 pt-2">
         <div className="flex items-center gap-3">

@@ -183,7 +183,7 @@ export default function ArticlesPage() {
   const setPage = activeTab === 'all' ? setAllPage : setMyPage;
 
   return (
-    <div className="space-y-6 animate-fadeIn text-slate-700 dark:text-slate-300">
+    <div className="w-full min-w-0 space-y-6 animate-fadeIn text-slate-700 dark:text-slate-300">
       
       {/* Primary Navigation Tabs */}
       <Tabs value={activeTab} onValueChange={(val) => { setActiveTab(val as Tab); setAllPage(1); setMyPage(1); }} className="w-full">
@@ -465,7 +465,7 @@ export function ArticleModal({ isOpen, onClose, title, onSubmit, register, contr
           <div className="flex-1 flex overflow-hidden">
             {/* Main Editor Pane (Left) */}
             <div className="flex-1 p-8 overflow-y-auto custom-scrollbar bg-white dark:bg-slate-950">
-              <div className="max-w-5xl mx-auto space-y-8">
+              <div className="w-full min-w-0 space-y-8">
                 {/* Zen Title Input */}
                 <div className="space-y-4">
                   <textarea

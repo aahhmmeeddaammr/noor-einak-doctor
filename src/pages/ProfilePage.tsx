@@ -180,7 +180,7 @@ export default function ProfilePage() {
     return (
       <div className="space-y-6 animate-pulse p-8">
         <div className="w-full h-80 bg-slate-200 dark:bg-slate-800 rounded-[2.5rem]" />
-        <div className="grid grid-cols-1 lg:grid-cols-3 gap-8 max-w-400 mx-auto">
+        <div className="grid grid-cols-1 lg:grid-cols-3 gap-8 w-full min-w-0">
             <div className="lg:col-span-2 h-150 bg-slate-200 dark:bg-slate-800 rounded-[2.5rem]" />
             <div className="h-100 bg-slate-200 dark:bg-slate-800 rounded-[2.5rem]" />
         </div>
@@ -191,7 +191,7 @@ export default function ProfilePage() {
   return (
     <>
       <div className="animate-fadeIn">
-        <div className="max-w-400 mx-auto">
+        <div className="w-full min-w-0">
           <form onSubmit={handleSubmit(onSubmit)} className="space-y-10">
               {/* Design System Header (Cover & Overlapping Avatar) */}
               <div className="relative group">
@@ -213,7 +213,7 @@ export default function ProfilePage() {
                    </div>
 
                    {/* Avatar persona container */}
-                   <div className="max-w-6xl mx-auto px-6 md:px-12 -mt-16 relative z-40 flex flex-col md:flex-row items-center md:items-end gap-6">
+                   <div className="w-full min-w-0 px-6 md:px-12 -mt-16 relative z-40 flex flex-col md:flex-row items-center md:items-end gap-6">
                       <div className="relative">
                           <Avatar className="w-40 h-40 border-[6px] bg-white border-white dark:border-slate-950 shadow-2xl dark:bg-slate-900">
                               <AvatarImage src={avatarUrl} className="object-cover" />

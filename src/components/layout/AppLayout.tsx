@@ -41,9 +41,9 @@ export default function AppLayout() {
     return (
         <div className="flex h-screen overflow-hidden bg-white dark:bg-slate-950 text-foreground font-sans antialiased transition-colors duration-300">
             <Sidebar />
-            <div className="flex-1 flex flex-col">
+            <div className="flex-1 flex flex-col min-w-0">
                 <Header />
-                <main className="p-8 flex-1 flex flex-col overflow-y-auto bg-slate-50/50 dark:bg-slate-900/20 transition-colors duration-300">
+                <main className="p-8 w-full min-w-0 flex-1 flex flex-col overflow-y-auto bg-slate-50/50 dark:bg-slate-900/20 transition-colors duration-300">
                     {user?.role === 'doctor' && user.doctor?.verificationStatus !== 'verified' && (
                         <div className="mb-6 p-4 bg-amber-50 dark:bg-amber-950/30 border border-amber-200 dark:border-amber-800 rounded-2xl flex items-center justify-between">
                             <div className="flex items-center gap-3">

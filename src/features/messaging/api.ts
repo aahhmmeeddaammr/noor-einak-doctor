@@ -1,6 +1,9 @@
 import apiClient from '@/lib/api-client';
 
 export const messagingApi = {
+  getOrCreateConversation: (otherUserId: string) =>
+    apiClient.post('/messaging/conversations', { otherUserId }),
+
   getConversations: (params?: any) =>
     apiClient.get('/messaging/conversations', { params }),
 

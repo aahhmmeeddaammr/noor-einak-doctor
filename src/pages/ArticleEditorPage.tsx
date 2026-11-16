@@ -130,7 +130,7 @@ export default function ArticleEditorPage() {
   const isSaving = createMutation.isPending || updateMutation.isPending;
 
   return (
-    <form onSubmit={handleSubmit(handleFormSubmit)} className="animate-fadeIn text-slate-900 dark:text-slate-100 flex flex-col min-h-screen -mx-4 sm:-mx-6 -mt-6">
+    <form onSubmit={handleSubmit(handleFormSubmit)} className="animate-fadeIn text-slate-900 dark:text-slate-100 flex flex-col min-h-screen w-full min-w-0">
       {/* Sticky Top Header Bar (Admin Style) */}
       <div className="sticky top-0 z-30 flex flex-col sm:flex-row sm:items-center justify-between gap-4 bg-white/80 dark:bg-slate-950/80 backdrop-blur-md px-6 py-4 border-b border-slate-200 dark:border-slate-800">
         <div className="flex items-center gap-3">
@@ -174,7 +174,7 @@ export default function ArticleEditorPage() {
       </div>
 
       {/* Editor Canvas */}
-      <div className="p-4 sm:p-6 pb-20 max-w-7xl mx-auto w-full">
+      <div className="p-4 sm:p-6 pb-20 w-full min-w-0">
         <div className="grid grid-cols-1 lg:grid-cols-12 gap-6 items-start">
           
           {/* Main Composition Column (Left - 8 Cols / ~70%) */}

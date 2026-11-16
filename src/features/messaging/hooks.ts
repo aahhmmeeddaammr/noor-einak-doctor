@@ -1,6 +1,17 @@
 import { useQuery, useMutation, useQueryClient } from '@tanstack/react-query';
 import { messagingApi } from './api';
 
+export function useStartConversation() {
+  const queryClient = useQueryClient();
+
+  return useMutation({
+    mutationFn: (otherUserId: string) => messagingApi.getOrCreateConversation(otherUserId),
+    onSuccess: () => {
+      queryClient.invalidateQueries({ queryKey: ['conversations'] });
+    },
+  });
+}
+
 export function useConversations(search?: string) {
   return useQuery({
     queryKey: ['conversations', search],

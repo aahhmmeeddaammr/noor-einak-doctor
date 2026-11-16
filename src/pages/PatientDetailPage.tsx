@@ -1,5 +1,6 @@
 import { useState, useEffect, useRef } from 'react';
-import { useParams, Link } from 'react-router-dom';
+import { useParams, useNavigate, Link } from 'react-router-dom';
+import { useStartConversation } from '@/features/messaging/hooks';
 import {
   FileText, MessageSquare, Plus, ChevronRight,
   ShieldAlert, Mail, Phone, Calendar, Zap, Clock,
@@ -58,6 +59,25 @@ export default function PatientDetailPage() {
   const user = useAuthStore((s) => s.user);
   const { data, isLoading, isFetching, refetch } = usePatientDetail(patientId!);
   const patient = (data as any)?.data;
+  const navigate = useNavigate();
+  const startConversation = useStartConversation();
+  const patientUserId = patient?.user?._id || patient?.user?.id
+    || (typeof patient?.userId === 'string' ? patient.userId : patient?.userId?._id || patient?.userId?.id);
+
+  const handleOpenChat = () => {
+    if (!patientUserId || startConversation.isPending) return;
+    startConversation.mutate(patientUserId, {
+      onSuccess: (response) => {
+        const conversation = (response as any)?.data;
+        const conversationId = conversation?._id || conversation?.id;
+        if (conversationId) navigate(`/messaging/${conversationId}`);
+        else toast.error('Unable to open this patient\'s chat. Please try again.');
+      },
+      onError: (error: any) => {
+        toast.error(error?.error?.message || error?.message || 'Unable to open this patient\'s chat. Please try again.');
+      },
+    });
+  };
   const [reminderPage, setReminderPage] = useState(1);
   const [allReminders, setAllReminders] = useState<any[]>([]);
   const [selectedRx, setSelectedRx] = useState<any>(null);
@@ -371,12 +391,16 @@ export default function PatientDetailPage() {
                 <span>Issue Prescription</span>
               </Button>
             </Link>
-            <Link to={`/messaging`}>
-              <Button variant="outline" className="h-12 px-6 gap-2 rounded-2xl font-bold text-slate-600 dark:text-slate-300 border-slate-200 cursor-pointer dark:border-slate-800 hover:bg-slate-50 transition-all dark:hover:bg-slate-800">
-                <MessageSquare size={18} />
-                <span>Chat</span>
-              </Button>
-            </Link>
+            <Button
+              variant="outline"
+              onClick={handleOpenChat}
+              disabled={!patientUserId || startConversation.isPending}
+              isLoading={startConversation.isPending}
+              className="h-12 px-6 gap-2 rounded-2xl font-bold text-slate-600 dark:text-slate-300 border-slate-200 cursor-pointer dark:border-slate-800 hover:bg-slate-50 transition-all dark:hover:bg-slate-800"
+            >
+              <MessageSquare size={18} />
+              <span>Chat</span>
+            </Button>
           </div>
         </div>
       </div>

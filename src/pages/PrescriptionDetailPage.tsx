@@ -47,7 +47,7 @@ export default function PrescriptionDetailPage() {
           <AlertCircle size={32} />
         </div>
         <h2 className="text-xl font-bold text-slate-900 dark:text-white">Prescription Not Found</h2>
-        <p className="text-sm text-slate-500 max-w-sm">
+        <p className="text-sm text-slate-500 max-w-sm dark:text-slate-400">
           The prescription you are looking for does not exist or may have been removed.
         </p>
         <Button
@@ -90,7 +90,7 @@ export default function PrescriptionDetailPage() {
               if (patientIdVal) navigate(`/patients/${patientIdVal}`);
               else navigate(-1);
             }}
-            className="inline-flex items-center gap-1.5 px-3.5 py-2 rounded-xl bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-800 text-slate-700 dark:text-slate-300 font-bold hover:bg-slate-50 dark:hover:bg-slate-800 hover:text-primary transition-all text-xs shadow-2xs group"
+            className="inline-flex items-center gap-1.5 px-3.5 py-2 rounded-xl bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-800 text-slate-700 dark:text-slate-300 font-bold hover:bg-slate-50 dark:hover:bg-slate-800 hover:text-primary transition-all text-xs shadow-2xs group dark:hover:text-primary-300"
           >
             <ArrowLeft className="w-3.5 h-3.5 group-hover:-translate-x-0.5 transition-transform" />
             Back
@@ -215,7 +215,7 @@ export default function PrescriptionDetailPage() {
                       )}
 
                       {med.duration && (
-                        <span className="ml-auto text-slate-500 font-semibold">
+                        <span className="ml-auto text-slate-500 font-semibold dark:text-slate-400">
                           Duration: <strong className="text-slate-900 dark:text-white">{med.duration} Days</strong>
                         </span>
                       )}
@@ -253,7 +253,7 @@ export default function PrescriptionDetailPage() {
                 <p className="text-[10px] font-black uppercase tracking-wider text-slate-400">Primary Diagnosis</p>
                 <p className="text-base font-bold text-slate-900 dark:text-white">{rx.diagnosis}</p>
               </div>
-              <Sparkles size={20} className="text-primary/40" />
+              <Sparkles size={20} className="text-primary/40 dark:text-primary-300/40" />
             </div>
           )}
         </div>
@@ -297,30 +297,30 @@ export default function PrescriptionDetailPage() {
 
             <div className="space-y-3 text-xs">
               <div className="flex items-center justify-between py-1.5 border-b border-slate-100 dark:border-slate-800">
-                <span className="text-slate-500 font-medium">Prescription ID</span>
+                <span className="text-slate-500 font-medium dark:text-slate-400">Prescription ID</span>
                 <span className="font-mono font-bold text-slate-800 dark:text-slate-200">
                   #{rx._id?.slice(-8)?.toUpperCase()}
                 </span>
               </div>
 
               <div className="flex items-center justify-between py-1.5 border-b border-slate-100 dark:border-slate-800">
-                <span className="text-slate-500 font-medium">Date Formulated</span>
+                <span className="text-slate-500 font-medium dark:text-slate-400">Date Formulated</span>
                 <span className="font-bold text-slate-800 dark:text-slate-200">
                   {formatDate(rx.createdAt)}
                 </span>
               </div>
 
               <div className="flex items-center justify-between py-1.5 border-b border-slate-100 dark:border-slate-800">
-                <span className="text-slate-500 font-medium">Status</span>
+                <span className="text-slate-500 font-medium dark:text-slate-400">Status</span>
                 <span className={`px-2 py-0.5 rounded-full text-[10px] font-black uppercase tracking-wider ${
-                  isCancelled ? 'bg-rose-100 text-rose-700' : 'bg-emerald-100 text-emerald-700'
+                  isCancelled ? 'bg-rose-100 text-rose-700 dark:bg-rose-500/20 dark:text-rose-400' : 'bg-emerald-100 text-emerald-700 dark:bg-emerald-500/20 dark:text-emerald-400'
                 }`}>
                   {isCancelled ? 'Cancelled' : 'Active'}
                 </span>
               </div>
 
               <div className="flex items-center justify-between py-1.5">
-                <span className="text-slate-500 font-medium">Medications Count</span>
+                <span className="text-slate-500 font-medium dark:text-slate-400">Medications Count</span>
                 <span className="font-bold text-slate-800 dark:text-slate-200">
                   {rx.medications?.length || 0}
                 </span>

@@ -206,7 +206,7 @@ export default function ProfilePage() {
                       
                       {/* Centered Change Cover Button for better accessibility */}
                       <label className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 bg-white/90 dark:bg-slate-900/90 shadow-2xl px-6 py-3 rounded-2xl flex items-center gap-3 cursor-pointer hover:bg-white dark:hover:bg-slate-800 transition-all z-30 border border-white/20 opacity-0 group-hover:opacity-100 backdrop-blur-sm">
-                          <Camera className="w-5 h-5 text-primary" />
+                          <Camera className="w-5 h-5 text-primary dark:text-primary-300" />
                           <span className="text-sm font-semibold text-slate-900 dark:text-white">Update cover photo</span>
                           <input type="file" className="hidden" accept="image/*" onChange={handleCoverUpload} />
                       </label>
@@ -215,9 +215,9 @@ export default function ProfilePage() {
                    {/* Avatar persona container */}
                    <div className="max-w-6xl mx-auto px-6 md:px-12 -mt-16 relative z-40 flex flex-col md:flex-row items-center md:items-end gap-6">
                       <div className="relative">
-                          <Avatar className="w-40 h-40 border-[6px] bg-white border-white dark:border-slate-950 shadow-2xl">
+                          <Avatar className="w-40 h-40 border-[6px] bg-white border-white dark:border-slate-950 shadow-2xl dark:bg-slate-900">
                               <AvatarImage src={avatarUrl} className="object-cover" />
-                              <AvatarFallback className="bg-primary/5 text-primary text-4xl font-bold">
+                              <AvatarFallback className="bg-primary/5 text-primary text-4xl font-bold dark:text-primary-300">
                                   {user?.name?.charAt(0)}
                               </AvatarFallback>
                           </Avatar>
@@ -232,12 +232,12 @@ export default function ProfilePage() {
                               Dr. {user?.name}
                           </h2>
                           <div className="flex items-center justify-center md:justify-start gap-4">
-                              <span className="text-primary font-bold flex items-center gap-2 px-3 py-1 bg-primary/5 rounded-full text-xs uppercase tracking-wider">
-                                  <Briefcase size={14} className="text-primary" />
+                              <span className="text-primary font-bold flex items-center gap-2 px-3 py-1 bg-primary/5 rounded-full text-xs uppercase tracking-wider dark:text-primary-300">
+                                  <Briefcase size={14} className="text-primary dark:text-primary-300" />
                                   Ophthalmology
                               </span>
                               <div className="w-1.5 h-1.5 rounded-full bg-slate-200 dark:bg-slate-800" />
-                              <span className="text-slate-500 font-medium flex items-center gap-2 text-sm">
+                              <span className="text-slate-500 font-medium flex items-center gap-2 text-sm dark:text-slate-400">
                                   <Award size={16} className="text-amber-500" />
                                   <span className="font-bold text-slate-700 dark:text-slate-300">{doctor?.yearsOfExperience || 0}</span>
                                   <span>years experience</span>
@@ -254,11 +254,11 @@ export default function ProfilePage() {
                       {/* Bio Section */}
                       <section className="bg-white dark:bg-slate-900 rounded-4xl p-8 border border-slate-100 dark:border-slate-800 shadow-sm">
                           <h3 className="text-base font-bold text-slate-900 dark:text-white mb-6 flex items-center gap-2">
-                             <FileText size={20} className="text-primary" />
+                             <FileText size={20} className="text-primary dark:text-primary-300" />
                              About your practice
                           </h3>
                           <div className="space-y-4">
-                              <label className="text-xs font-semibold text-slate-500 block mb-1">Professional biography</label>
+                              <label className="text-xs font-semibold text-slate-500 block mb-1 dark:text-slate-400">Professional biography</label>
                               <textarea
                                   {...register('bio')}
                                   rows={5}
@@ -275,7 +275,7 @@ export default function ProfilePage() {
                       {/* Clinic Details Section */}
                       <section className="bg-white dark:bg-slate-900 rounded-4xl p-8 border border-slate-100 dark:border-slate-800 shadow-sm">
                           <h3 className="text-base font-bold text-slate-900 dark:text-white mb-8 flex items-center gap-2">
-                             <Building2 size={20} className="text-primary" />
+                             <Building2 size={20} className="text-primary dark:text-primary-300" />
                              Clinic and contact info
                           </h3>
                           <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
@@ -360,7 +360,7 @@ export default function ProfilePage() {
                     {/* Security Section (Change Password) */}
                     <section className="bg-white dark:bg-slate-900 rounded-4xl p-8 border border-slate-100 dark:border-slate-800 shadow-sm">
                         <h3 className="text-base font-bold text-slate-900 dark:text-white mb-8 flex items-center gap-2">
-                           <Lock size={20} className="text-primary" />
+                           <Lock size={20} className="text-primary dark:text-primary-300" />
                            Security settings
                         </h3>
                         <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
@@ -426,12 +426,12 @@ export default function ProfilePage() {
                       {/* Expertise Card */}
                       <div className="bg-white dark:bg-slate-900 rounded-4xl p-8 border border-slate-100 dark:border-slate-800 shadow-sm">
                           <h3 className="text-base font-bold text-slate-900 dark:text-white mb-6 flex items-center gap-2">
-                             <UserIcon size={20} className="text-primary" />
+                             <UserIcon size={20} className="text-primary dark:text-primary-300" />
                              Personal Information
                           </h3>
                           <div className="space-y-6">
                               <div className="space-y-2">
-                                  <label className="text-xs font-semibold text-slate-500 block px-1">
+                                  <label className="text-xs font-semibold text-slate-500 block px-1 dark:text-slate-400">
                                       Personal phone <span className="text-rose-500 font-bold">*</span>
                                   </label>
                                   <div className="relative">
@@ -447,7 +447,7 @@ export default function ProfilePage() {
 
 
                               <div className="space-y-2">
-                                  <label className="text-xs font-semibold text-slate-500 block px-1">
+                                  <label className="text-xs font-semibold text-slate-500 block px-1 dark:text-slate-400">
                                       Years of experience <span className="text-rose-500 font-bold">*</span>
                                   </label>
                                   <div className="relative">
@@ -466,24 +466,24 @@ export default function ProfilePage() {
                       {/* Status Card - Highlighted Pharco Style */}
                       <div className="bg-[#3e4998]/3 dark:bg-[#3e4998]/8 rounded-4xl p-8 border border-[#3e4998]/10 shadow-sm relative overflow-hidden group">
                         <div className="absolute -right-8 -bottom-8 opacity-[0.03] dark:opacity-[0.07] group-hover:rotate-12 transition-transform duration-700 pointer-events-none">
-                            <Shield size={160} className="text-[#3e4998]" />
+                            <Shield size={160} className="text-[#3e4998] dark:text-primary-300" />
                         </div>
                         <div className="relative z-10 space-y-6">
                             <div className="flex items-center justify-between">
-                                <h3 className="text-base font-bold text-[#3e4998]">Account verification</h3>
+                                <h3 className="text-base font-bold text-[#3e4998] dark:text-primary-300">Account verification</h3>
                                 <div className="p-2 bg-[#3e4998]/10 rounded-xl">
-                                    <Shield className="text-[#3e4998]" size={20} />
+                                    <Shield className="text-[#3e4998] dark:text-primary-300" size={20} />
                                 </div>
                             </div>
                             
                             <div className="space-y-4">
                                 <div className="space-y-1">
-                                    <p className="text-[10px] font-bold text-[#3e4998]/60 uppercase tracking-widest">Email address</p>
+                                    <p className="text-[10px] font-bold text-[#3e4998]/60 uppercase tracking-widest dark:text-primary-300/60">Email address</p>
                                     <p className="text-sm font-medium text-slate-700 dark:text-slate-300">{user?.email}</p>
                                 </div>
                                 <div className="space-y-1">
-                                    <p className="text-[10px] font-bold text-[#3e4998]/60 uppercase tracking-widest">Verification ID</p>
-                                    <p className="text-sm font-bold text-[#3e4998] font-mono">{doctor?.doctorCode || 'Pending'}</p>
+                                    <p className="text-[10px] font-bold text-[#3e4998]/60 uppercase tracking-widest dark:text-primary-300/60">Verification ID</p>
+                                    <p className="text-sm font-bold text-[#3e4998] font-mono dark:text-primary-300">{doctor?.doctorCode || 'Pending'}</p>
                                 </div>
                             </div>
                         </div>
@@ -501,7 +501,7 @@ export default function ProfilePage() {
       )}>
         <div className="items-center gap-2 pl-4 pr-3 border-r border-[#3e4998]/10 hidden sm:flex">
             <div className="w-2 h-2 rounded-full bg-amber-500 animate-pulse" />
-            <span className="text-xs font-bold text-[#3e4998]">Unsaved changes</span>
+            <span className="text-xs font-bold text-[#3e4998] dark:text-primary-300">Unsaved changes</span>
         </div>
         
         <div className="flex items-center gap-2">
@@ -513,7 +513,7 @@ export default function ProfilePage() {
                     setSelectedCover(null);
                 }}
                 disabled={updateMutation.isPending}
-                className="rounded-xl h-10 px-4 text-xs font-bold text-slate-500 hover:text-[#3e4998] hover:bg-[#3e4998]/5"
+                className="rounded-xl h-10 px-4 text-xs font-bold text-slate-500 hover:text-[#3e4998] hover:bg-[#3e4998]/5 dark:text-slate-400 dark:hover:text-primary-300"
             >
                 Discard
             </Button>

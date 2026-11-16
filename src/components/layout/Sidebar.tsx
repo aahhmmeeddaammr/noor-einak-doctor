@@ -56,7 +56,7 @@ export default function Sidebar() {
                         <span className="text-xl font-bold text-primary dark:text-blue-400 leading-none">
                             Noor<span className="text-pharco-orange">Einak</span>
                         </span>
-                        <span className="text-[10px] text-slate-500 font-bold mt-1.5">
+                        <span className="text-[10px] text-slate-500 font-bold mt-1.5 dark:text-slate-400">
                             Eye Portal
                         </span>
                     </div>

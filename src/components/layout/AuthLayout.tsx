@@ -1,9 +1,11 @@
+import { useUIStore } from '../../stores/uiStore';
 import { Outlet, Navigate } from 'react-router-dom';
 import { useAuthStore } from '@/stores/authStore';
 // Using /logo.png directly
-import { ShieldCheck } from 'lucide-react';
+import { ShieldCheck, Moon, Sun } from 'lucide-react';
 
 export default function AuthLayout() {
+  const { theme, toggleTheme } = useUIStore();
   const isAuthenticated = useAuthStore((s) => s.isAuthenticated);
   const _hasHydrated = useAuthStore((s) => s._hasHydrated);
 
@@ -21,7 +23,7 @@ export default function AuthLayout() {
   }
 
   return (
-    <div className="flex min-h-screen bg-[#020617] font-sans selection:bg-indigo-500/30">
+    <div className="flex min-h-screen bg-background text-foreground font-sans selection:bg-indigo-500/30">
       {/* Visual Brand Column */}
       <div className="hidden lg:flex flex-[1.2] relative overflow-hidden p-16 flex-col justify-between">
         {/* Dynamic Background */}
@@ -70,6 +72,16 @@ export default function AuthLayout() {
           </div>
         </div>
       </div>
+
+      <button
+        type="button"
+        onClick={toggleTheme}
+        aria-label={theme === 'dark' ? 'Switch to light mode' : 'Switch to dark mode'}
+        aria-pressed={theme === 'dark'}
+        className="fixed right-4 top-4 z-50 flex h-10 w-10 items-center justify-center rounded-xl border border-border bg-card text-foreground shadow-sm hover:bg-muted focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring"
+      >
+        {theme === 'dark' ? <Sun size={20} /> : <Moon size={20} />}
+      </button>
 
       {/* Form Column */}
       <div className="flex-1 flex items-center justify-center p-8 bg-white dark:bg-[#020617] relative z-10 transition-colors duration-300">

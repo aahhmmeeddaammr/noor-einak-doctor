@@ -47,7 +47,7 @@ export default function LoginPage() {
                 {...register('identifier')}
                 type="text"
                 placeholder="doctor@clinic.com"
-                className="h-14 pl-12 bg-slate-50/50 dark:bg-white/5 border-slate-200 dark:border-white/10 rounded-2xl text-base font-bold focus:ring-4 focus:ring-[#3e4998]/10 transition-all placeholder:text-slate-300 dark:placeholder:text-slate-700"
+                className="h-14 pl-12 bg-slate-50/50 dark:bg-white/5 border-slate-200 dark:border-white/10 rounded-2xl text-base font-bold focus:ring-4 focus:ring-[#3e4998]/10 transition-all placeholder:text-slate-300 dark:placeholder:text-slate-400"
               />
             </div>
             {errors.identifier && (
@@ -71,12 +71,12 @@ export default function LoginPage() {
                 {...register('password')}
                 type={showPassword ? 'text' : 'password'}
                 placeholder="••••••••"
-                className="h-14 pl-12 pr-12 bg-slate-50/50 dark:bg-white/5 border-slate-200 dark:border-white/10 rounded-2xl text-base font-bold focus:ring-4 focus:ring-[#3e4998]/10 transition-all placeholder:text-slate-300 dark:placeholder:text-slate-700"
+                className="h-14 pl-12 pr-12 bg-slate-50/50 dark:bg-white/5 border-slate-200 dark:border-white/10 rounded-2xl text-base font-bold focus:ring-4 focus:ring-[#3e4998]/10 transition-all placeholder:text-slate-300 dark:placeholder:text-slate-400"
               />
               <button
                 type="button"
                 onClick={() => setShowPassword(!showPassword)}
-                className="absolute right-4 top-1/2 -translate-y-1/2 text-slate-300 dark:text-slate-600 hover:text-[#3e4998] transition-colors"
+                className="absolute right-4 top-1/2 -translate-y-1/2 text-slate-300 dark:text-slate-600 hover:text-[#3e4998] transition-colors dark:hover:text-primary-300"
               >
                 {showPassword ? <EyeOff size={20} /> : <Eye size={20} />}
               </button>

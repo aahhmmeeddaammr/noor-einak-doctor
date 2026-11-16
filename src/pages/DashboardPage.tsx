@@ -107,7 +107,7 @@ export default function DashboardPage() {
                     {/* Quick Action Overlay */}
                     <div className="absolute top-6 right-6 flex gap-3">
                         <Link to="/profile">
-                            <Button className="bg-white/90 backdrop-blur-md text-[#3e4998] hover:bg-white border-none gap-2 rounded-2xl h-10 px-5 font-bold shadow-xl transition-all hover:scale-105 active:scale-95">
+                            <Button className="bg-white/90 backdrop-blur-md text-[#3e4998] hover:bg-white border-none gap-2 rounded-2xl h-10 px-5 font-bold shadow-xl transition-all hover:scale-105 active:scale-95 dark:bg-slate-900/90 dark:hover:bg-slate-900 dark:text-primary-300">
                                 <Edit3 size={16} />
                                 <span>Manage profile</span>
                             </Button>
@@ -119,9 +119,9 @@ export default function DashboardPage() {
                 <div className="w-full flex flex-col md:flex-row items-end gap-6 mb-10 -mt-16 relative z-40 px-6">
                     {/* Professional Avatar */}
                     <div className="relative group shrink-0">
-                        <Avatar className="w-36 h-36 border-[5px] bg-white border-white dark:border-slate-950 shadow-xl relative">
+                        <Avatar className="w-36 h-36 border-[5px] bg-white border-white dark:border-slate-950 shadow-xl relative dark:bg-slate-900">
                             <AvatarImage src={doctor?.avatarUrl || user?.avatarUrl} className="object-cover" />
-                            <AvatarFallback className="bg-primary/5 text-primary text-3xl font-black">
+                            <AvatarFallback className="bg-primary/5 text-primary text-3xl font-black dark:text-primary-300">
                                 {user?.name?.[0] || 'D'}
                             </AvatarFallback>
                         </Avatar>
@@ -135,11 +135,11 @@ export default function DashboardPage() {
                         </h1>
 
                         <div className="flex flex-wrap items-center justify-center md:justify-start gap-3">
-                            <p className="text-sm font-bold text-[#3e4998] flex items-center gap-2">
+                            <p className="text-sm font-bold text-[#3e4998] flex items-center gap-2 dark:text-primary-300">
                                 <Briefcase size={16} />
                                 {doctor?.specialization || 'Clinical Specialist'}
                             </p>
-                            <div className="w-1 h-1 rounded-full bg-slate-300 hidden md:block" />
+                            <div className="w-1 h-1 rounded-full bg-slate-300 hidden md:block dark:bg-slate-700" />
                             <p className="text-sm font-bold text-slate-400 flex items-center gap-2">
                                 <MapPin size={16} />
                                 {doctor?.clinic?.name || 'Principal Practice'}
@@ -154,10 +154,10 @@ export default function DashboardPage() {
                         <div className="absolute top-0 right-0 w-48 h-48 bg-primary/5 rounded-full -mr-24 -mt-24 blur-3xl" />
 
                                 {[
-                                    { label: 'Total patients', value: stats?.totalPatients ?? 0, icon: Users2, color: 'text-blue-500', bg: 'bg-blue-50' },
-                                    { label: 'Pending reviews', value: stats?.pendingTestReviews ?? 0, icon: Microscope, color: 'text-rose-500', bg: 'bg-rose-50' },
-                                    { label: 'Total prescriptions', value: stats?.totalPrescriptions ?? 0, icon: FileText, color: 'text-emerald-500', bg: 'bg-emerald-50' },
-                                    { label: 'Total tests', value: stats?.totalTests ?? 0, icon: Microscope, color: 'text-indigo-500', bg: 'bg-indigo-50' },
+                                    { label: 'Total patients', value: stats?.totalPatients ?? 0, icon: Users2, color: 'text-blue-500', bg: 'bg-blue-50 dark:bg-blue-500/10' },
+                                    { label: 'Pending reviews', value: stats?.pendingTestReviews ?? 0, icon: Microscope, color: 'text-rose-500', bg: 'bg-rose-50 dark:bg-rose-500/10' },
+                                    { label: 'Total prescriptions', value: stats?.totalPrescriptions ?? 0, icon: FileText, color: 'text-emerald-500', bg: 'bg-emerald-50 dark:bg-emerald-500/10' },
+                                    { label: 'Total tests', value: stats?.totalTests ?? 0, icon: Microscope, color: 'text-indigo-500', bg: 'bg-indigo-50 dark:bg-indigo-500/10' },
                                 ].map((stat, i) => (
                                     <div key={i} className="flex flex-col space-y-2 relative">
                                         <div className={cn("w-14 h-14 rounded-2xl flex items-center justify-center mb-4 shadow-sm", stat.bg)}>
@@ -179,7 +179,7 @@ export default function DashboardPage() {
                                 Clinical dashboard overview
                             </h2>
                             <div className="bg-emerald-50 dark:bg-emerald-500/10 px-6 py-2 rounded-2xl border border-emerald-100 dark:border-emerald-500/20">
-                                <span className="text-xs font-black text-emerald-600 uppercase tracking-widest">Connected Active Session</span>
+                                <span className="text-xs font-black text-emerald-600 uppercase tracking-widest dark:text-emerald-400">Connected Active Session</span>
                             </div>
                         </div>
 
@@ -193,7 +193,7 @@ export default function DashboardPage() {
                                                     <div className="flex items-center gap-3">
                                                         <Avatar className="w-10 h-10 border-2 border-white shadow-sm">
                                                             <AvatarImage src={pt.avatarUrl} />
-                                                            <AvatarFallback className="bg-white text-xs font-black text-[#3e4998]">
+                                                            <AvatarFallback className="bg-white text-xs font-black text-[#3e4998] dark:bg-slate-900 dark:text-primary-300">
                                                                 {pt.name?.[0]}
                                                             </AvatarFallback>
                                                         </Avatar>
@@ -225,10 +225,10 @@ export default function DashboardPage() {
                     <div className="space-y-8">
                         <div className="flex items-center justify-between px-6">
                             <h2 className="text-2xl font-black text-slate-900 dark:text-white flex items-center gap-4">
-                                <BookOpen className="text-[#3e4998]" size={28} />
+                                <BookOpen className="text-[#3e4998] dark:text-primary-300" size={28} />
                                 Medical publications
                             </h2>
-                            <Link to="/articles" className="text-xs font-black text-[#3e4998] uppercase tracking-widest hover:underline transition-all">
+                            <Link to="/articles" className="text-xs font-black text-[#3e4998] uppercase tracking-widest hover:underline transition-all dark:text-primary-300">
                                 View all health publications
                             </Link>
                         </div>
@@ -243,15 +243,15 @@ export default function DashboardPage() {
                                                         className="w-full h-full object-cover group-hover/card:scale-110 transition-transform duration-700"
                                                         alt={article.title}
                                                     />
-                                                    <div className="absolute top-4 left-4 px-3 py-1.5 bg-white/90 backdrop-blur-md rounded-xl text-[10px] font-black text-[#3e4998] uppercase tracking-wider">
+                                                    <div className="absolute top-4 left-4 px-3 py-1.5 bg-white/90 backdrop-blur-md rounded-xl text-[10px] font-black text-[#3e4998] uppercase tracking-wider dark:bg-slate-900/90 dark:text-primary-300">
                                                         {article.category}
                                                     </div>
                                                 </div>
                                                 <h3 className="text-xl font-black text-slate-900 dark:text-white leading-tight mb-3 line-clamp-2">{article.title}</h3>
-                                                <p className="text-sm font-bold text-slate-500 line-clamp-2 mb-6 flex-1 italic">"{article.summary}"</p>
+                                                <p className="text-sm font-bold text-slate-500 line-clamp-2 mb-6 flex-1 italic dark:text-slate-400">"{article.summary}"</p>
                                                 <div className="flex items-center justify-between pt-5 border-t border-slate-50 dark:border-slate-800">
                                                     <span className="text-[10px] font-black text-slate-400 uppercase tracking-widest">{formatDate(article.createdAt)}</span>
-                                                    <span className="text-xs font-black text-[#3e4998] flex items-center gap-1 group-hover/card:translate-x-1 transition-all">Read publication <ChevronRight size={14} /></span>
+                                                    <span className="text-xs font-black text-[#3e4998] flex items-center gap-1 group-hover/card:translate-x-1 transition-all dark:text-primary-300">Read publication <ChevronRight size={14} /></span>
                                                 </div>
                                             </div>
                                         </Link>
@@ -286,7 +286,7 @@ export default function DashboardPage() {
                                             Clinical Practice
                                         </h3>
                                         <div className="p-2 bg-[#3e4998]/5 rounded-xl">
-                                            <Building2 size={20} className="text-[#3e4998]" />
+                                            <Building2 size={20} className="text-[#3e4998] dark:text-primary-300" />
                                         </div>
                                     </div>
 
@@ -310,7 +310,7 @@ export default function DashboardPage() {
                                                             href={doctor.clinic.addressLink}
                                                             target="_blank"
                                                             rel="noopener noreferrer"
-                                                            className="w-12 h-12 bg-white text-[#3e4998] rounded-2xl shadow-lg flex items-center justify-center transition-all hover:scale-110 active:scale-95 group-hover/site:rotate-6"
+                                                            className="w-12 h-12 bg-white text-[#3e4998] rounded-2xl shadow-lg flex items-center justify-center transition-all hover:scale-110 active:scale-95 group-hover/site:rotate-6 dark:bg-slate-900 dark:text-primary-300"
                                                             title="Get Directions"
                                                         >
                                                             <MapPin size={22} strokeWidth={2.5} />
@@ -323,8 +323,8 @@ export default function DashboardPage() {
                                         {/* Contact Details List */}
                                         <div className="grid grid-cols-1 gap-4 pt-4">
                                             {[
-                                                { icon: Phone, label: 'Patient Support', value: doctor?.clinic?.phone || user?.phone || "N/A", color: 'text-indigo-500', bg: 'bg-indigo-50' },
-                                                { icon: Mail, label: 'Clinical Email', value: user?.email || "clinical@pharco.com", color: 'text-sky-500', bg: 'bg-sky-50' },
+                                                { icon: Phone, label: 'Patient Support', value: doctor?.clinic?.phone || user?.phone || "N/A", color: 'text-indigo-500', bg: 'bg-indigo-50 dark:bg-indigo-500/10' },
+                                                { icon: Mail, label: 'Clinical Email', value: user?.email || "clinical@pharco.com", color: 'text-sky-500', bg: 'bg-sky-50 dark:bg-sky-500/10' },
                                             ].map((item, i) => (
                                                 <div key={i} className="flex items-center gap-4 p-4 rounded-2xl border border-slate-50 dark:border-slate-800 hover:bg-slate-50 dark:hover:bg-slate-800/50 transition-all cursor-default">
                                                     <div className={cn("w-10 h-10 rounded-xl flex items-center justify-center shadow-sm", item.bg)}>
@@ -345,17 +345,17 @@ export default function DashboardPage() {
                         <div className="bg-white dark:bg-slate-900 rounded-4xl p-10 border border-slate-100 dark:border-slate-800 shadow-sm relative overflow-hidden group flex flex-col justify-center">
                             <div className="absolute -right-8 -top-8 w-48 h-48 bg-[#3e4998]/5 rounded-full blur-3xl" />
                             <h3 className="text-xl font-black text-slate-900 dark:text-white mb-10 flex items-center gap-4">
-                                <Zap size={24} className="text-[#3e4998] fill-[#3e4998]" />
+                                <Zap size={24} className="text-[#3e4998] fill-[#3e4998] dark:text-primary-300" />
                                 Practice activity
                             </h3>
                                 <div className="grid grid-cols-2 gap-4">
                                     <div className="p-5 rounded-2xl bg-slate-50 dark:bg-slate-800/50">
                                         <p className="text-2xl font-black text-slate-900 dark:text-white">{stats?.totalTests ?? 0}</p>
-                                        <p className="text-xs font-bold text-slate-500">Tests recorded</p>
+                                        <p className="text-xs font-bold text-slate-500 dark:text-slate-400">Tests recorded</p>
                                     </div>
                                     <div className="p-5 rounded-2xl bg-slate-50 dark:bg-slate-800/50">
                                         <p className="text-2xl font-black text-slate-900 dark:text-white">{stats?.unreadMessages ?? 0}</p>
-                                        <p className="text-xs font-bold text-slate-500">Unread messages</p>
+                                        <p className="text-xs font-bold text-slate-500 dark:text-slate-400">Unread messages</p>
                                     </div>
                                 </div>
                             </div>

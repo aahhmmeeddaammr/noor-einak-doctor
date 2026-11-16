@@ -125,14 +125,14 @@ export default function OtpPage() {
         <div className="text-center">
           {countdown > 0 ? (
             <p className="text-sm text-text-muted">
-              Resend code in <span className="font-semibold text-primary-500">{countdown}s</span>
+              Resend code in <span className="font-semibold text-primary-500 dark:text-primary-300">{countdown}s</span>
             </p>
           ) : (
             <button
               type="button"
               onClick={handleResend}
               disabled={resendMutation.isPending}
-              className="text-sm text-primary-500 hover:text-primary-600 font-semibold"
+              className="text-sm text-primary-500 hover:text-primary-600 font-semibold dark:hover:text-primary-400 dark:text-primary-300"
             >
               Resend Code
             </button>

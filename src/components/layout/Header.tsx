@@ -59,7 +59,9 @@ export default function Header() {
                         variant="ghost"
                         size="icon"
                         onClick={toggleTheme}
-                        className="rounded-xl h-10 w-10 text-slate-500 hover:text-[#3e4998] hover:bg-white dark:hover:bg-slate-800 transition-all shadow-none"
+                        aria-label={theme === 'dark' ? 'Switch to light mode' : 'Switch to dark mode'}
+                        aria-pressed={theme === 'dark'}
+                        className="rounded-xl h-10 w-10 text-slate-500 hover:text-[#3e4998] hover:bg-white dark:hover:bg-slate-800 transition-all shadow-none dark:text-slate-400 dark:hover:text-primary-300"
                     >
                         {theme === 'light' ? <Moon size={20} /> : <Sun size={20} />}
                     </Button>
@@ -68,7 +70,7 @@ export default function Header() {
                         variant="ghost"
                         size="icon"
                         onClick={() => navigate('/notifications')}
-                        className="rounded-xl h-10 w-10 text-slate-500 hover:text-rose-500 hover:bg-white dark:hover:bg-slate-800 transition-all relative shadow-none"
+                        className="rounded-xl h-10 w-10 text-slate-500 hover:text-rose-500 hover:bg-white dark:hover:bg-slate-800 transition-all relative shadow-none dark:text-slate-400"
                     >
                         <Bell size={20} />
 
@@ -83,7 +85,7 @@ export default function Header() {
                         <Button variant="ghost" className="relative h-12 rounded-2xl flex items-center gap-2 px-3 hover:bg-slate-100 dark:hover:bg-white/5 group transition-all cursor-pointer">
                             <Avatar className="h-10 w-10 border-2 border-slate-200 dark:border-slate-700 group-hover:border-primary transition-colors duration-300 shadow-sm">
                                 <AvatarImage src={user?.avatarUrl} />
-                                <AvatarFallback className="bg-primary/10 text-primary text-xs font-bold">
+                                <AvatarFallback className="bg-primary/10 text-primary text-xs font-bold dark:text-primary-300">
                                     {user?.name?.[0] || 'D'}
                                 </AvatarFallback>
                             </Avatar>
@@ -96,9 +98,9 @@ export default function Header() {
                         </Button>
                     </DropdownMenuTrigger>
                     <DropdownMenuContent className="w-56 p-2 rounded-2xl shadow-2xl border-slate-200 dark:border-slate-800 animate-in zoom-in-95 duration-200" align="end" sideOffset={12}>
-                        <DropdownMenuItem onClick={() => navigate('/profile')} className="rounded-xl flex items-center gap-3 px-3 py-2.5 font-medium transition-all cursor-pointer group hover:bg-slate-50 focus:bg-slate-50 active:scale-[0.98]">
-                            <User2 className="h-4 w-4 text-slate-400 group-hover:text-primary group-focus:text-primary transition-colors" />
-                            <span className="group-hover:text-primary group-focus:text-primary transition-colors">My profile</span>
+                        <DropdownMenuItem onClick={() => navigate('/profile')} className="rounded-xl flex items-center gap-3 px-3 py-2.5 font-medium transition-all cursor-pointer group hover:bg-slate-50 focus:bg-slate-50 active:scale-[0.98] dark:hover:bg-slate-800 dark:focus:bg-slate-800">
+                            <User2 className="h-4 w-4 text-slate-400 group-hover:text-primary group-focus:text-primary transition-colors dark:group-hover:text-primary-300 dark:group-focus:text-primary-300" />
+                            <span className="group-hover:text-primary group-focus:text-primary transition-colors dark:group-hover:text-primary-300 dark:group-focus:text-primary-300">My profile</span>
                         </DropdownMenuItem>
                         <DropdownMenuSeparator className="opacity-50" />
                         <DropdownMenuItem

@@ -172,7 +172,7 @@ export default function RegisterPage() {
             </div>
 
             <div className="flex gap-3">
-              <button type="button" onClick={() => setStep(1)} className="flex-1 px-4 py-3 bg-surface hover:bg-gray-100 text-text-primary rounded-lg text-sm font-semibold transition-all border border-border">
+              <button type="button" onClick={() => setStep(1)} className="flex-1 px-4 py-3 bg-surface hover:bg-gray-100 text-text-primary rounded-lg text-sm font-semibold transition-all border border-border dark:hover:bg-slate-800">
                 Back
               </button>
               <button type="submit" disabled={registerMutation.isPending} className="flex-1 flex items-center justify-center gap-2 px-4 py-3 bg-primary-500 hover:bg-primary-600 text-white rounded-lg text-sm font-semibold transition-all shadow-lg shadow-primary-500/25 disabled:opacity-60">
@@ -185,7 +185,7 @@ export default function RegisterPage() {
 
       <p className="text-center text-sm text-text-secondary mt-8">
         Already have an account?{' '}
-        <Link to="/login" className="text-primary-500 hover:text-primary-600 font-semibold">Sign In</Link>
+        <Link to="/login" className="text-primary-500 hover:text-primary-600 font-semibold dark:hover:text-primary-400 dark:text-primary-300">Sign In</Link>
       </p>
     </div>
   );

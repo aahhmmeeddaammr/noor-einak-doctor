@@ -440,7 +440,7 @@ export default function MessagingPage() {
                 </div>
                 <div className="flex items-center gap-4">
                   <Link to={`/patients/${selectedConv?.otherUser?.patient?._id || selectedConv?.otherUser?.patient?.id || selectedConv?.otherUser?._id}`}>
-                    <button className="hidden sm:flex items-center gap-2 h-9 px-4 bg-slate-50 dark:bg-slate-800 hover:bg-pharco-orange transition-all text-slate-500 hover:text-white rounded-xl border border-slate-100 dark:border-slate-700 group/link">
+                    <button className="hidden sm:flex items-center gap-2 h-9 px-4 bg-slate-50 dark:bg-slate-800 hover:bg-pharco-orange transition-all text-slate-500 hover:text-white rounded-xl border border-slate-100 dark:border-slate-700 group/link dark:text-slate-400">
                       <span className="text-[9px] font-black uppercase tracking-widest">Medical Record</span>
                       <ArrowUpRight size={14} className="group-hover/link:translate-x-0.5 group-hover/link:-translate-y-0.5 transition-transform" />
                     </button>
@@ -486,14 +486,14 @@ export default function MessagingPage() {
                     <div key={msg._id || msg.id} className="flex flex-col gap-2">
                       {showDate && (
                         <div className="flex justify-center my-4">
-                          <span className="px-4 py-1.5 bg-white shadow-sm border border-slate-100 dark:bg-slate-800 dark:border-slate-700 text-[10px] font-bold text-slate-500 uppercase tracking-widest rounded-full">
+                          <span className="px-4 py-1.5 bg-white shadow-sm border border-slate-100 dark:bg-slate-800 dark:border-slate-700 text-[10px] font-bold text-slate-500 uppercase tracking-widest rounded-full dark:text-slate-400">
                             {new Date(msg.createdAt).toLocaleDateString(undefined, { weekday: 'short', month: 'short', day: 'numeric', year: 'numeric' })}
                           </span>
                         </div>
                       )}
                       <div className={cn('flex items-end gap-2 transition-all animate-slideIn', isOwn ? 'flex-row-reverse' : 'flex-row')}>
                         {!isOwn && (
-                          <div className={cn("w-8 h-8 rounded-full overflow-hidden shrink-0 self-end mb-1 border border-slate-100 shadow-sm transition-opacity", !isFirstInSeries ? "opacity-0 invisible" : "opacity-100")}>
+                          <div className={cn("w-8 h-8 rounded-full overflow-hidden shrink-0 self-end mb-1 border border-slate-100 shadow-sm transition-opacity dark:border-slate-800", !isFirstInSeries ? "opacity-0 invisible" : "opacity-100")}>
                             <Avatar className="w-full h-full ring-0 border-0">
                               <AvatarImage src={selectedConv?.otherUser?.avatarUrl} />
                               <AvatarFallback className="text-[10px] bg-pharco-orange/10 text-pharco-orange">{getInitials(selectedConv?.otherUser?.name)}</AvatarFallback>
@@ -537,7 +537,7 @@ export default function MessagingPage() {
                   {/* Pending File Preview */}
                   {pendingFile && (
                     <div className="flex items-center gap-3 p-2 bg-white dark:bg-slate-800 rounded-2xl border border-slate-100 dark:border-slate-700 w-fit animate-slideIn">
-                      <div className="w-12 h-12 rounded-lg overflow-hidden border border-slate-50 dark:border-slate-700 bg-slate-50 shrink-0">
+                      <div className="w-12 h-12 rounded-lg overflow-hidden border border-slate-50 dark:border-slate-700 bg-slate-50 shrink-0 dark:bg-slate-800">
                         {pendingFile.type.startsWith('image/') ? (
                           <img src={pendingFile.url} className="w-full h-full object-cover" />
                         ) : pendingFile.type.startsWith('video/') ? (
@@ -588,7 +588,7 @@ export default function MessagingPage() {
                     <button
                       onClick={() => fileInputRef.current?.click()}
                       disabled={isUploading}
-                      className="text-slate-400 hover:text-primary ml-2 transition-colors outline-none shrink-0"
+                      className="text-slate-400 hover:text-primary ml-2 transition-colors outline-none shrink-0 dark:hover:text-primary-300"
                     >
                       <Paperclip size={20} />
                     </button>
@@ -596,7 +596,7 @@ export default function MessagingPage() {
                   <Button
                     onClick={handleSend}
                     disabled={(!input.trim() && !pendingFile) || sendMutation.isPending}
-                    className="h-12 w-12 rounded-full bg-primary hover:bg-primary/90 disabled:bg-slate-300 disabled:shadow-none text-white shadow-md shadow-primary/20 shrink-0 transition-transform active:scale-95 flex items-center justify-center p-0 outline-none border-none"
+                    className="h-12 w-12 rounded-full bg-primary hover:bg-primary/90 disabled:bg-slate-300 disabled:shadow-none text-white shadow-md shadow-primary/20 shrink-0 transition-transform active:scale-95 flex items-center justify-center p-0 outline-none border-none dark:disabled:bg-slate-700"
                   >
                     {sendMutation.isPending ? (
                       <Loader2 size={18} className="animate-spin" />

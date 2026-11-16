@@ -79,7 +79,7 @@ export default function PatientsPage() {
             <DialogContent className="max-w-md">
               <DialogHeader>
                 <div className="w-14 h-14 bg-primary/10 rounded-2xl flex items-center justify-center mb-4">
-                  <Sparkles className="h-7 w-7 text-primary-500" />
+                  <Sparkles className="h-7 w-7 text-primary-500 dark:text-primary-300" />
                 </div>
                 <DialogTitle>Global Permissions</DialogTitle>
                 <DialogDescription>
@@ -91,7 +91,7 @@ export default function PatientsPage() {
                 <div className="flex items-center justify-between p-5 bg-slate-50 dark:bg-slate-800/50 rounded-2xl border border-slate-100 dark:border-white/5">
                   <div className="space-y-1">
                     <Label className="text-base font-black text-slate-900 dark:text-white">Direct Messaging</Label>
-                    <p className="text-xs text-slate-500 font-medium tracking-tight">Allow all patients to chat with you</p>
+                    <p className="text-xs text-slate-500 font-medium tracking-tight dark:text-slate-400">Allow all patients to chat with you</p>
                   </div>
                   <Switch 
                     checked={permissions.canChat} 
@@ -102,7 +102,7 @@ export default function PatientsPage() {
                 <div className="flex items-center justify-between p-5 bg-slate-50 dark:bg-slate-800/50 rounded-2xl border border-slate-100 dark:border-white/5">
                   <div className="space-y-1">
                     <Label className="text-base font-black text-slate-900 dark:text-white">Automated Tests</Label>
-                    <p className="text-xs text-slate-500 font-medium tracking-tight">Allow all patients to upload results</p>
+                    <p className="text-xs text-slate-500 font-medium tracking-tight dark:text-slate-400">Allow all patients to upload results</p>
                   </div>
                   <Switch 
                     checked={permissions.canUploadTests} 
@@ -162,7 +162,7 @@ export default function PatientsPage() {
                   {/* Header */}
                   <div className="flex items-start gap-5 mb-6 relative z-10">
                     <div className="relative shrink-0">
-                      <div className="w-16 h-16 rounded-2xl bg-slate-50 dark:bg-slate-800 flex items-center justify-center text-primary-600 font-black text-xl border border-slate-100 dark:border-slate-700 transition-all duration-500 group-hover:scale-110 group-hover:bg-white overflow-hidden shadow-sm">
+                      <div className="w-16 h-16 rounded-2xl bg-slate-50 dark:bg-slate-800 flex items-center justify-center text-primary-600 font-black text-xl border border-slate-100 dark:border-slate-700 transition-all duration-500 group-hover:scale-110 group-hover:bg-white overflow-hidden shadow-sm dark:text-primary-400">
                         {patient.user?.avatarUrl ? (
                           <img src={patient.user.avatarUrl} alt="" className="w-full h-full object-cover" />
                         ) : (
@@ -185,7 +185,7 @@ export default function PatientsPage() {
                     
                     <div className="flex-1 min-w-0 pt-1">
                       <div className="flex items-center gap-2 mb-1">
-                        <h3 className="text-xl font-black text-slate-900 dark:text-white truncate group-hover:text-primary-500 transition-colors leading-tight">
+                        <h3 className="text-xl font-black text-slate-900 dark:text-white truncate group-hover:text-primary-500 transition-colors leading-tight dark:group-hover:text-primary-300">
                           {patient.user?.name}
                         </h3>
                         {patient.hasAllergies && (
@@ -197,8 +197,8 @@ export default function PatientsPage() {
                           <Calendar size={12} strokeWidth={3} />
                           {patient.age ? `${patient.age} YRS` : 'N/A'}
                         </span>
-                        <div className="w-1 h-1 rounded-full bg-slate-300" />
-                        <span className="flex items-center gap-1 text-[10px] font-black text-primary-500 uppercase">
+                        <div className="w-1 h-1 rounded-full bg-slate-300 dark:bg-slate-700" />
+                        <span className="flex items-center gap-1 text-[10px] font-black text-primary-500 uppercase dark:text-primary-300">
                           <MapPin size={12} strokeWidth={3} />
                           {patient.governorate || 'N/A'}
                         </span>
@@ -211,8 +211,8 @@ export default function PatientsPage() {
                      <span className={cn(
                         "flex items-center gap-1.5 px-2.5 py-1 rounded-lg text-[9px] font-black uppercase tracking-widest border transition-colors",
                         patient.canChat 
-                           ? "bg-emerald-50 text-emerald-600 border-emerald-100 dark:bg-emerald-500/10 dark:border-emerald-500/20"
-                           : "bg-slate-50 text-slate-400 border-slate-100"
+                           ? "bg-emerald-50 text-emerald-600 border-emerald-100 dark:bg-emerald-500/10 dark:border-emerald-500/20 dark:text-emerald-400"
+                           : "bg-slate-50 text-slate-400 border-slate-100 dark:bg-slate-800 dark:border-slate-800"
                      )}>
                         <MessageSquare size={10} strokeWidth={3} />
                         Chat {patient.canChat ? 'On' : 'Off'}
@@ -220,14 +220,14 @@ export default function PatientsPage() {
                      <span className={cn(
                         "flex items-center gap-1.5 px-2.5 py-1 rounded-lg text-[9px] font-black uppercase tracking-widest border transition-colors",
                         patient.canUploadTests 
-                           ? "bg-sky-50 text-sky-600 border-sky-100 dark:bg-sky-500/10 dark:border-sky-500/20"
-                           : "bg-slate-50 text-slate-400 border-slate-100"
+                           ? "bg-sky-50 text-sky-600 border-sky-100 dark:bg-sky-500/10 dark:border-sky-500/20 dark:text-sky-400"
+                           : "bg-slate-50 text-slate-400 border-slate-100 dark:bg-slate-800 dark:border-slate-800"
                      )}>
                         <FileStack size={10} strokeWidth={3} />
                         Tests {patient.canUploadTests ? 'On' : 'Off'}
                      </span>
                      {patient.hasAllergies && (
-                        <span className="flex items-center gap-1.5 px-2.5 py-1 rounded-lg text-[9px] font-black uppercase tracking-widest bg-rose-50 text-rose-600 border border-rose-100 dark:bg-rose-500/10 dark:border-rose-500/20 ml-auto">
+                        <span className="flex items-center gap-1.5 px-2.5 py-1 rounded-lg text-[9px] font-black uppercase tracking-widest bg-rose-50 text-rose-600 border border-rose-100 dark:bg-rose-500/10 dark:border-rose-500/20 ml-auto dark:text-rose-400">
                            <AlertTriangle size={10} strokeWidth={3} /> Allergies
                         </span>
                      )}
@@ -236,7 +236,7 @@ export default function PatientsPage() {
                   {/* Contact Details */}
                   <div className="space-y-2 mb-8 relative z-10">
                     <div className="flex items-center gap-2.5 p-2 bg-slate-50 dark:bg-slate-800/40 rounded-xl border border-slate-100/50 dark:border-slate-700/50 group/contact">
-                      <div className="w-7 h-7 rounded-lg bg-white dark:bg-slate-800 flex items-center justify-center text-primary-500 shadow-sm transition-transform group-hover/contact:scale-110 shrink-0">
+                      <div className="w-7 h-7 rounded-lg bg-white dark:bg-slate-800 flex items-center justify-center text-primary-500 shadow-sm transition-transform group-hover/contact:scale-110 shrink-0 dark:text-primary-300">
                         <Mail size={12} />
                       </div>
                       <div className="flex-1 min-w-0">

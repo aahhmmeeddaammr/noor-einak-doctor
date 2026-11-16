@@ -133,7 +133,7 @@ export default function ArticleDetailPage() {
           <BookOpen className="w-8 h-8" />
         </div>
         <h2 className="text-xl font-bold text-slate-900 dark:text-slate-100">Article not found</h2>
-        <p className="text-sm text-slate-500 max-w-md text-center">
+        <p className="text-sm text-slate-500 max-w-md text-center dark:text-slate-400">
           The article you are looking for may have been deleted, archived, or is temporarily unavailable.
         </p>
         <button
@@ -176,7 +176,7 @@ export default function ArticleDetailPage() {
         <div className="flex items-center gap-2.5 text-xs">
           <button
             onClick={() => navigate('/articles')}
-            className="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-xl bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-800 text-slate-700 dark:text-slate-300 font-bold hover:bg-slate-50 dark:hover:bg-slate-800 hover:text-primary transition-all shadow-2xs group"
+            className="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-xl bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-800 text-slate-700 dark:text-slate-300 font-bold hover:bg-slate-50 dark:hover:bg-slate-800 hover:text-primary transition-all shadow-2xs group dark:hover:text-primary-300"
           >
             <ArrowLeft className="w-3.5 h-3.5 group-hover:-translate-x-0.5 transition-transform" />
             Articles
@@ -206,8 +206,8 @@ export default function ArticleDetailPage() {
                 className={cn(
                   "inline-flex items-center gap-1.5 px-3.5 py-1.5 rounded-xl text-xs font-bold transition-all border shadow-2xs",
                   article.status === 'published'
-                    ? "bg-amber-50 dark:bg-amber-950/30 text-amber-700 dark:text-amber-400 border-amber-200 dark:border-amber-900/50 hover:bg-amber-100"
-                    : "bg-emerald-50 dark:bg-emerald-950/30 text-emerald-700 dark:text-emerald-400 border-emerald-200 dark:border-emerald-900/50 hover:bg-emerald-100"
+                    ? "bg-amber-50 dark:bg-amber-950/30 text-amber-700 dark:text-amber-400 border-amber-200 dark:border-amber-900/50 hover:bg-amber-100 dark:hover:bg-amber-500/20"
+                    : "bg-emerald-50 dark:bg-emerald-950/30 text-emerald-700 dark:text-emerald-400 border-emerald-200 dark:border-emerald-900/50 hover:bg-emerald-100 dark:hover:bg-emerald-500/20"
                 )}
               >
                 {article.status === 'published' ? (
@@ -281,7 +281,7 @@ export default function ArticleDetailPage() {
 
             <div className="flex flex-wrap items-center gap-4 text-xs text-slate-500 dark:text-slate-400 pt-1">
               <span className="flex items-center gap-1.5 font-semibold text-slate-700 dark:text-slate-300">
-                <User2 className="w-3.5 h-3.5 text-primary" />
+                <User2 className="w-3.5 h-3.5 text-primary dark:text-primary-300" />
                 {doctor ? `Dr. ${authorName}` : authorName}
               </span>
               <span>•</span>
@@ -350,7 +350,7 @@ export default function ArticleDetailPage() {
           {/* Executive Summary / Key Takeaways Box */}
           {article.summary && (
             <div className="rounded-2xl p-6 bg-gradient-to-r from-primary/5 via-blue-50/40 to-transparent dark:from-primary/10 dark:via-slate-900/40 dark:to-transparent border-l-4 border-primary border-y border-r border-slate-200/60 dark:border-slate-800 shadow-2xs">
-              <div className="flex items-center gap-2 mb-2 text-primary font-bold text-xs uppercase tracking-wider">
+              <div className="flex items-center gap-2 mb-2 text-primary font-bold text-xs uppercase tracking-wider dark:text-primary-300">
                 <FileText className="w-4 h-4" />
                 <span>Clinical Summary & Key Points</span>
               </div>
@@ -371,7 +371,7 @@ export default function ArticleDetailPage() {
             {/* Article Footer Metadata */}
             <div className="mt-12 pt-6 border-t border-slate-100 dark:border-slate-800 flex flex-wrap items-center justify-between gap-4 text-xs text-slate-500 dark:text-slate-400">
               <div className="flex items-center gap-2">
-                <Tag className="w-3.5 h-3.5 text-primary" />
+                <Tag className="w-3.5 h-3.5 text-primary dark:text-primary-300" />
                 <span className="font-semibold text-slate-700 dark:text-slate-300">{categoryDisplay}</span>
                 <span>•</span>
                 <span>Noor Einak Health Portal</span>
@@ -399,7 +399,7 @@ export default function ArticleDetailPage() {
                 <p className="text-base font-bold text-slate-900 dark:text-white truncate">
                   {doctor ? `Dr. ${authorName}` : authorName}
                 </p>
-                <p className="text-xs font-semibold text-primary truncate mt-0.5">{authorSpec}</p>
+                <p className="text-xs font-semibold text-primary truncate mt-0.5 dark:text-primary-300">{authorSpec}</p>
               </div>
             </div>
 
@@ -415,28 +415,28 @@ export default function ArticleDetailPage() {
 
             <div className="space-y-3 text-xs">
               <div className="flex items-center justify-between py-1.5 border-b border-slate-100 dark:border-slate-800">
-                <span className="text-slate-500 font-medium flex items-center gap-1.5">
+                <span className="text-slate-500 font-medium flex items-center gap-1.5 dark:text-slate-400">
                   <Tag className="w-3.5 h-3.5 text-slate-400" /> Category
                 </span>
                 <span className="font-bold text-slate-800 dark:text-slate-200">{categoryDisplay}</span>
               </div>
 
               <div className="flex items-center justify-between py-1.5 border-b border-slate-100 dark:border-slate-800">
-                <span className="text-slate-500 font-medium flex items-center gap-1.5">
+                <span className="text-slate-500 font-medium flex items-center gap-1.5 dark:text-slate-400">
                   <Clock className="w-3.5 h-3.5 text-slate-400" /> Read Time
                 </span>
                 <span className="font-bold text-slate-800 dark:text-slate-200">{calculateReadTime(article.content)}</span>
               </div>
 
               <div className="flex items-center justify-between py-1.5 border-b border-slate-100 dark:border-slate-800">
-                <span className="text-slate-500 font-medium flex items-center gap-1.5">
+                <span className="text-slate-500 font-medium flex items-center gap-1.5 dark:text-slate-400">
                   <Eye className="w-3.5 h-3.5 text-slate-400" /> Views
                 </span>
                 <span className="font-bold text-slate-800 dark:text-slate-200">{(article.viewsCount || 0).toLocaleString()}</span>
               </div>
 
               <div className="flex items-center justify-between py-1.5">
-                <span className="text-slate-500 font-medium flex items-center gap-1.5">
+                <span className="text-slate-500 font-medium flex items-center gap-1.5 dark:text-slate-400">
                   <BookOpen className="w-3.5 h-3.5 text-slate-400" /> Status
                 </span>
                 <span className={cn(

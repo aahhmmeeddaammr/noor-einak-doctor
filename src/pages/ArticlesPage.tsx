@@ -311,7 +311,7 @@ export default function ArticlesPage() {
                 ) : (
                   <div className="flex flex-col items-center justify-center w-full h-full text-[#3e4998]/20 dark:text-blue-400/20">
                     <span className="text-8xl font-black">{article.title?.[0]?.toUpperCase() || 'A'}</span>
-                    <span className="absolute bottom-4 text-[10px] uppercase font-black tracking-widest text-[#3e4998]/40">
+                    <span className="absolute bottom-4 text-[10px] uppercase font-black tracking-widest text-[#3e4998]/40 dark:text-primary-300/40">
                       {article.category || 'Article'}
                     </span>
                   </div>
@@ -325,7 +325,7 @@ export default function ArticlesPage() {
 
               <div className="p-5">
                 <div className="flex items-start justify-between mb-2 gap-2">
-                  <h3 className="font-bold text-slate-900 dark:text-slate-100 line-clamp-2 group-hover:text-[#3e4998] transition-colors leading-snug">
+                  <h3 className="font-bold text-slate-900 dark:text-slate-100 line-clamp-2 group-hover:text-[#3e4998] transition-colors leading-snug dark:group-hover:text-primary-300">
                     {article.title}
                   </h3>
 
@@ -380,7 +380,7 @@ export default function ArticlesPage() {
                     {formatDate(article.createdAt)}
                   </span>
                   <span className="text-xs text-slate-400 font-semibold flex items-center gap-1.5 bg-slate-50 dark:bg-slate-800/50 px-2 py-1 rounded-md">
-                    <Eye className="w-3.5 h-3.5 text-primary" />
+                    <Eye className="w-3.5 h-3.5 text-primary dark:text-primary-300" />
                     {(article.viewsCount || 0).toLocaleString()}
                   </span>
                 </div>
@@ -510,7 +510,7 @@ export function ArticleModal({ isOpen, onClose, title, onSubmit, register, contr
                             'header', 'bold', 'italic', 'underline', 'strike', 'blockquote', 'code-block',
                             'list', 'bullet', 'color', 'background'
                           ]}
-                          className="flex-1 flex flex-col [&>.ql-toolbar]:border-0 [&>.ql-toolbar]:border-b [&>.ql-toolbar]:border-slate-150 [&>.ql-toolbar]:dark:border-slate-800/60 [&>.ql-toolbar]:bg-slate-50/40 [&>.ql-toolbar]:dark:bg-slate-900/20 [&>.ql-container]:border-0 [&>.ql-container]:flex-1 [&>.ql-container]:text-sm [&>.ql-editor]:min-h-[350px] [&>.ql-editor]:px-6 [&>.ql-editor]:py-4 [&>.ql-editor]:text-slate-800 [&>.ql-editor]:dark:text-slate-200 [&>.ql-editor]:leading-relaxed"
+                          className="flex-1 flex flex-col [&>.ql-toolbar]:border-0 [&>.ql-toolbar]:border-b [&>.ql-toolbar]:border-slate-200 [&>.ql-toolbar]:dark:border-slate-800/60 [&>.ql-toolbar]:bg-slate-50/40 [&>.ql-toolbar]:dark:bg-slate-900/20 [&>.ql-container]:border-0 [&>.ql-container]:flex-1 [&>.ql-container]:text-sm [&>.ql-editor]:min-h-[350px] [&>.ql-editor]:px-6 [&>.ql-editor]:py-4 [&>.ql-editor]:text-slate-800 [&>.ql-editor]:dark:text-slate-200 [&>.ql-editor]:leading-relaxed"
                           placeholder="Start typing your medical insights or clinical guidelines here..."
                         />
                       </div>
@@ -605,7 +605,7 @@ export function ArticleModal({ isOpen, onClose, title, onSubmit, register, contr
             <button
               type="button"
               onClick={onClose}
-              className="px-6 py-2 h-10 text-xs font-bold text-slate-500 hover:bg-slate-50 dark:hover:bg-slate-900 rounded-xl transition-all"
+              className="px-6 py-2 h-10 text-xs font-bold text-slate-500 hover:bg-slate-50 dark:hover:bg-slate-900 rounded-xl transition-all dark:text-slate-400"
             >
               Cancel
             </button>

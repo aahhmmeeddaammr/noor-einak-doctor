@@ -26,24 +26,28 @@
   --color-primary-900: #1d2242;
 
   /* Semantic mapping */
-  --color-primary: #3e4998;
-  --color-secondary: #393d8e;
-  --color-accent: #476eb3;
-  --color-background: #f8fafc;
-  --color-foreground: #0f172a;
+  --color-primary: var(--primary);
+  --color-secondary: var(--secondary);
+  --color-accent: var(--accent);
+  --color-background: var(--background);
+  --color-foreground: var(--foreground);
   
   /* Legacy layout map (bridges Doctor Portal pages to Admin Theme) */
-  --color-surface: #f8fafc; /* admin background */
-  --color-card: #ffffff;
-  --color-border: #e2e8f0; /* slate-200 */
-  --color-border-light: #f1f5f9; /* slate-100 */
-  --color-text-primary: #0f172a; /* slate-900 */
-  --color-text-secondary: #64748b; /* slate-500 */
-  --color-text-muted: #94a3b8; /* slate-400 */
+  --color-surface: var(--background); /* admin background */
+  --color-border: var(--border); /* slate-200 */
+  --color-border-light: var(--muted); /* slate-100 */
+  --color-text-primary: var(--foreground); /* slate-900 */
+  --color-text-secondary: var(--muted-foreground); /* slate-500 */
+  --color-text-muted: var(--muted-foreground); /* slate-400 */
   
   /* Layout Colors */
   --color-sidebar-background: #0a0b14;
   --color-sidebar-active: rgba(62, 73, 152, 0.15);
+
+  --color-input: var(--input);
+  --color-ring: var(--ring);
+  --color-accent-foreground: var(--accent-foreground);
+  --color-primary-hover: var(--primary-hover);
   
   /* Radii */
   --radius-lg: 0.75rem;
@@ -79,6 +83,8 @@
 
 @layer base {
   :root {
+    color-scheme: light;
+    --primary-hover: #313a7c;
     --background: #f8fafc;
     --foreground: #0f172a;
     
@@ -123,13 +129,15 @@
   }
 
   .dark {
+    color-scheme: dark;
+    --primary-hover: #4c59b0;
     --background: #020617;
     --foreground: #f8fafc;
     
-    --card: #020617;
+    --card: #0f172a;
     --card-foreground: #f8fafc;
     
-    --popover: #020617;
+    --popover: #0f172a;
     --popover-foreground: #f8fafc;
     
     --primary: #3e4998;
@@ -153,7 +161,7 @@
   }
 
   * {
-    border-color: rgba(0, 0, 0, 0.1);
+    border-color: var(--border);
   }
 }
 
@@ -372,3 +380,59 @@
   box-shadow: 0 10px 25px -5px rgba(0, 0, 0, 0.08);
 }
 
+
+/* Native controls and third-party surfaces share the portal palette. */
+@layer base {
+  select, textarea, input { color: inherit; }
+  option, optgroup { background-color: var(--card); color: var(--foreground); }
+  input::placeholder, textarea::placeholder { color: var(--muted-foreground); }
+  input:-webkit-autofill {
+    -webkit-text-fill-color: var(--foreground);
+    -webkit-box-shadow: 0 0 0 1000px var(--card) inset;
+    caret-color: var(--foreground);
+  }
+  ::selection { background: #6780d3; color: #fff; }
+}
+
+/* Quill Snow ships a light-only toolbar, picker menus and link editor. */
+.quill .ql-toolbar.ql-snow,
+.quill .ql-container.ql-snow {
+  border-color: var(--border);
+  color: var(--foreground);
+}
+.quill .ql-toolbar.ql-snow { background: var(--muted); }
+.quill .ql-container.ql-snow { background: var(--card); }
+.quill .ql-editor.ql-blank::before { color: var(--muted-foreground); }
+.quill .ql-snow .ql-picker { color: var(--foreground); }
+.quill .ql-snow .ql-stroke { stroke: var(--foreground); }
+.quill .ql-snow .ql-fill { fill: var(--foreground); }
+.quill .ql-snow .ql-picker-options,
+.quill .ql-snow .ql-tooltip {
+  background-color: var(--popover);
+  color: var(--popover-foreground);
+  border-color: var(--border);
+  box-shadow: 0 8px 24px rgb(0 0 0 / 0.15);
+}
+.quill .ql-snow .ql-tooltip input[type=text] {
+  background: var(--card);
+  color: var(--foreground);
+  border-color: var(--border);
+}
+.quill .ql-snow .ql-tooltip a { color: var(--color-primary-400); }
+.quill .ql-snow .ql-picker-item:hover,
+.quill .ql-snow .ql-picker-label:hover,
+.quill .ql-snow .ql-picker-item.ql-selected,
+.quill .ql-snow .ql-picker-label.ql-active { color: var(--color-primary-400); }
+.quill .ql-snow button:hover .ql-stroke,
+.quill .ql-snow button.ql-active .ql-stroke { stroke: var(--color-primary-400); }
+.quill .ql-snow button:hover .ql-fill,
+.quill .ql-snow button.ql-active .ql-fill { fill: var(--color-primary-400); }
+
+.recharts-default-tooltip {
+  background-color: var(--popover) !important;
+  color: var(--popover-foreground) !important;
+  border-color: var(--border) !important;
+}
+.recharts-tooltip-label { color: var(--foreground); }
+::-webkit-scrollbar-thumb { background: var(--border); }
+::-webkit-scrollbar-thumb:hover { background: var(--muted-foreground); }

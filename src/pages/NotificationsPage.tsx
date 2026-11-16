@@ -59,15 +59,15 @@ export default function NotificationsPage() {
   const getNotificationConfig = (type: NotificationType) => {
     switch (type) {
       case 'NEW_MESSAGE': 
-        return { icon: MessageSquare, color: 'text-blue-600 bg-blue-50 dark:bg-blue-500/10 border-blue-100 dark:border-blue-500/20', label: 'Message' };
+        return { icon: MessageSquare, color: 'text-blue-600 bg-blue-50 dark:bg-blue-500/10 border-blue-100 dark:border-blue-500/20 dark:text-blue-400', label: 'Message' };
       case 'TEST_UPLOADED': 
-        return { icon: Info, color: 'text-indigo-600 bg-indigo-50 dark:bg-indigo-500/10 border-indigo-100 dark:border-indigo-500/20', label: 'Report' };
+        return { icon: Info, color: 'text-indigo-600 bg-indigo-50 dark:bg-indigo-500/10 border-indigo-100 dark:border-indigo-500/20 dark:text-indigo-400', label: 'Report' };
       case 'APPOINTMENT_REMINDER': 
-        return { icon: Calendar, color: 'text-amber-600 bg-amber-50 dark:bg-amber-500/10 border-amber-100 dark:border-amber-500/20', label: 'Appointment' };
+        return { icon: Calendar, color: 'text-amber-600 bg-amber-50 dark:bg-amber-500/10 border-amber-100 dark:border-amber-500/20 dark:text-amber-400', label: 'Appointment' };
       case 'SYSTEM_ANNOUNCEMENT': 
-        return { icon: Megaphone, color: 'text-rose-600 bg-rose-50 dark:bg-rose-500/10 border-rose-100 dark:border-rose-500/20', label: 'System' };
+        return { icon: Megaphone, color: 'text-rose-600 bg-rose-50 dark:bg-rose-500/10 border-rose-100 dark:border-rose-500/20 dark:text-rose-400', label: 'System' };
       default: 
-        return { icon: Bell, color: 'text-slate-600 bg-slate-50 dark:bg-slate-500/10 border-slate-100 dark:border-slate-500/20', label: 'Alert' };
+        return { icon: Bell, color: 'text-slate-600 bg-slate-50 dark:bg-slate-500/10 border-slate-100 dark:border-slate-500/20 dark:text-slate-300', label: 'Alert' };
     }
   };
 
@@ -102,7 +102,7 @@ export default function NotificationsPage() {
             <span>Inbox Hub</span>
           </div>
           <h1 className="text-3xl font-black text-slate-900 dark:text-white tracking-tight">Notifications</h1>
-          <p className="text-sm font-medium text-slate-500 mt-1">Stay up to date with events, messages, and system status.</p>
+          <p className="text-sm font-medium text-slate-500 mt-1 dark:text-slate-400">Stay up to date with events, messages, and system status.</p>
         </div>
 
         <div className="flex items-center gap-3 bg-white dark:bg-slate-900 p-1 rounded-2xl border border-slate-200/60 dark:border-slate-800 shadow-sm h-fit">
@@ -124,7 +124,7 @@ export default function NotificationsPage() {
               "px-5 py-2.5 rounded-xl text-sm font-bold transition-all flex items-center gap-2",
               filter === 'unread' 
                 ? "bg-indigo-600 text-white shadow-md shadow-indigo-200 dark:shadow-none" 
-                : "text-slate-500 hover:text-indigo-600 hover:bg-indigo-50/50 dark:hover:bg-indigo-500/10"
+                : "text-slate-500 hover:text-indigo-600 hover:bg-indigo-50/50 dark:hover:bg-indigo-500/10 dark:hover:text-indigo-400"
             )}
           >
             <Inbox size={16} />
@@ -135,7 +135,7 @@ export default function NotificationsPage() {
 
       {/* Controls */}
       <div className="flex items-center justify-between border-b border-slate-200/60 dark:border-slate-800 pb-2">
-         <div className="flex items-center gap-2 text-xs text-slate-500 font-bold tracking-wide">
+         <div className="flex items-center gap-2 text-xs text-slate-500 font-bold tracking-wide dark:text-slate-400">
            <SlidersHorizontal size={12} />
            <span>SHOWING {filter.toUpperCase()} </span>
          </div>
@@ -146,7 +146,7 @@ export default function NotificationsPage() {
               size="sm"
               onClick={() => markAllReadMutation.mutate()}
               disabled={markAllReadMutation.isPending}
-              className="rounded-full h-8 px-4 font-bold text-xs text-slate-600 hover:text-indigo-600 hover:bg-indigo-50 dark:text-slate-400 transition-all flex gap-2 items-center"
+              className="rounded-full h-8 px-4 font-bold text-xs text-slate-600 hover:text-indigo-600 hover:bg-indigo-50 dark:text-slate-400 transition-all flex gap-2 items-center dark:hover:text-indigo-400 dark:hover:bg-indigo-500/10"
             >
               <CheckCircle2 size={14} />
               Mark all read
@@ -221,7 +221,7 @@ export default function NotificationsPage() {
                                   {config.label}
                                 </span>
                                 <span className="text-[11px] font-semibold text-slate-400 flex items-center gap-1.5">
-                                  <div className="w-1 h-1 rounded-full bg-slate-300" />
+                                  <div className="w-1 h-1 rounded-full bg-slate-300 dark:bg-slate-700" />
                                   {timeAgo(notif.createdAt)}
                                 </span>
                               </div>
@@ -261,7 +261,7 @@ export default function NotificationsPage() {
                                 variant="ghost"
                                 size="icon"
                                 onClick={() => deleteMutation.mutate(notif._id)}
-                                className="w-9 h-9 rounded-xl text-slate-400 hover:text-rose-600 hover:bg-rose-50 dark:hover:bg-rose-500/10 transition-all opacity-50 group-hover:opacity-100"
+                                className="w-9 h-9 rounded-xl text-slate-400 hover:text-rose-600 hover:bg-rose-50 dark:hover:bg-rose-500/10 transition-all opacity-50 group-hover:opacity-100 dark:hover:text-rose-400"
                                 title="Delete Notification"
                               >
                                 <Trash2 size={16} />

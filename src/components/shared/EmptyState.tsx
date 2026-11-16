@@ -26,7 +26,7 @@ export const EmptyState: React.FC<EmptyStateProps> = ({
       <div className="relative mb-6">
         <div className="absolute inset-0 bg-primary/10 rounded-full blur-2xl transform scale-150 animate-pulse" />
         <div className="relative h-24 w-24 rounded-full bg-slate-50 dark:bg-slate-800 flex items-center justify-center border border-slate-100 dark:border-slate-700">
-          <Icon className="h-10 w-10 text-primary-500" />
+          <Icon className="h-10 w-10 text-primary-500 dark:text-primary-300" />
         </div>
       </div>
       

@@ -47,21 +47,21 @@ export default function RewardsPage() {
 
     return (
         <div className="space-y-6 animate-in fade-in">
-            <div className="flex flex-col md:flex-row md:items-center justify-between gap-4 bg-white p-6 rounded-2xl border border-slate-200 shadow-sm">
+            <div className="flex flex-col md:flex-row md:items-center justify-between gap-4 bg-white p-6 rounded-2xl border border-slate-200 shadow-sm dark:bg-slate-900 dark:border-slate-800">
                 <div className="flex items-center gap-4">
-                    <div className="p-3 bg-amber-50 text-amber-600 rounded-xl">
+                    <div className="p-3 bg-amber-50 text-amber-600 rounded-xl dark:bg-amber-500/10 dark:text-amber-400">
                         <Gift size={24} />
                     </div>
                     <div>
-                        <h1 className="text-2xl font-bold text-slate-900">Rewards Catalog</h1>
-                        <p className="text-sm text-slate-500 font-medium mt-1">Redeem your earned points for exclusive rewards.</p>
+                        <h1 className="text-2xl font-bold text-slate-900 dark:text-slate-100">Rewards Catalog</h1>
+                        <p className="text-sm text-slate-500 font-medium mt-1 dark:text-slate-400">Redeem your earned points for exclusive rewards.</p>
                     </div>
                 </div>
-                <div className="flex items-center gap-3 bg-slate-50 px-5 py-3 rounded-xl border border-slate-100">
+                <div className="flex items-center gap-3 bg-slate-50 px-5 py-3 rounded-xl border border-slate-100 dark:bg-slate-800 dark:border-slate-800">
                     <Coins size={20} className="text-amber-500" />
                     <div>
-                        <p className="text-xs text-slate-500 font-semibold uppercase tracking-wider">Available Points</p>
-                        <p className="text-xl font-bold text-slate-900">{points.toLocaleString()}</p>
+                        <p className="text-xs text-slate-500 font-semibold uppercase tracking-wider dark:text-slate-400">Available Points</p>
+                        <p className="text-xl font-bold text-slate-900 dark:text-slate-100">{points.toLocaleString()}</p>
                     </div>
                 </div>
             </div>
@@ -71,17 +71,17 @@ export default function RewardsPage() {
                     <div className="animate-spin h-8 w-8 border-4 border-amber-500 border-t-transparent rounded-full" />
                 </div>
             ) : rewards.length === 0 ? (
-                <div className="flex flex-col items-center justify-center py-20 bg-white border border-slate-200 rounded-2xl shadow-sm">
+                <div className="flex flex-col items-center justify-center py-20 bg-white border border-slate-200 rounded-2xl shadow-sm dark:bg-slate-900 dark:border-slate-800">
                     <AlertCircle size={48} className="text-slate-300 mb-4" />
-                    <h3 className="text-lg font-bold text-slate-900">No Rewards Available</h3>
-                    <p className="text-slate-500 font-medium">Check back later for new rewards!</p>
+                    <h3 className="text-lg font-bold text-slate-900 dark:text-slate-100">No Rewards Available</h3>
+                    <p className="text-slate-500 font-medium dark:text-slate-400">Check back later for new rewards!</p>
                 </div>
             ) : (
                 <>
                     <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6">
                         {rewards.map((reward: any) => (
-                            <div key={reward._id} className="overflow-hidden border border-slate-200 rounded-xl shadow-sm hover:shadow-md transition-shadow flex flex-col bg-white">
-                                <div className="h-48 bg-slate-100 relative">
+                            <div key={reward._id} className="overflow-hidden border border-slate-200 rounded-xl shadow-sm hover:shadow-md transition-shadow flex flex-col bg-white dark:border-slate-800 dark:bg-slate-900">
+                                <div className="h-48 bg-slate-100 relative dark:bg-slate-800">
                                     {reward.imageUrl ? (
                                         <img src={reward.imageUrl} alt={reward.name} className="w-full h-full object-cover" />
                                     ) : (
@@ -89,16 +89,16 @@ export default function RewardsPage() {
                                             <Gift size={48} />
                                         </div>
                                     )}
-                                    <div className="absolute top-3 right-3 bg-white/90 backdrop-blur-sm px-3 py-1.5 rounded-full font-bold text-sm text-amber-600 shadow-sm flex items-center gap-1.5">
+                                    <div className="absolute top-3 right-3 bg-white/90 backdrop-blur-sm px-3 py-1.5 rounded-full font-bold text-sm text-amber-600 shadow-sm flex items-center gap-1.5 dark:bg-slate-900/90 dark:text-amber-400">
                                         <Coins size={14} />
                                         {reward.pointsCost.toLocaleString()} pts
                                     </div>
                                 </div>
                                 <div className="p-5 flex-1">
-                                    <h3 className="font-bold text-lg text-slate-900 mb-2">{reward.name}</h3>
-                                    <p className="text-sm text-slate-500 line-clamp-2 leading-relaxed">{reward.description}</p>
+                                    <h3 className="font-bold text-lg text-slate-900 mb-2 dark:text-slate-100">{reward.name}</h3>
+                                    <p className="text-sm text-slate-500 line-clamp-2 leading-relaxed dark:text-slate-400">{reward.description}</p>
                                     {reward.partnerId && (
-                                        <Badge variant="outline" className="mt-3 bg-slate-50 text-slate-600 border-slate-200">
+                                        <Badge variant="outline" className="mt-3 bg-slate-50 text-slate-600 border-slate-200 dark:bg-slate-800 dark:text-slate-300 dark:border-slate-800">
                                             {reward.partnerId.name}
                                         </Badge>
                                     )}
@@ -122,7 +122,7 @@ export default function RewardsPage() {
                                 variant="outline"
                                 onClick={() => rewardsQuery.fetchNextPage()}
                                 disabled={rewardsQuery.isFetchingNextPage}
-                                className="font-bold px-8 border-amber-200 text-amber-700 hover:bg-amber-50"
+                                className="font-bold px-8 border-amber-200 text-amber-700 hover:bg-amber-50 dark:border-amber-500/30 dark:text-amber-400 dark:hover:bg-amber-500/10"
                             >
                                 {rewardsQuery.isFetchingNextPage ? 'Loading...' : 'Load More Rewards'}
                             </Button>
@@ -155,8 +155,8 @@ export default function RewardsPage() {
                                 </DialogDescription>
                             </DialogHeader>
                             <div className="py-4">
-                                <div className="flex items-center justify-between p-4 bg-slate-50 rounded-xl border border-slate-100">
-                                    <span className="font-medium text-slate-600">Points Cost</span>
+                                <div className="flex items-center justify-between p-4 bg-slate-50 rounded-xl border border-slate-100 dark:bg-slate-800 dark:border-slate-800">
+                                    <span className="font-medium text-slate-600 dark:text-slate-300">Points Cost</span>
                                     <span className="font-bold text-rose-500 text-lg">-{selectedReward?.pointsCost?.toLocaleString()}</span>
                                 </div>
                             </div>
@@ -176,40 +176,40 @@ export default function RewardsPage() {
                     ) : (
                         <>
                             <DialogHeader className="text-center flex flex-col items-center">
-                                <div className="p-3 bg-emerald-50 text-emerald-600 rounded-full mb-2">
+                                <div className="p-3 bg-emerald-50 text-emerald-600 rounded-full mb-2 dark:bg-emerald-500/10 dark:text-emerald-400">
                                     <CheckCircle2 size={36} />
                                 </div>
-                                <DialogTitle className="text-xl font-bold text-slate-900">Reward Redeemed!</DialogTitle>
-                                <DialogDescription className="text-sm text-slate-500 mt-1">
+                                <DialogTitle className="text-xl font-bold text-slate-900 dark:text-slate-100">Reward Redeemed!</DialogTitle>
+                                <DialogDescription className="text-sm text-slate-500 mt-1 dark:text-slate-400">
                                     Show this QR code to the partner to claim your reward.
                                 </DialogDescription>
                             </DialogHeader>
 
                             <div className="py-6 flex flex-col items-center gap-4">
-                                <div className="bg-white border-2 border-slate-100 rounded-2xl p-4 shadow-inner">
+                                <div className="bg-white border-2 border-slate-100 rounded-2xl p-4 shadow-inner dark:border-slate-800">
                                     <img 
                                         src={redemptionData.qrCodeDataUrl} 
                                         alt="Redemption QR Code" 
                                         className="w-48 h-48 object-contain"
                                     />
                                 </div>
-                                <p className="text-xs text-slate-400 font-medium bg-slate-50 px-3 py-1.5 rounded-full border border-slate-100">
+                                <p className="text-xs text-slate-400 font-medium bg-slate-50 px-3 py-1.5 rounded-full border border-slate-100 dark:bg-slate-800 dark:border-slate-800">
                                     This QR code can only be used once
                                 </p>
                             </div>
 
-                            <div className="border border-slate-100 bg-slate-50/50 rounded-xl p-4 space-y-3 text-sm">
+                            <div className="border border-slate-100 bg-slate-50/50 rounded-xl p-4 space-y-3 text-sm dark:border-slate-800 dark:bg-slate-800/50">
                                 <div className="flex justify-between items-center">
-                                    <span className="text-slate-500 font-medium">Reward</span>
-                                    <span className="font-bold text-slate-800 text-right max-w-[65%] truncate">{selectedReward?.name}</span>
+                                    <span className="text-slate-500 font-medium dark:text-slate-400">Reward</span>
+                                    <span className="font-bold text-slate-800 text-right max-w-[65%] truncate dark:text-slate-100">{selectedReward?.name}</span>
                                 </div>
-                                <div className="flex justify-between items-center border-t border-slate-100 pt-3">
-                                    <span className="text-slate-500 font-medium">Points Spent</span>
-                                    <span className="font-bold text-indigo-600">{selectedReward?.pointsCost?.toLocaleString()} pts</span>
+                                <div className="flex justify-between items-center border-t border-slate-100 pt-3 dark:border-slate-800">
+                                    <span className="text-slate-500 font-medium dark:text-slate-400">Points Spent</span>
+                                    <span className="font-bold text-indigo-600 dark:text-indigo-400">{selectedReward?.pointsCost?.toLocaleString()} pts</span>
                                 </div>
-                                <div className="flex justify-between items-center border-t border-slate-100 pt-3">
-                                    <span className="text-slate-500 font-medium">Serial Number</span>
-                                    <span className="font-mono font-bold text-slate-700 tracking-wider">{redemptionData.serialNumber}</span>
+                                <div className="flex justify-between items-center border-t border-slate-100 pt-3 dark:border-slate-800">
+                                    <span className="text-slate-500 font-medium dark:text-slate-400">Serial Number</span>
+                                    <span className="font-mono font-bold text-slate-700 tracking-wider dark:text-slate-200">{redemptionData.serialNumber}</span>
                                 </div>
                             </div>
 
@@ -217,8 +217,8 @@ export default function RewardsPage() {
                                 <Button 
                                     className={`w-full font-bold flex items-center justify-center gap-2 ${
                                         isDownloaded 
-                                            ? 'border-emerald-200 bg-emerald-50 text-emerald-700 hover:bg-emerald-100 hover:text-emerald-800' 
-                                            : 'border-indigo-200 bg-indigo-50 text-indigo-700 hover:bg-indigo-100 hover:text-indigo-800'
+                                            ? 'border-emerald-200 bg-emerald-50 text-emerald-700 hover:bg-emerald-100 hover:text-emerald-800 dark:border-emerald-500/30 dark:bg-emerald-500/10 dark:text-emerald-400 dark:hover:bg-emerald-500/20 dark:hover:text-emerald-400'
+                                            : 'border-indigo-200 bg-indigo-50 text-indigo-700 hover:bg-indigo-100 hover:text-indigo-800 dark:border-indigo-500/30 dark:bg-indigo-500/10 dark:text-indigo-400 dark:hover:bg-indigo-500/20 dark:hover:text-indigo-400'
                                     }`}
                                     variant="outline"
                                     onClick={() => {

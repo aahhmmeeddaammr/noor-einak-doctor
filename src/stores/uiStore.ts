@@ -1,4 +1,5 @@
 import { create } from 'zustand';
+import { getInitialTheme, saveTheme } from '../lib/theme';
 
 type Theme = 'light' | 'dark';
 
@@ -15,7 +16,11 @@ export const useUIStore = create<UIState>()((set) => ({
   sidebarCollapsed: false,
   toggleSidebar: () => set((state) => ({ sidebarCollapsed: !state.sidebarCollapsed })),
   setSidebarCollapsed: (collapsed) => set({ sidebarCollapsed: collapsed }),
-  theme: 'light',
-  toggleTheme: () => set((state) => ({ theme: state.theme === 'light' ? 'dark' : 'light' })),
-  setTheme: (theme) => set({ theme }),
+  theme: getInitialTheme(),
+  toggleTheme: () => set((state) => {
+    const theme = state.theme === 'light' ? 'dark' : 'light';
+    saveTheme(theme);
+    return { theme };
+  }),
+  setTheme: (theme) => { saveTheme(theme); set({ theme }); },
 }));

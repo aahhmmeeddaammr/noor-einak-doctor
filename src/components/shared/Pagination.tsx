@@ -46,14 +46,14 @@ export const Pagination: React.FC<PaginationProps> = ({
         <button
           onClick={() => onPageChange(Math.max(1, currentPage - 1))}
           disabled={currentPage === 1}
-          className="relative inline-flex items-center px-4 py-2 border border-slate-200 dark:border-slate-800 text-sm rounded-xl text-slate-700 dark:text-slate-200 bg-white dark:bg-slate-900 hover:bg-slate-50 disabled:opacity-50 transition-all font-bold"
+          className="relative inline-flex items-center px-4 py-2 border border-slate-200 dark:border-slate-800 text-sm rounded-xl text-slate-700 dark:text-slate-200 bg-white dark:bg-slate-900 hover:bg-slate-50 disabled:opacity-50 transition-all font-bold dark:hover:bg-slate-800"
         >
           Previous
         </button>
         <button
           onClick={() => onPageChange(Math.min(totalPages, currentPage + 1))}
           disabled={currentPage === totalPages}
-          className="ml-3 relative inline-flex items-center px-4 py-2 border border-slate-200 dark:border-slate-800 text-sm rounded-xl text-slate-700 dark:text-slate-200 bg-white dark:bg-slate-900 hover:bg-slate-50 disabled:opacity-50 transition-all font-bold"
+          className="ml-3 relative inline-flex items-center px-4 py-2 border border-slate-200 dark:border-slate-800 text-sm rounded-xl text-slate-700 dark:text-slate-200 bg-white dark:bg-slate-900 hover:bg-slate-50 disabled:opacity-50 transition-all font-bold dark:hover:bg-slate-800"
         >
           Next
         </button>

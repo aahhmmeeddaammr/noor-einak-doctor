@@ -137,7 +137,7 @@ export default function ArticleEditorPage() {
           <Button
             type="button"
             variant="ghost"
-            className="rounded-xl h-9 w-9 p-0 text-slate-500 hover:text-[#3e4998] hover:bg-slate-100 dark:hover:bg-slate-800 transition-colors"
+            className="rounded-xl h-9 w-9 p-0 text-slate-500 hover:text-[#3e4998] hover:bg-slate-100 dark:hover:bg-slate-800 transition-colors dark:text-slate-400 dark:hover:text-primary-300"
             onClick={() => navigate(isEditMode && id ? `/articles/${id}` : '/articles')}
           >
             <ArrowLeft size={18} />
@@ -189,7 +189,7 @@ export default function ArticleEditorPage() {
                   {...register('title')}
                   placeholder="Enter a descriptive clinical title..."
                   className={cn(
-                    "w-full bg-transparent text-2xl md:text-3xl font-extrabold text-slate-900 dark:text-white border-0 border-b border-slate-100 dark:border-slate-800 focus:border-[#3e4998] dark:focus:border-blue-400 outline-none pb-3 transition-colors placeholder:text-slate-300 dark:placeholder:text-slate-700",
+                    "w-full bg-transparent text-2xl md:text-3xl font-extrabold text-slate-900 dark:text-white border-0 border-b border-slate-100 dark:border-slate-800 focus:border-[#3e4998] dark:focus:border-blue-400 outline-none pb-3 transition-colors placeholder:text-slate-300 dark:placeholder:text-slate-400",
                     errors.title && "border-red-500 focus:border-red-500"
                   )}
                 />
@@ -199,7 +199,7 @@ export default function ArticleEditorPage() {
               {/* Composition Body Header */}
               <div className="flex-1 flex flex-col">
                 <div className="px-6 py-2 border-t border-slate-100 dark:border-slate-800/80 bg-slate-50/60 dark:bg-slate-900/40">
-                  <span className="text-[10px] font-bold text-slate-500 uppercase tracking-wider flex items-center gap-1.5">
+                  <span className="text-[10px] font-bold text-slate-500 uppercase tracking-wider flex items-center gap-1.5 dark:text-slate-400">
                     <FileText size={12} className="text-[#3e4998] dark:text-blue-400" />
                     Composition Body *
                   </span>

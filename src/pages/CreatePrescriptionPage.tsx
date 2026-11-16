@@ -140,7 +140,7 @@ export default function CreatePrescriptionPage() {
             <>
               <div className="w-px h-10 bg-slate-200 dark:bg-slate-800 hidden md:block"></div>
               <div className="hidden md:flex items-center gap-3">
-                <div className="w-10 h-10 rounded-xl bg-primary/10 flex items-center justify-center text-primary font-black text-sm">
+                <div className="w-10 h-10 rounded-xl bg-primary/10 flex items-center justify-center text-primary font-black text-sm dark:text-primary-300">
                   {getInitials(patient?.user?.name || patient?.name)}
                 </div>
                 <div>
@@ -339,7 +339,7 @@ export default function CreatePrescriptionPage() {
                           currentTimes.push('12:00');
                           setValue(`medications.${index}.scheduleTimes`, currentTimes);
                         }}
-                        className="px-4 py-2.5 bg-primary/5 hover:bg-primary/10 text-primary rounded-xl border border-primary/20 text-sm font-bold flex items-center gap-2 transition-colors"
+                        className="px-4 py-2.5 bg-primary/5 hover:bg-primary/10 text-primary rounded-xl border border-primary/20 text-sm font-bold flex items-center gap-2 transition-colors dark:text-primary-300"
                       >
                         <Plus size={16} /> Add Time
                       </button>
@@ -358,7 +358,7 @@ export default function CreatePrescriptionPage() {
           <button
             type="button"
             onClick={() => append({ name: '', type: 'eyedrop', dosage: '', frequency: 1, frequencyUnit: 'daily', scheduleTimes: ['08:00'], duration: 30, instructions: '', eyeSide: 'both' })}
-            className="w-full flex flex-col items-center justify-center p-8 border-2 border-dashed border-slate-200 dark:border-slate-800 rounded-[2.5rem] text-slate-400 hover:border-primary hover:text-primary hover:bg-primary/5 transition-all group"
+            className="w-full flex flex-col items-center justify-center p-8 border-2 border-dashed border-slate-200 dark:border-slate-800 rounded-[2.5rem] text-slate-400 hover:border-primary hover:text-primary hover:bg-primary/5 transition-all group dark:hover:text-primary-300"
           >
             <div className="w-12 h-12 bg-slate-100 dark:bg-slate-800 group-hover:bg-white dark:group-hover:bg-slate-900 rounded-full flex items-center justify-center mb-3 transition-colors shadow-sm">
               <Plus size={24} strokeWidth={2.5} />
@@ -367,8 +367,8 @@ export default function CreatePrescriptionPage() {
           </button>
 
           {errors.medications?.root && (
-            <div className="p-4 bg-rose-50 border border-rose-100 rounded-2xl">
-              <p className="text-rose-600 font-bold text-sm text-center">{errors.medications.root.message}</p>
+            <div className="p-4 bg-rose-50 border border-rose-100 rounded-2xl dark:bg-rose-500/10 dark:border-rose-500/30">
+              <p className="text-rose-600 font-bold text-sm text-center dark:text-rose-400">{errors.medications.root.message}</p>
             </div>
           )}
         </div>

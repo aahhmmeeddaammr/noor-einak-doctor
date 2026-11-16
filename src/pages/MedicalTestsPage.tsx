@@ -87,11 +87,11 @@ export default function MedicalTestsPage() {
               </div>
 
               <div className="flex items-center justify-between gap-4 mb-4">
-                <h4 className="font-black text-slate-900 dark:text-white text-lg leading-snug group-hover:text-primary transition-colors">
+                <h4 className="font-black text-slate-900 dark:text-white text-lg leading-snug group-hover:text-primary transition-colors dark:group-hover:text-primary-300">
                   {test.testType || test.title || 'Medical Record'}
                 </h4>
                 {test.eye && (
-                  <span className="flex items-center gap-1.5 px-3.5 py-1.5 bg-secondary text-white rounded-2xl text-[10px] font-black shadow-md shadow-secondary/20 shrink-0 transition-transform hover:scale-105">
+                  <span className="flex items-center gap-1.5 px-3.5 py-1.5 bg-pharco-blue-royal text-white rounded-2xl text-[10px] font-black shadow-md shadow-secondary/20 shrink-0 transition-transform hover:scale-105">
                     <Eye size={14} strokeWidth={3} />
                     {test.eye} Eye
                   </span>
@@ -100,12 +100,12 @@ export default function MedicalTestsPage() {
 
               {(test.patientId?.user || test.patientId?.userId) && (
                 <div className="flex items-center gap-3 mb-4 p-3 rounded-2xl bg-slate-50 dark:bg-slate-800/50 border border-slate-100 dark:border-slate-800">
-                   <div className="w-10 h-10 rounded-xl bg-primary/10 flex items-center justify-center text-primary font-black shadow-inner">
+                   <div className="w-10 h-10 rounded-xl bg-primary/10 flex items-center justify-center text-primary font-black shadow-inner dark:text-primary-300">
                      {(test.patientId.user || test.patientId.userId).name?.charAt(0) || 'P'}
                    </div>
                    <div className="flex flex-col">
                       <span className="text-xs font-bold text-slate-900 dark:text-white">{(test.patientId.user || test.patientId.userId).name || 'Anonymous Patient'}</span>
-                      <span className="text-[10px] text-slate-500 font-medium">{(test.patientId.user || test.patientId.userId).phone || (test.patientId.user || test.patientId.userId).email || 'No Contact Info'}</span>
+                      <span className="text-[10px] text-slate-500 font-medium dark:text-slate-400">{(test.patientId.user || test.patientId.userId).phone || (test.patientId.user || test.patientId.userId).email || 'No Contact Info'}</span>
                    </div>
                 </div>
               )}
@@ -179,7 +179,7 @@ export default function MedicalTestsPage() {
                 ) : (
                   test.fileUrl && (
                     <a href={test.fileUrl} target="_blank" rel="noopener noreferrer">
-                      <button className="h-10 px-5 bg-primary/5 hover:bg-primary/10 text-primary rounded-2xl border border-primary/10 flex items-center gap-2.5 transition-all hover:-translate-y-0.5 hover:shadow-lg hover:shadow-primary/5">
+                      <button className="h-10 px-5 bg-primary/5 hover:bg-primary/10 text-primary rounded-2xl border border-primary/10 flex items-center gap-2.5 transition-all hover:-translate-y-0.5 hover:shadow-lg hover:shadow-primary/5 dark:text-primary-300">
                          <span className="text-[10px] font-black uppercase tracking-widest">Open File</span>
                          <ExternalLink size={14} strokeWidth={3} />
                       </button>
@@ -206,7 +206,7 @@ export default function MedicalTestsPage() {
               {/* Header */}
               <div className="p-6 md:p-8 bg-white dark:bg-slate-900 border-b border-slate-100 dark:border-slate-800 flex flex-col md:flex-row md:items-center justify-between gap-4 shrink-0">
                 <div className="flex items-center gap-4">
-                  <div className="w-12 h-12 rounded-2xl bg-primary/10 flex items-center justify-center text-primary font-black shadow-inner text-xl">
+                  <div className="w-12 h-12 rounded-2xl bg-primary/10 flex items-center justify-center text-primary font-black shadow-inner text-xl dark:text-primary-300">
                     {(reviewModal.patientId?.user || reviewModal.patientId?.userId)?.name?.charAt(0) || 'P'}
                   </div>
                   <div>
@@ -221,7 +221,7 @@ export default function MedicalTestsPage() {
                 
                 <div className="flex items-center gap-3 self-start md:self-auto">
                   {reviewModal.eye && (
-                    <span className="flex items-center gap-2 px-4 py-2 bg-secondary text-white rounded-2xl text-xs font-black shadow-md shadow-secondary/20 transition-transform hover:scale-105">
+                    <span className="flex items-center gap-2 px-4 py-2 bg-pharco-blue-royal text-white rounded-2xl text-xs font-black shadow-md shadow-secondary/20 transition-transform hover:scale-105">
                       <Eye size={16} strokeWidth={3} />
                       {reviewModal.eye} Eye
                     </span>

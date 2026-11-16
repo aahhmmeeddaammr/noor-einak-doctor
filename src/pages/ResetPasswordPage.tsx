@@ -62,7 +62,7 @@ export default function ResetPasswordPage() {
       </form>
 
       <p className="text-center text-sm text-text-secondary mt-8">
-        <Link to="/login" className="text-primary-500 hover:text-primary-600 font-semibold">Back to Sign In</Link>
+        <Link to="/login" className="text-primary-500 hover:text-primary-600 font-semibold dark:hover:text-primary-400 dark:text-primary-300">Back to Sign In</Link>
       </p>
     </div>
   );

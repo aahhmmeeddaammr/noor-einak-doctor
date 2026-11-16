@@ -275,16 +275,16 @@ export default function PatientDetailPage() {
   if (isLoading) {
     return (
       <div className="space-y-6 animate-pulse">
-        <div className="w-full h-48 bg-gray-200 rounded-3xl" />
+        <div className="w-full h-48 bg-gray-200 rounded-3xl dark:bg-slate-700" />
       </div>
     );
   }
 
   if (!patient) {
     return (
-      <div className="rounded-3xl border border-rose-200 bg-white dark:bg-slate-900 p-8 text-center space-y-4">
+      <div className="rounded-3xl border border-rose-200 bg-white dark:bg-slate-900 p-8 text-center space-y-4 dark:border-rose-500/30">
         <h2 className="text-lg font-bold text-slate-900 dark:text-white">Patient data could not be loaded</h2>
-        <p className="text-sm text-slate-500">Please check your connection and try again. If this continues, confirm that this patient is assigned to your account.</p>
+        <p className="text-sm text-slate-500 dark:text-slate-400">Please check your connection and try again. If this continues, confirm that this patient is assigned to your account.</p>
         <Button onClick={() => void refetch()} disabled={isFetching}>{isFetching ? 'Retrying...' : 'Retry'}</Button>
       </div>
     );
@@ -300,7 +300,7 @@ export default function PatientDetailPage() {
         <div className="relative z-10 flex flex-col md:flex-row items-center gap-8">
           {/* Avatar Section */}
           <div className="shrink-0">
-            <div className="w-24 h-24 rounded-3xl bg-slate-50 dark:bg-slate-800 flex items-center justify-center text-primary-600 font-bold text-3xl shadow-inner border border-slate-100 dark:border-slate-700 transition-transform duration-500 group-hover:rotate-3">
+            <div className="w-24 h-24 rounded-3xl bg-slate-50 dark:bg-slate-800 flex items-center justify-center text-primary-600 font-bold text-3xl shadow-inner border border-slate-100 dark:border-slate-700 transition-transform duration-500 group-hover:rotate-3 dark:text-primary-400">
               {patient?.user?.avatarUrl ? (
                 <img src={patient.user.avatarUrl} alt="" className="w-full h-full rounded-3xl object-cover" />
               ) : (
@@ -316,11 +316,11 @@ export default function PatientDetailPage() {
                 {patient?.user?.name}
               </h1>
               <div className="flex flex-wrap items-center justify-center md:justify-start gap-x-5 gap-y-1.5">
-                <div className="flex items-center gap-1.5 text-slate-500 dark:text-slate-400 font-semibold text-xs transition-colors hover:text-primary-500">
+                <div className="flex items-center gap-1.5 text-slate-500 dark:text-slate-400 font-semibold text-xs transition-colors hover:text-primary-500 dark:hover:text-primary-300">
                   <Mail size={14} className="opacity-70" />
                   <span>{patient?.user?.email}</span>
                 </div>
-                <div className="flex items-center gap-1.5 text-slate-500 dark:text-slate-400 font-semibold text-xs transition-colors hover:text-primary-500">
+                <div className="flex items-center gap-1.5 text-slate-500 dark:text-slate-400 font-semibold text-xs transition-colors hover:text-primary-500 dark:hover:text-primary-300">
                   <Phone size={14} className="opacity-70" />
                   <span>{patient?.user?.phone}</span>
                 </div>
@@ -372,7 +372,7 @@ export default function PatientDetailPage() {
               </Button>
             </Link>
             <Link to={`/messaging`}>
-              <Button variant="outline" className="h-12 px-6 gap-2 rounded-2xl font-bold text-slate-600 dark:text-slate-300 border-slate-200 cursor-pointer dark:border-slate-800 hover:bg-slate-50 transition-all">
+              <Button variant="outline" className="h-12 px-6 gap-2 rounded-2xl font-bold text-slate-600 dark:text-slate-300 border-slate-200 cursor-pointer dark:border-slate-800 hover:bg-slate-50 transition-all dark:hover:bg-slate-800">
                 <MessageSquare size={18} />
                 <span>Chat</span>
               </Button>
@@ -401,10 +401,10 @@ export default function PatientDetailPage() {
         <TabsContent value="Overview" className="mt-0 space-y-6">
           {/* Top Row: Clinical Pulse Dashboard */}
           <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
-            <StatCard icon={FileText} label="Medications" value={patient?.prescriptionCount ?? 0} color="text-primary-600 bg-primary/10" />
-            <StatCard icon={ShieldAlert} label="Archival Records" value={patient?.medicalRecordCount ?? 0} color="text-amber-600 bg-amber-100/60" />
-            <StatCard icon={Clock} label="Past Doses" value={patient?.pastCount ?? 0} color="text-emerald-600 bg-emerald-100/60" />
-            <StatCard icon={Zap} label="Overall Adherence" value={typeof patient?.adherenceRate === 'number' ? `${patient.adherenceEstimated ? '≈' : ''}${Math.round(patient.adherenceRate * 100)}%` : 'N/A'} color="text-rose-600 bg-rose-100/60" />
+            <StatCard icon={FileText} label="Medications" value={patient?.prescriptionCount ?? 0} color="text-primary-600 bg-primary/10 dark:text-primary-400" />
+            <StatCard icon={ShieldAlert} label="Archival Records" value={patient?.medicalRecordCount ?? 0} color="text-amber-600 bg-amber-100/60 dark:text-amber-400 dark:bg-amber-500/20" />
+            <StatCard icon={Clock} label="Past Doses" value={patient?.pastCount ?? 0} color="text-emerald-600 bg-emerald-100/60 dark:text-emerald-400 dark:bg-emerald-500/20" />
+            <StatCard icon={Zap} label="Overall Adherence" value={typeof patient?.adherenceRate === 'number' ? `${patient.adherenceEstimated ? '≈' : ''}${Math.round(patient.adherenceRate * 100)}%` : 'N/A'} color="text-rose-600 bg-rose-100/60 dark:text-rose-400 dark:bg-rose-500/20" />
           </div>
 
           <div className="grid grid-cols-1 lg:grid-cols-12 gap-6 items-stretch">
@@ -412,7 +412,7 @@ export default function PatientDetailPage() {
             <div className="lg:col-span-8 flex flex-col">
               <div className="bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-800 rounded-4xl p-8 shadow-sm flex-1 flex flex-col">
                 <div className="flex items-center gap-3 mb-8">
-                  <div className="w-10 h-10 rounded-2xl bg-primary/10 flex items-center justify-center text-primary">
+                  <div className="w-10 h-10 rounded-2xl bg-primary/10 flex items-center justify-center text-primary dark:text-primary-300">
                     <FileText size={20} />
                   </div>
                   <div>
@@ -466,7 +466,7 @@ export default function PatientDetailPage() {
                     {isEditing && (
                       <button
                         onClick={() => setIsEditing(false)}
-                        className="h-11 px-6 bg-slate-100 dark:bg-slate-800 text-slate-600 dark:text-slate-400 rounded-xl font-bold text-xs hover:bg-slate-200 transition-all cursor-pointer"
+                        className="h-11 px-6 bg-slate-100 dark:bg-slate-800 text-slate-600 dark:text-slate-400 rounded-xl font-bold text-xs hover:bg-slate-200 transition-all cursor-pointer dark:hover:bg-slate-700"
                       >
                         Cancel
                       </button>
@@ -478,7 +478,7 @@ export default function PatientDetailPage() {
                         "h-11 px-6 rounded-xl font-bold text-xs transition-all gap-2.5 flex items-center justify-center cursor-pointer",
                         isEditing
                           ? "bg-primary text-white shadow-lg shadow-primary/20 hover:scale-[1.02] active:scale-95"
-                          : "bg-secondary text-white shadow-lg shadow-secondary/10 hover:scale-[1.02] active:scale-95"
+                          : "bg-pharco-blue-royal text-white shadow-lg shadow-secondary/10 hover:scale-[1.02] active:scale-95"
                       )}
                     >
                       {updateMutation.isPending ? (
@@ -561,7 +561,7 @@ export default function PatientDetailPage() {
                     <div className="flex items-center justify-between mb-5">
                       <div className="flex items-center gap-2 px-2.5 py-1 bg-slate-50 dark:bg-slate-800 rounded-lg border border-slate-100 dark:border-slate-700">
                         <Calendar size={10} className="text-slate-400" strokeWidth={3} />
-                        <span className="text-[9px] font-black text-slate-500 uppercase tracking-tight">{formatDate(rx.createdAt)}</span>
+                        <span className="text-[9px] font-black text-slate-500 uppercase tracking-tight dark:text-slate-400">{formatDate(rx.createdAt)}</span>
                       </div>
                       {rx.medications?.[0]?.eyeSide && (
                         <span className="flex items-center gap-1 text-[9px] font-black text-pharco-orange bg-orange-50 dark:bg-orange-500/10 px-2 py-0.5 rounded-lg uppercase">
@@ -575,7 +575,7 @@ export default function PatientDetailPage() {
                     <div className="mb-6 flex-1">
                       <div className="mb-4">
                         <p className="text-[9px] font-black text-slate-400 uppercase tracking-widest leading-none mb-2">Treatment Title</p>
-                        <h4 className="text-lg font-black text-slate-900 dark:text-white leading-tight group-hover:text-primary transition-colors">
+                        <h4 className="text-lg font-black text-slate-900 dark:text-white leading-tight group-hover:text-primary transition-colors dark:group-hover:text-primary-300">
                           {rx.title || 'Untitled Treatment'}
                         </h4>
                       </div>
@@ -608,14 +608,14 @@ export default function PatientDetailPage() {
                         </div>
                         <span className="text-[10px] font-black text-slate-900 dark:text-white uppercase tracking-wider">{rx.medications?.length || 0} Meds</span>
                       </div>
-                      <ChevronRight size={16} className="text-slate-300 group-hover:text-primary transition-transform group-hover:translate-x-1" />
+                      <ChevronRight size={16} className="text-slate-300 group-hover:text-primary transition-transform group-hover:translate-x-1 dark:group-hover:text-primary-300" />
                     </div>
                   </button>
                 ))}
               </div>
             ) : (
               <div className="py-20 text-center space-y-4">
-                <div className="w-16 h-16 bg-slate-50 rounded-full flex items-center justify-center mx-auto">
+                <div className="w-16 h-16 bg-slate-50 rounded-full flex items-center justify-center mx-auto dark:bg-slate-800">
                   <FileText className="text-slate-300" size={24} />
                 </div>
                 <p className="text-slate-400 font-bold">No prescriptions recorded yet</p>
@@ -634,14 +634,14 @@ export default function PatientDetailPage() {
                       <h3 className="text-lg font-bold text-slate-900 dark:text-white">Submitted tests</h3>
                       <p className="text-sm text-slate-500 dark:text-slate-400 mt-1">These tests are saved but are not approved medical records yet.</p>
                     </div>
-                    <Link to="/tests" className="text-sm font-bold text-primary hover:underline">Review tests</Link>
+                    <Link to="/tests" className="text-sm font-bold text-primary hover:underline dark:text-primary-300">Review tests</Link>
                   </div>
                   <div className="space-y-2">
                     {submittedTests.map((test: any) => (
                       <div key={test._id || test.id} className="flex flex-wrap items-center justify-between gap-2 rounded-xl border border-slate-100 dark:border-slate-800 p-3">
                         <div>
                           <p className="text-sm font-bold text-slate-900 dark:text-white">{test.testType || test.titleEn || 'Test'}</p>
-                          <p className="text-xs text-slate-500">{formatDate(test.testDate || test.createdAt)} · {test.eye || 'Eye not specified'}</p>
+                          <p className="text-xs text-slate-500 dark:text-slate-400">{formatDate(test.testDate || test.createdAt)} · {test.eye || 'Eye not specified'}</p>
                         </div>
                         <span className={cn('rounded-full px-3 py-1 text-xs font-bold', getStatusColor(test.status))}>
                           {test.status.replace(/_/g, ' ')}
@@ -656,7 +656,7 @@ export default function PatientDetailPage() {
                 <div className="space-y-7">
                   <div className="flex flex-col sm:flex-row sm:items-start sm:justify-between gap-4 pb-6 border-b border-slate-200 dark:border-slate-800">
                     <div className="flex items-start gap-4">
-                      <div className="w-12 h-12 shrink-0 rounded-2xl bg-primary/10 text-primary flex items-center justify-center">
+                      <div className="w-12 h-12 shrink-0 rounded-2xl bg-primary/10 text-primary flex items-center justify-center dark:text-primary-300">
                         <Microscope size={23} />
                       </div>
                       <div>
@@ -750,7 +750,7 @@ export default function PatientDetailPage() {
 
                     {isIopRecord && (
                     <div className="rounded-2xl bg-blue-50/60 dark:bg-blue-950/20 border border-blue-100 dark:border-blue-900 p-4 sm:p-5 space-y-3">
-                      <p className="text-sm font-semibold text-slate-800 dark:text-slate-200">Eye pressure readings <span className="text-rose-600">*</span> <span className="font-normal text-slate-500">(mmHg)</span></p>
+                      <p className="text-sm font-semibold text-slate-800 dark:text-slate-200">Eye pressure readings <span className="text-rose-600 dark:text-rose-400">*</span> <span className="font-normal text-slate-500 dark:text-slate-400">(mmHg)</span></p>
                       <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
                       {(selectedEye === 'Right' || selectedEye === 'Both') && (
                         <div className="space-y-2">
@@ -787,7 +787,7 @@ export default function PatientDetailPage() {
                     )}
                     {isCctRecord && (
                       <div className="rounded-2xl bg-blue-50/60 dark:bg-blue-950/20 border border-blue-100 dark:border-blue-900 p-4 sm:p-5 space-y-3">
-                        <p className="text-sm font-semibold text-slate-800 dark:text-slate-200">Central corneal thickness <span className="text-rose-600">*</span> <span className="font-normal text-slate-500">(µm)</span></p>
+                        <p className="text-sm font-semibold text-slate-800 dark:text-slate-200">Central corneal thickness <span className="text-rose-600 dark:text-rose-400">*</span> <span className="font-normal text-slate-500 dark:text-slate-400">(µm)</span></p>
                         <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
                           {(selectedEye === 'Right' || selectedEye === 'Both') && (
                             <div className="space-y-2">
@@ -816,7 +816,7 @@ export default function PatientDetailPage() {
                     </div>
 
                     <div className="space-y-3">
-                      <p className="text-sm font-semibold text-slate-700 dark:text-slate-200">File {!(isIopRecord || isCctRecord) && <span className="text-rose-600">*</span>} <span className="font-normal text-slate-500">(PDF or image)</span></p>
+                      <p className="text-sm font-semibold text-slate-700 dark:text-slate-200">File {!(isIopRecord || isCctRecord) && <span className="text-rose-600 dark:text-rose-400">*</span>} <span className="font-normal text-slate-500 dark:text-slate-400">(PDF or image)</span></p>
 
                       <input
                         ref={documentInputRef}
@@ -850,7 +850,7 @@ export default function PatientDetailPage() {
                                   type="button"
                                   onClick={clearRecordFile}
                                   aria-label="Remove attached file"
-                                  className="w-10 h-10 rounded-xl border border-slate-200 dark:border-slate-700 text-slate-500 hover:text-rose-500 hover:border-rose-200 transition-colors flex items-center justify-center shrink-0"
+                                  className="w-10 h-10 rounded-xl border border-slate-200 dark:border-slate-700 text-slate-500 hover:text-rose-500 hover:border-rose-200 transition-colors flex items-center justify-center shrink-0 dark:text-slate-400 dark:hover:border-rose-500/30"
                                 >
                                   <Trash2 size={16} />
                                 </button>
@@ -954,18 +954,18 @@ export default function PatientDetailPage() {
                               Dated: {recordDateLabel}
                             </span>
                             {item.category === 'test_result' && (
-                              <span className="px-3 py-1 rounded-full bg-emerald-50 text-emerald-600 border border-emerald-100 text-[9px] font-black uppercase tracking-widest">
+                              <span className="px-3 py-1 rounded-full bg-emerald-50 text-emerald-600 border border-emerald-100 text-[9px] font-black uppercase tracking-widest dark:bg-emerald-500/10 dark:text-emerald-400 dark:border-emerald-500/30">
                                 Approved Test
                               </span>
                             )}
                           </div>
 
                           <div className="flex items-center justify-between gap-4 mb-6">
-                            <h4 className="font-black text-slate-900 dark:text-white text-lg leading-snug group-hover:text-primary-500 transition-colors">
+                            <h4 className="font-black text-slate-900 dark:text-white text-lg leading-snug group-hover:text-primary-500 transition-colors dark:group-hover:text-primary-300">
                               {item.testType || item.titleEn || item.title || 'Medical Record'}
                             </h4>
                             {item.eye && (
-                              <span className="flex items-center gap-2 px-4 py-2 bg-secondary text-white rounded-2xl text-xs font-black shadow-md shadow-secondary/20 shrink-0 transition-transform hover:scale-105">
+                              <span className="flex items-center gap-2 px-4 py-2 bg-pharco-blue-royal text-white rounded-2xl text-xs font-black shadow-md shadow-secondary/20 shrink-0 transition-transform hover:scale-105">
                                 <Eye size={16} strokeWidth={3} />
                                 {item.eye} Eye
                               </span>
@@ -1056,7 +1056,7 @@ export default function PatientDetailPage() {
 
                             {item.fileUrl ? (
                               <a href={item.fileUrl} target="_blank" rel="noopener noreferrer">
-                                <button className="h-10 px-5 bg-primary/5 hover:bg-primary/10 text-primary-600 rounded-2xl border border-primary/10 flex items-center gap-2.5 transition-all hover:-translate-y-0.5 hover:shadow-lg hover:shadow-primary/5">
+                                <button className="h-10 px-5 bg-primary/5 hover:bg-primary/10 text-primary-600 rounded-2xl border border-primary/10 flex items-center gap-2.5 transition-all hover:-translate-y-0.5 hover:shadow-lg hover:shadow-primary/5 dark:text-primary-400">
                                   <span className="text-[10px] font-black uppercase tracking-widest">Open File</span>
                                   <ExternalLink size={14} strokeWidth={3} />
                                 </button>
@@ -1073,7 +1073,7 @@ export default function PatientDetailPage() {
                   </div>
                 ) : (
                   <div className="py-20 text-center space-y-4">
-                    <div className="w-16 h-16 bg-slate-50/50 rounded-full flex items-center justify-center mx-auto border border-dashed border-slate-200">
+                    <div className="w-16 h-16 bg-slate-50/50 rounded-full flex items-center justify-center mx-auto border border-dashed border-slate-200 dark:bg-slate-800/50 dark:border-slate-800">
                       <ShieldAlert className="text-slate-200" size={24} />
                     </div>
                     <p className="text-slate-400 font-bold text-sm tracking-tight text-center max-w-xs mx-auto">
@@ -1097,7 +1097,7 @@ export default function PatientDetailPage() {
               {/* Analytics Header & Filters */}
               <div className="flex flex-col md:flex-row md:items-center justify-between gap-4 bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-800 rounded-[2rem] p-6 shadow-sm">
                 <div className="flex items-center gap-4">
-                  <div className="w-12 h-12 rounded-2xl bg-blue-50 dark:bg-blue-900/30 text-blue-600 flex items-center justify-center shadow-inner">
+                  <div className="w-12 h-12 rounded-2xl bg-blue-50 dark:bg-blue-900/30 text-blue-600 flex items-center justify-center shadow-inner dark:text-blue-400">
                     <TrendingUp size={24} strokeWidth={2.5} />
                   </div>
                   <div>
@@ -1193,7 +1193,7 @@ export default function PatientDetailPage() {
                 <div className="lg:col-span-8 bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-800 rounded-[2.5rem] p-8 shadow-sm">
                   <div className="flex items-center justify-between mb-8">
                     <div className="flex items-center gap-3">
-                      <div className="w-8 h-8 rounded-xl bg-primary/10 flex items-center justify-center text-primary">
+                      <div className="w-8 h-8 rounded-xl bg-primary/10 flex items-center justify-center text-primary dark:text-primary-300">
                         <TrendingUp size={16} />
                       </div>
                       <h4 className="font-black text-slate-900 dark:text-white text-xs uppercase tracking-widest">Pressure Timeline</h4>
@@ -1223,18 +1223,18 @@ export default function PatientDetailPage() {
                               <stop offset="95%" stopColor="#a855f7" stopOpacity={0}/>
                             </linearGradient>
                           </defs>
-                          <CartesianGrid strokeDasharray="3 3" vertical={false} stroke="#f1f5f9" />
+                          <CartesianGrid strokeDasharray="3 3" vertical={false} stroke="var(--border)" />
                           <XAxis 
                             dataKey="formattedDate" 
                             axisLine={false} 
                             tickLine={false} 
-                            tick={{ fontSize: 10, fontWeight: 700, fill: '#94a3b8' }}
+                            tick={{ fontSize: 10, fontWeight: 700, fill: 'var(--muted-foreground)' }}
                             dy={10}
                           />
                           <YAxis 
                             axisLine={false} 
                             tickLine={false} 
-                            tick={{ fontSize: 10, fontWeight: 700, fill: '#94a3b8' }}
+                            tick={{ fontSize: 10, fontWeight: 700, fill: 'var(--muted-foreground)' }}
                             dx={-10}
                             domain={[0, 'auto']}
                           />
@@ -1244,7 +1244,7 @@ export default function PatientDetailPage() {
                                 return (
                                   <div className="bg-white dark:bg-slate-800 border border-slate-100 dark:border-slate-700 p-4 rounded-2xl shadow-2xl flex flex-col gap-2">
                                     <p className="text-[10px] font-black text-slate-400 mb-1">{payload[0].payload.fullDate}</p>
-                                    {payload[0].payload.isPending && <p className="text-[10px] font-black text-amber-600">Pending Review</p>}
+                                    {payload[0].payload.isPending && <p className="text-[10px] font-black text-amber-600 dark:text-amber-400">Pending Review</p>}
                                     {payload.filter((p: any) => p.value !== null && p.value !== undefined).map((p: any) => (
                                       <div key={p.dataKey} className="flex items-center justify-between gap-6">
                                         <div className="flex items-center gap-2">
@@ -1298,7 +1298,7 @@ export default function PatientDetailPage() {
                           <button
                             type="button"
                             onClick={() => { setIopTimeFilter('all'); setIopEyeFilter('both'); }}
-                            className="text-sm font-bold text-primary hover:underline"
+                            className="text-sm font-bold text-primary hover:underline dark:text-primary-300"
                           >
                             Show all readings
                           </button>
@@ -1310,7 +1310,7 @@ export default function PatientDetailPage() {
 
                 <div className="lg:col-span-4 bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-800 rounded-[2.5rem] p-8 shadow-sm flex flex-col">
                    <div className="flex items-center gap-3 mb-8">
-                      <div className="w-8 h-8 rounded-xl bg-amber-50 dark:bg-amber-900/30 text-amber-600 flex items-center justify-center">
+                      <div className="w-8 h-8 rounded-xl bg-amber-50 dark:bg-amber-900/30 text-amber-600 flex items-center justify-center dark:text-amber-400">
                         <TableIcon size={16} />
                       </div>
                       <h4 className="font-black text-slate-900 dark:text-white text-xs uppercase tracking-widest">Recent Logs</h4>
@@ -1359,9 +1359,9 @@ export default function PatientDetailPage() {
 
                     <div className="mt-8 p-4 rounded-2xl bg-primary/5 border border-primary/10">
                       <div className="flex gap-3">
-                        <Info size={16} className="text-primary shrink-0 mt-0.5" />
+                        <Info size={16} className="text-primary shrink-0 mt-0.5 dark:text-primary-300" />
                         <p className="text-[10px] text-slate-600 dark:text-slate-400 font-semibold leading-relaxed">
-                          Normal Intraocular Pressure (IOP) typically ranges from <span className="text-primary font-black">10 to 21 mmHg</span>. Readings consistently above 21 may indicate ocular hypertension or risk of glaucoma.
+                          Normal Intraocular Pressure (IOP) typically ranges from <span className="text-primary font-black dark:text-primary-300">10 to 21 mmHg</span>. Readings consistently above 21 may indicate ocular hypertension or risk of glaucoma.
                         </p>
                       </div>
                     </div>
@@ -1378,9 +1378,9 @@ export default function PatientDetailPage() {
               {typeof patient?.adherenceRate === 'number' && (
                 <div className="flex items-center gap-2 px-4 py-2 bg-slate-50 dark:bg-slate-800 rounded-xl border border-slate-100 dark:border-slate-700">
                   <span className="text-[10px] font-black text-slate-400 uppercase tracking-tight">Overall Adherence:</span>
-                  <span className="text-sm font-black text-primary-500">{Math.round(patient.adherenceRate * 100)}%</span>
-                  <span className="text-[10px] font-semibold text-slate-500">({patient.adherenceCounts?.taken ?? 0}/{patient.adherenceCounts?.due ?? 0} due doses)</span>
-                  {patient.adherenceEstimated && <span className="text-[10px] font-semibold text-amber-600">Estimate: older schedule has no saved time zone</span>}
+                  <span className="text-sm font-black text-primary-500 dark:text-primary-300">{Math.round(patient.adherenceRate * 100)}%</span>
+                  <span className="text-[10px] font-semibold text-slate-500 dark:text-slate-400">({patient.adherenceCounts?.taken ?? 0}/{patient.adherenceCounts?.due ?? 0} due doses)</span>
+                  {patient.adherenceEstimated && <span className="text-[10px] font-semibold text-amber-600 dark:text-amber-400">Estimate: older schedule has no saved time zone</span>}
                 </div>
               )}
             </div>
@@ -1393,7 +1393,7 @@ export default function PatientDetailPage() {
                     const displayStatus = reminder.todayStatus || (reminder.archivedAt ? 'archived' : isRecurring ? 'not_scheduled' : reminder.status);
                     const isPast = displayStatus === 'missed';
                     return (
-                      <div key={reminder._id || reminder.id} className="p-5 rounded-3xl border border-slate-100 dark:border-slate-800 hover:bg-slate-50/50 transition-all flex flex-wrap items-center justify-between gap-4">
+                      <div key={reminder._id || reminder.id} className="p-5 rounded-3xl border border-slate-100 dark:border-slate-800 hover:bg-slate-50/50 transition-all flex flex-wrap items-center justify-between gap-4 dark:hover:bg-slate-800/50">
                         <div className="flex items-center gap-5">
                           <div className={cn(
                             "w-12 h-12 rounded-2xl flex items-center justify-center transition-colors shadow-sm",
@@ -1422,7 +1422,7 @@ export default function PatientDetailPage() {
                             "px-4 py-1.5 rounded-full text-[9px] font-black uppercase tracking-widest",
                             displayStatus === 'taken' ? "bg-emerald-500 text-white" :
                               displayStatus === 'skipped' ? "bg-rose-500 text-white" :
-                                isPast ? "bg-amber-100 text-amber-600" : "bg-slate-100 text-slate-400"
+                                isPast ? "bg-amber-100 text-amber-600 dark:bg-amber-500/20 dark:text-amber-400" : "bg-slate-100 text-slate-400 dark:bg-slate-800"
                           )}>
                             {displayStatus === 'taken' ? 'Taken today' :
                               displayStatus === 'skipped' ? 'Skipped today' :
@@ -1456,7 +1456,7 @@ export default function PatientDetailPage() {
               </div>
             ) : (
               <div className="py-20 text-center space-y-4">
-                <div className="w-16 h-16 bg-slate-50 rounded-full flex items-center justify-center mx-auto">
+                <div className="w-16 h-16 bg-slate-50 rounded-full flex items-center justify-center mx-auto dark:bg-slate-800">
                   <Clock className="text-slate-300" size={24} />
                 </div>
                 <p className="text-slate-400 font-bold">No medication reminders found</p>
@@ -1523,7 +1523,7 @@ export default function PatientDetailPage() {
                       <div key={idx} className="bg-white dark:bg-slate-900 p-5 rounded-3xl border border-slate-100 dark:border-slate-800 shadow-sm group">
                         <div className="flex flex-col sm:flex-row sm:items-start justify-between gap-4 mb-4">
                           <div className="flex items-start gap-4">
-                             <div className="w-10 h-10 rounded-xl bg-slate-50 dark:bg-slate-800 text-primary flex items-center justify-center border border-slate-100 dark:border-slate-800 group-hover:scale-110 transition-transform">
+                             <div className="w-10 h-10 rounded-xl bg-slate-50 dark:bg-slate-800 text-primary flex items-center justify-center border border-slate-100 dark:border-slate-800 group-hover:scale-110 transition-transform dark:text-primary-300">
                                 <Pill size={18} strokeWidth={2.5} />
                              </div>
                              <div className="min-w-0">
@@ -1555,7 +1555,7 @@ export default function PatientDetailPage() {
                                 </div>
                               </div>
                             )}
-                            <div className="px-3 py-1.5 bg-indigo-50 dark:bg-indigo-500/10 text-[10px] font-black text-primary rounded-xl border border-indigo-100/30">
+                            <div className="px-3 py-1.5 bg-indigo-50 dark:bg-indigo-500/10 text-[10px] font-black text-primary rounded-xl border border-indigo-100/30 dark:text-primary-300 dark:border-indigo-500/30">
                               {med.duration ? `${med.duration} days` : 'Indefinite'}
                             </div>
                           </div>
@@ -1604,10 +1604,10 @@ export default function PatientDetailPage() {
 
 function IopStat({ label, value, sub, color, icon: Icon, trend }: { label: string; value: any; sub: string; color: string; icon: any; trend?: 'high' | 'normal' }) {
   const colors: Record<string, string> = {
-    blue: "text-blue-600 bg-blue-50 dark:bg-blue-900/30 border-blue-100/50 dark:border-blue-800/50",
-    purple: "text-purple-600 bg-purple-50 dark:bg-purple-900/30 border-purple-100/50 dark:border-purple-800/50",
-    indigo: "text-indigo-600 bg-indigo-50 dark:bg-indigo-900/30 border-indigo-100/50 dark:border-indigo-800/50",
-    cyan: "text-cyan-600 bg-cyan-50 dark:bg-cyan-900/30 border-cyan-100/50 dark:border-cyan-800/50",
+    blue: "text-blue-600 bg-blue-50 dark:bg-blue-900/30 border-blue-100/50 dark:border-blue-800/50 dark:text-blue-400",
+    purple: "text-purple-600 bg-purple-50 dark:bg-purple-900/30 border-purple-100/50 dark:border-purple-800/50 dark:text-purple-400",
+    indigo: "text-indigo-600 bg-indigo-50 dark:bg-indigo-900/30 border-indigo-100/50 dark:border-indigo-800/50 dark:text-indigo-400",
+    cyan: "text-cyan-600 bg-cyan-50 dark:bg-cyan-900/30 border-cyan-100/50 dark:border-cyan-800/50 dark:text-cyan-400",
   };
 
   return (
@@ -1619,7 +1619,7 @@ function IopStat({ label, value, sub, color, icon: Icon, trend }: { label: strin
         {trend && (
           <span className={cn(
             "text-[8px] font-black uppercase px-2 py-0.5 rounded-full",
-            trend === 'high' ? "bg-rose-100 text-rose-600" : "bg-emerald-100 text-emerald-600"
+            trend === 'high' ? "bg-rose-100 text-rose-600 dark:bg-rose-500/20 dark:text-rose-400" : "bg-emerald-100 text-emerald-600 dark:bg-emerald-500/20 dark:text-emerald-400"
           )}>
             {trend === 'high' ? 'High Risk' : 'Healthy'}
           </span>

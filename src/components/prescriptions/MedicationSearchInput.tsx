@@ -110,7 +110,7 @@ export function MedicationSearchInput({ value, onChange, error, className }: Med
         <div className="absolute z-50 left-0 right-0 mt-2 bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-800 rounded-2xl shadow-xl overflow-hidden max-h-60 overflow-y-auto">
           <div className="px-3 py-2 bg-slate-50 dark:bg-slate-800/60 border-b border-slate-100 dark:border-slate-800 text-[10px] font-black tracking-wider text-slate-400 uppercase flex items-center justify-between">
             <span>Clinical Medication Catalog</span>
-            {loading && <span className="text-primary font-bold">Searching...</span>}
+            {loading && <span className="text-primary font-bold dark:text-primary-300">Searching...</span>}
           </div>
 
           {results.length > 0 ? (
@@ -134,7 +134,7 @@ export function MedicationSearchInput({ value, onChange, error, className }: Med
                         {isPharco ? <ShieldCheck size={16} /> : <Pill size={15} />}
                       </div>
                       <div className="truncate">
-                        <span className="font-bold text-sm text-slate-800 dark:text-slate-200 block truncate group-hover:text-primary transition-colors">
+                        <span className="font-bold text-sm text-slate-800 dark:text-slate-200 block truncate group-hover:text-primary transition-colors dark:group-hover:text-primary-300">
                           {item.name}
                         </span>
                         {isSuggestion && (
@@ -147,7 +147,7 @@ export function MedicationSearchInput({ value, onChange, error, className }: Med
 
                     <div className="shrink-0 ml-3">
                       {isPharco ? (
-                        <span className="text-[9px] font-black uppercase tracking-wider px-2 py-0.5 rounded-md bg-indigo-50 dark:bg-indigo-500/10 text-primary border border-indigo-100 dark:border-indigo-500/20">
+                        <span className="text-[9px] font-black uppercase tracking-wider px-2 py-0.5 rounded-md bg-indigo-50 dark:bg-indigo-500/10 text-primary border border-indigo-100 dark:border-indigo-500/20 dark:text-primary-300">
                           Pharco Official
                         </span>
                       ) : (

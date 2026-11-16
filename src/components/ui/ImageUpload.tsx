@@ -50,7 +50,7 @@ export default function ImageUpload({ value, onChange, label, className }: Image
   return (
     <div className={`space-y-2 ${className || ''}`}>
       {label && (
-        <label className="block text-[10px] font-black uppercase tracking-widest text-slate-500">
+        <label className="block text-[10px] font-black uppercase tracking-widest text-slate-500 dark:text-slate-400">
           {label}
         </label>
       )}
@@ -76,7 +76,7 @@ export default function ImageUpload({ value, onChange, label, className }: Image
             className="border-2 border-dashed border-slate-200 dark:border-slate-800 rounded-3xl aspect-video flex flex-col items-center justify-center gap-3 cursor-pointer hover:border-[#3e4998] hover:bg-slate-50 dark:hover:bg-slate-900/50 transition-all group"
           >
             <div className="p-4 rounded-full bg-slate-100 dark:bg-slate-800 group-hover:bg-[#3e4998]/10 transition-colors">
-              <Upload className="h-6 w-6 text-slate-400 group-hover:text-[#3e4998]" />
+              <Upload className="h-6 w-6 text-slate-400 group-hover:text-[#3e4998] dark:group-hover:text-primary-300" />
             </div>
             <div className="text-center px-4">
               <p className="text-sm font-bold text-slate-700 dark:text-slate-300">Click to select media</p>

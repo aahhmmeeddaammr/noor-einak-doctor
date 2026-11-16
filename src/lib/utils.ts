@@ -58,9 +58,9 @@ export function getInitials(name?: string) {
 }
 
 export function getAdherenceColor(rate: number) {
-  if (rate >= 0.8) return 'text-success-600 bg-success-50';
-  if (rate >= 0.5) return 'text-warning-600 bg-warning-50';
-  return 'text-danger-600 bg-danger-50';
+  if (rate >= 0.8) return 'text-success-600 bg-success-50 dark:text-success-500 dark:bg-success-500/10';
+  if (rate >= 0.5) return 'text-warning-600 bg-warning-50 dark:text-warning-500 dark:bg-warning-500/10';
+  return 'text-danger-600 bg-danger-50 dark:text-danger-500 dark:bg-danger-500/10';
 }
 
 export function getAdherenceLabel(rate: number) {
@@ -75,18 +75,18 @@ export function getStatusColor(status: string) {
     case 'approved':
     case 'verified':
     case 'published':
-      return 'bg-success-50 text-success-600';
+      return 'bg-success-50 text-success-600 dark:bg-success-500/10 dark:text-success-500';
     case 'pending':
     case 'pending_review':
     case 'pending_verification':
     case 'draft':
-      return 'bg-warning-50 text-warning-600';
+      return 'bg-warning-50 text-warning-600 dark:bg-warning-500/10 dark:text-warning-500';
     case 'rejected':
     case 'cancelled':
     case 'suspended':
     case 'deactivated':
-      return 'bg-danger-50 text-danger-600';
+      return 'bg-danger-50 text-danger-600 dark:bg-danger-500/10 dark:text-danger-500';
     default:
-      return 'bg-gray-100 text-gray-600';
+      return 'bg-gray-100 text-gray-600 dark:bg-slate-800 dark:text-slate-300';
   }
 }

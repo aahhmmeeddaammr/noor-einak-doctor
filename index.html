@@ -2,6 +2,8 @@
 <html lang="en">
   <head>
     <meta charset="UTF-8" />
+    <script src="/theme-init.js"></script>
+    <style>html { background: #f8fafc; color: #0f172a; } html.dark { background: #020617; color: #f8fafc; }</style>
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     
     <!-- Favicon and App Icons -->
@@ -31,7 +33,7 @@
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
     <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:ital,wght@0,200..800;1,200..800&display=swap" rel="stylesheet" />
   </head>
-  <body class="bg-[#f8fafc] text-[#0f172a] antialiased">
+  <body class="antialiased">
     <div id="root">
       <!-- Premium splash loading screen before React mounts -->
       <div style="
@@ -41,7 +43,7 @@
         justify-content: center;
         height: 100vh;
         width: 100vw;
-        background-color: #f8fafc;
+        background-color: inherit;
         font-family: 'Plus Jakarta Sans', sans-serif;
       " id="app-loading-screen">
         <div style="text-align: center;">
@@ -55,7 +57,7 @@
             animation: spin 1s infinite linear;
             margin: 0 auto 16px auto;
           "></div>
-          <p style="color: #64748b; font-size: 13px; font-weight: 700; letter-spacing: 0.05em; text-transform: uppercase;">Loading Portal...</p>
+          <p style="color: inherit; font-size: 13px; font-weight: 700; letter-spacing: 0.05em; text-transform: uppercase;">Loading Portal...</p>
         </div>
       </div>
       <style>

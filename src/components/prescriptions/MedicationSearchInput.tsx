@@ -1,11 +1,13 @@
 import React, { useState, useEffect, useRef } from 'react';
-import { Sparkles, Pill, Check, Search, ShieldCheck } from 'lucide-react';
+import { Pill, Search, ShieldCheck } from 'lucide-react';
 import { prescriptionsApi } from '@/features/prescriptions/api';
 import { cn } from '@/lib/utils';
+import { getMedicationDefaults, searchMedicationCatalog, mergeMedicationResults } from '@/features/prescriptions/medicationCatalog';
+import type { CatalogMedication, MedicationSearchResult } from '@/features/prescriptions/medicationCatalog';
 
 interface MedicationSearchInputProps {
   value: string;
-  onChange: (name: string, type?: string) => void;
+  onChange: (name: string, type?: string, catalog?: CatalogMedication) => void;
   error?: string;
   className?: string;
 }
@@ -13,7 +15,8 @@ interface MedicationSearchInputProps {
 export function MedicationSearchInput({ value, onChange, error, className }: MedicationSearchInputProps) {
   const [searchTerm, setSearchTerm] = useState(value || '');
   const [isOpen, setIsOpen] = useState(false);
-  const [results, setResults] = useState<any[]>([]);
+  const [results, setResults] = useState<MedicationSearchResult[]>([]);
+  const [selected, setSelected] = useState<CatalogMedication>();
   const [loading, setLoading] = useState(false);
   const containerRef = useRef<HTMLDivElement>(null);
 
@@ -34,28 +37,16 @@ export function MedicationSearchInput({ value, onChange, error, className }: Med
   useEffect(() => {
     let active = true;
 
+    const local = searchMedicationCatalog(searchTerm);
+    setResults(local);
+    setLoading(true);
     const timer = setTimeout(async () => {
-      if (!searchTerm || searchTerm.trim().length === 0) {
-        // Fetch default Pharco recommendations if search is empty
-        try {
-          const res: any = await prescriptionsApi.searchMedications('');
-          if (active) {
-            setResults(res?.data || res || []);
-          }
-        } catch {
-          if (active) setResults([]);
-        }
-        return;
-      }
-
-      setLoading(true);
       try {
         const res: any = await prescriptionsApi.searchMedications(searchTerm.trim());
-        if (active) {
-          setResults(res?.data || res || []);
-        }
+        const remote = res?.data ?? res;
+        if (active) setResults(mergeMedicationResults(local, Array.isArray(remote) ? remote : []));
       } catch {
-        if (active) setResults([]);
+        if (active) setResults(local);
       } finally {
         if (active) setLoading(false);
       }
@@ -67,9 +58,15 @@ export function MedicationSearchInput({ value, onChange, error, className }: Med
     };
   }, [searchTerm]);
 
-  const handleSelect = (item: any) => {
+  const handleSelect = (item: MedicationSearchResult) => {
     setSearchTerm(item.name);
     setIsOpen(false);
+
+    setSelected(item.catalog);
+    if (item.catalog) {
+      onChange(item.name, getMedicationDefaults(item.catalog).type, item.catalog);
+      return;
+    }
 
     // Auto-detect type
     const lower = item.name.toLowerCase();
@@ -83,6 +80,7 @@ export function MedicationSearchInput({ value, onChange, error, className }: Med
 
   const handleInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const val = e.target.value;
+    setSelected(undefined);
     setSearchTerm(val);
     onChange(val);
     setIsOpen(true);
@@ -93,6 +91,14 @@ export function MedicationSearchInput({ value, onChange, error, className }: Med
       <div className="relative">
         <input
           type="text"
+          aria-label="Medication name"
+          autoComplete="off"
+          onKeyDown={(event) => {
+            if (event.key === 'Escape' || event.key === 'Enter') {
+              event.preventDefault();
+              setIsOpen(false);
+            }
+          }}
           value={searchTerm}
           onChange={handleInputChange}
           onFocus={() => setIsOpen(true)}
@@ -103,6 +109,24 @@ export function MedicationSearchInput({ value, onChange, error, className }: Med
           <Search size={16} />
         </div>
       </div>
+
+      {selected && value === selected.name && (
+        <div className="mt-2 space-y-1 text-xs text-slate-600 dark:text-slate-300">
+          <p>{selected.form}</p>
+          <p dir="auto">{selected.doseText}</p>
+          <p>Review the imported defaults and enter the patient’s schedule times.</p>
+          {getMedicationDefaults(selected).frequencyConflict && (
+            <p className="text-amber-700 dark:text-amber-400" role="status">
+              Source frequency differs from the dose instructions. Enter the intended frequency.
+            </p>
+          )}
+          {getMedicationDefaults(selected).staged && (
+            <p className="text-amber-700 dark:text-amber-400">
+              This regimen changes over time. The form holds one schedule; review the full instructions for later stages.
+            </p>
+          )}
+        </div>
+      )}
 
       {error && <p className="text-rose-500 text-xs font-bold mt-1.5">{error}</p>}
 
@@ -118,10 +142,11 @@ export function MedicationSearchInput({ value, onChange, error, className }: Med
               {results.map((item, idx) => {
                 const isPharco = item.source === 'pharco';
                 const isSuggestion = item.suggestion;
+                const isCatalog = item.source === 'catalog';
 
                 return (
                   <button
-                    key={`${item.name}-${idx}`}
+                    key={item.catalog?.id ?? `${item.name}-${idx}`}
                     type="button"
                     onClick={() => handleSelect(item)}
                     className="w-full text-left px-3.5 py-2.5 rounded-xl hover:bg-slate-50 dark:hover:bg-slate-800/80 transition-all flex items-center justify-between group"
@@ -133,10 +158,17 @@ export function MedicationSearchInput({ value, onChange, error, className }: Med
                       )}>
                         {isPharco ? <ShieldCheck size={16} /> : <Pill size={15} />}
                       </div>
-                      <div className="truncate">
+                      <div className="min-w-0">
                         <span className="font-bold text-sm text-slate-800 dark:text-slate-200 block truncate group-hover:text-primary transition-colors dark:group-hover:text-primary-300">
                           {item.name}
                         </span>
+                        {item.catalog && (
+                          <>
+                            <span className="block text-xs text-slate-500 dark:text-slate-400">{item.catalog.form}</span>
+                            <span dir="auto" className="block text-xs text-slate-600 dark:text-slate-300 whitespace-normal">{item.catalog.doseText}</span>
+                            <span dir="auto" className="block text-xs text-slate-500">{[item.catalog.frequencyText, item.catalog.durationText].filter(Boolean).join(' · ')}</span>
+                          </>
+                        )}
                         {isSuggestion && (
                           <span className="text-[10px] text-amber-600 dark:text-amber-400 font-semibold block">
                             Pharco equivalent alternative
@@ -152,7 +184,7 @@ export function MedicationSearchInput({ value, onChange, error, className }: Med
                         </span>
                       ) : (
                         <span className="text-[9px] font-bold text-slate-400 uppercase tracking-wider">
-                          Doctor History
+                          {isCatalog ? 'Drug List' : 'Doctor History'}
                         </span>
                       )}
                     </div>
@@ -162,7 +194,7 @@ export function MedicationSearchInput({ value, onChange, error, className }: Med
             </div>
           ) : (
             <div className="p-4 text-center text-xs text-slate-400 font-medium">
-              No matching Pharco medication. Press Enter to use "{searchTerm}".
+              No matching medication. Press Enter to use "{searchTerm}".
             </div>
           )}
         </div>

@@ -8,16 +8,17 @@ import { useCreatePrescription, useUpdatePrescription, usePrescriptionDetail } f
 import { usePatientDetail } from '@/features/patients/hooks';
 import { cn, getInitials } from '@/lib/utils';
 import { MedicationSearchInput } from '@/components/prescriptions/MedicationSearchInput';
+import { getMedicationDefaults } from '@/features/prescriptions/medicationCatalog';
 import { Button } from '@/components/ui/Button';
 
 const medicationSchema = z.object({
   name: z.string().min(1, 'Required'),
   type: z.string().min(1, 'Required'),
   dosage: z.string().min(1, 'Required'),
-  frequency: z.number().min(1),
+  frequency: z.number('Enter the frequency').int().min(1),
   frequencyUnit: z.string().min(1, 'Required'),
   scheduleTimes: z.array(z.string().regex(/^([01]\d|2[0-3]):([0-5]\d)$/)).min(1, 'At least one time is required'),
-  duration: z.number().optional(),
+  duration: z.number().int().min(1).optional(),
   instructions: z.string().optional(),
   eyeSide: z.string().optional(),
 });
@@ -50,6 +51,7 @@ export default function CreatePrescriptionPage() {
 
   const { register, control, handleSubmit, watch, setValue, reset, formState: { errors } } = useForm<PrescriptionForm>({
     resolver: zodResolver(prescriptionSchema),
+    mode: 'onChange',
     defaultValues: {
       patientId: effectivePatientId,
       title: '',
@@ -78,7 +80,7 @@ export default function CreatePrescriptionPage() {
           frequency: m.frequency || 1,
           frequencyUnit: m.frequencyUnit || 'daily',
           scheduleTimes: m.scheduleTimes?.length ? m.scheduleTimes : ['08:00'],
-          duration: m.duration || 30,
+          duration: m.duration ?? undefined,
           instructions: m.instructions || '',
           eyeSide: m.eyeSide || 'both',
         })),
@@ -253,8 +255,19 @@ export default function CreatePrescriptionPage() {
                     <label className={labelClass}>Medication Name</label>
                     <MedicationSearchInput
                       value={watchedMedications[index]?.name || ''}
-                      onChange={(name, type) => {
+                      onChange={(name, type, catalog) => {
                         setValue(`medications.${index}.name`, name, { shouldValidate: true });
+                        if (catalog) {
+                          const defaults = getMedicationDefaults(catalog);
+                          const options = { shouldValidate: true, shouldDirty: true };
+                          setValue(`medications.${index}.dosage`, defaults.dosage, options);
+                          setValue(`medications.${index}.frequency`, defaults.frequency ?? NaN, options);
+                          setValue(`medications.${index}.frequencyUnit`, defaults.frequencyUnit, options);
+                          setValue(`medications.${index}.duration`, defaults.duration, options);
+                          setValue(`medications.${index}.instructions`, defaults.instructions, options);
+                          // The source contains no clock times. Clear the previous drug's schedule.
+                          setValue(`medications.${index}.scheduleTimes`, [''], options);
+                        }
                         if (type) {
                           setValue(`medications.${index}.type`, type, { shouldValidate: true });
                         }
@@ -271,18 +284,21 @@ export default function CreatePrescriptionPage() {
                       <option value="capsule">Capsule</option>
                       <option value="ointment">Ointment</option>
                       <option value="injection">Injection</option>
+                      <option value="other">Other</option>
                     </select>
                   </div>
                   <div>
                     <label className={labelClass}>Dosage Per Admin</label>
-                    <input {...register(`medications.${index}.dosage`)} placeholder="e.g. 1 drop, 500mg" className={inputClass} />
+                    <input dir="auto" {...register(`medications.${index}.dosage`)} placeholder="e.g. 1 drop, 500mg" className={inputClass} />
+                    {errors.medications?.[index]?.dosage && <p className="text-rose-500 text-xs mt-2">Enter the dosage per administration.</p>}
                   </div>
                 </div>
 
                 <div className="grid grid-cols-1 md:grid-cols-4 gap-6">
                   <div>
-                    <label className={labelClass}>Frequency</label>
+                    <label className={labelClass}>{watchedMedications[index]?.frequencyUnit === 'hourly' ? 'Every (hours)' : 'Frequency'}</label>
                     <input {...register(`medications.${index}.frequency`, { valueAsNumber: true })} type="number" min={1} className={inputClass} />
+                    {errors.medications?.[index]?.frequency && <p className="text-rose-500 text-xs mt-2">{errors.medications[index]?.frequency?.message}</p>}
                   </div>
                   <div>
                     <label className={labelClass}>Unit</label>
@@ -290,6 +306,8 @@ export default function CreatePrescriptionPage() {
                       <option value="daily">Daily</option>
                       <option value="hourly">Hourly</option>
                       <option value="weekly">Weekly</option>
+                      <option value="monthly">Monthly</option>
+                      <option value="as_needed">As Needed</option>
                     </select>
                   </div>
                   <div>
@@ -302,7 +320,8 @@ export default function CreatePrescriptionPage() {
                   </div>
                   <div>
                     <label className={labelClass}>Duration (Days)</label>
-                    <input {...register(`medications.${index}.duration`, { valueAsNumber: true })} type="number" min={1} placeholder="Optional" className={inputClass} />
+                    <input {...register(`medications.${index}.duration`, { setValueAs: (value) => value === '' ? undefined : Number(value) })} type="number" min={1} placeholder="Optional" className={inputClass} />
+                    {errors.medications?.[index]?.duration && <p className="text-rose-500 text-xs mt-2">Enter a whole number of days.</p>}
                   </div>
                 </div>
 
@@ -344,11 +363,11 @@ export default function CreatePrescriptionPage() {
                         <Plus size={16} /> Add Time
                       </button>
                     </div>
-                    {errors.medications?.[index]?.scheduleTimes && <p className="text-rose-500 text-xs font-bold mt-2">{errors.medications[index]?.scheduleTimes?.message}</p>}
+                    {errors.medications?.[index]?.scheduleTimes && <p className="text-rose-500 text-xs font-bold mt-2">{errors.medications[index]?.scheduleTimes?.message || 'Enter valid schedule times.'}</p>}
                   </div>
                   <div>
                     <label className={labelClass}>Special Instructions</label>
-                    <input {...register(`medications.${index}.instructions`)} placeholder="e.g. Take after meals, shake well" className={inputClass} />
+                    <textarea {...register(`medications.${index}.instructions`)} dir="auto" rows={4} placeholder="e.g. Take after meals, shake well" className={inputClass} />
                   </div>
                 </div>
               </div>

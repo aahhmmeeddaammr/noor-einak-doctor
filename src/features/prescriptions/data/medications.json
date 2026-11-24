@@ -1,0 +1,4314 @@
+[
+  {
+    "name": "ACANTHAPROP",
+    "form": "Eye Drops",
+    "doseText": "نقطة إلى نقطتين في العين المصابة 4 مرات يوميًا لمدة 7 أيام",
+    "frequencyText": "أربع مرات يوميًا",
+    "durationText": "سبعه ايام",
+    "id": "drug-list-2",
+    "sourceRows": [
+      2
+    ]
+  },
+  {
+    "name": "ACULAR",
+    "form": "Eye Drops",
+    "doseText": "نقطة واحدة في العين المصابة 4 مرات يوميًا",
+    "frequencyText": "أربع مرات يوميًا",
+    "durationText": "",
+    "id": "drug-list-3",
+    "sourceRows": [
+      3
+    ]
+  },
+  {
+    "name": "ACYCLOVIR",
+    "form": "Eye Ointment",
+    "doseText": "طبقة صغيرة في العين المصابة 5 مرات يوميًا حتى التئام القرنية، ثم 3 مرات يوميًا لمدة أسبوع إضافي حسب تعليمات الطبيب",
+    "frequencyText": "خمس مرات يوميًا",
+    "durationText": "",
+    "id": "drug-list-4",
+    "sourceRows": [
+      4
+    ]
+  },
+  {
+    "name": "ALCAFTRAPO",
+    "form": "Eye Drops",
+    "doseText": "نقطة واحدة في العين المصابة مرة واحدة يوميًا",
+    "frequencyText": "مرة واحدة يوميًا",
+    "durationText": "",
+    "id": "drug-list-5",
+    "sourceRows": [
+      5
+    ]
+  },
+  {
+    "name": "ALFABRIMO",
+    "form": "Eye Drops",
+    "doseText": "نقطة واحدة في العين المصابة مرتين يوميًا (تركيز 0.2%)",
+    "frequencyText": "مرتين يوميًا",
+    "durationText": "",
+    "id": "drug-list-6",
+    "sourceRows": [
+      6
+    ]
+  },
+  {
+    "name": "ALFABRIMO PLUS",
+    "form": "Eye Drops",
+    "doseText": "نقطة واحدة في العين المصابة مرتين يوميًا",
+    "frequencyText": "مرتين يوميًا",
+    "durationText": "",
+    "id": "drug-list-7",
+    "sourceRows": [
+      7
+    ]
+  },
+  {
+    "name": "ALPHABRINZIMA",
+    "form": "Ophthalmic Suspension",
+    "doseText": "نقطة واحدة في العين المصابة 3 مرات يوميًا",
+    "frequencyText": "ثلاث مرات يوميًا",
+    "durationText": "",
+    "id": "drug-list-8",
+    "sourceRows": [
+      8
+    ]
+  },
+  {
+    "name": "ALPHAGAN P",
+    "form": "Eye Drops",
+    "doseText": "نقطة واحدة في العين المصابة 3 مرات يوميًا تقريبًا كل 8 ساعات (تركيز 0.1-0.15%)",
+    "frequencyText": "ثلاث مرات يوميًا",
+    "durationText": "",
+    "id": "drug-list-9",
+    "sourceRows": [
+      9
+    ]
+  },
+  {
+    "name": "ALPHANOVA",
+    "form": "Eye Drops",
+    "doseText": "نقطة واحدة في العين المصابة 3 مرات يوميًا تقريبًا كل 8 ساعات (تركيز 0.1-0.15%)",
+    "frequencyText": "ثلاث مرات يوميًا",
+    "durationText": "",
+    "id": "drug-list-10",
+    "sourceRows": [
+      10
+    ]
+  },
+  {
+    "name": "ALPHANOVA PLUS",
+    "form": "Eye Drops",
+    "doseText": "نقطة واحدة في العين المصابة مرتين يوميًا",
+    "frequencyText": "مرتين يوميًا",
+    "durationText": "",
+    "id": "drug-list-11",
+    "sourceRows": [
+      11
+    ]
+  },
+  {
+    "name": "ANDOBESIF",
+    "form": "Ophthalmic Suspension",
+    "doseText": "نقطة واحدة في العين المصابة 3 مرات يوميًا (كل 4-12 ساعة) لمدة 7 أيام",
+    "frequencyText": "ثلاث مرات يوميًا",
+    "durationText": "سبعه ايام",
+    "id": "drug-list-12",
+    "sourceRows": [
+      12
+    ]
+  },
+  {
+    "name": "APICORT FORTE",
+    "form": "Eye Drops",
+    "doseText": "نقطة واحدة في العين المصابة 4 مرات يوميًا، مع تقليل الجرعة تدريجيًا حسب استجابة الحالة وتعليمات الطبيب",
+    "frequencyText": "أربع مرات يوميًا",
+    "durationText": "",
+    "id": "drug-list-13",
+    "sourceRows": [
+      13
+    ]
+  },
+  {
+    "name": "AQUALARM INTENSIVE",
+    "form": "Eye Drops",
+    "doseText": "نقطة واحدة في العين حسب الحاجة، عادة 3-4 مرات يوميًا أو أكثر حسب شدة جفاف العين",
+    "frequencyText": "ثلاث مرات يوميًا",
+    "durationText": "",
+    "id": "drug-list-14",
+    "sourceRows": [
+      14
+    ]
+  },
+  {
+    "name": "AQUALARM U.P INTEN",
+    "form": "Eye Drops",
+    "doseText": "نقطة واحدة في العين حسب الحاجة، عادة 3-4 مرات يوميًا أو أكثر حسب شدة جفاف العين",
+    "frequencyText": "ثلاث مرات يوميًا",
+    "durationText": "",
+    "id": "drug-list-15",
+    "sourceRows": [
+      15
+    ]
+  },
+  {
+    "name": "ARTELAC",
+    "form": "Eye Drops",
+    "doseText": "نقطة واحدة في العين حسب الحاجة، عادة 3-4 مرات يوميًا أو أكثر حسب شدة جفاف العين",
+    "frequencyText": "ثلاث مرات يوميًا",
+    "durationText": "",
+    "id": "drug-list-16",
+    "sourceRows": [
+      16
+    ]
+  },
+  {
+    "name": "ARTOFENAC",
+    "form": "Eye Drops",
+    "doseText": "نقطة واحدة في العين المصابة مرتين يوميًا، تبدأ 24 ساعة بعد الجراحة وتستمر لمدة أسبوعين",
+    "frequencyText": "مرتين يوميًا",
+    "durationText": "أسبوعين",
+    "id": "drug-list-17",
+    "sourceRows": [
+      17
+    ]
+  },
+  {
+    "name": "ATROPINE SULPHATE",
+    "form": "Eye Drops",
+    "doseText": "نقطة واحدة في العين المصابة 1-2 مرة يوميًا حسب تعليمات الطبيب (أو جرعة واحدة قبل الفحص/الإجراء للاستخدام التشخيصي)",
+    "frequencyText": "مرتين يوميًا",
+    "durationText": "",
+    "id": "drug-list-18",
+    "sourceRows": [
+      18
+    ]
+  },
+  {
+    "name": "AVAZIR",
+    "form": "Eye Drops",
+    "doseText": "نقطة إلى نقطتين في العين المصابة 4 مرات يوميًا لمدة 7 أيام",
+    "frequencyText": "أربع مرات يوميًا",
+    "durationText": "سبعه ايام",
+    "id": "drug-list-19",
+    "sourceRows": [
+      19
+    ]
+  },
+  {
+    "name": "AVAZIR",
+    "form": "Eye Ointment",
+    "doseText": "طبقة صغيرة في العين المصابة 3 مرات يوميًا (أو مرة واحدة ليلًا إذا استُخدم مع قطرة نهارية) لمدة 7 أيام",
+    "frequencyText": "ثلاث مرات يوميًا",
+    "durationText": "",
+    "id": "drug-list-20",
+    "sourceRows": [
+      20
+    ]
+  },
+  {
+    "name": "AZARGA",
+    "form": "Ophthalmic Suspension",
+    "doseText": "نقطة واحدة في العين المصابة مرتين يوميًا",
+    "frequencyText": "مرتين يوميًا",
+    "durationText": "",
+    "id": "drug-list-21",
+    "sourceRows": [
+      21
+    ]
+  },
+  {
+    "name": "AZELAST",
+    "form": "Eye Drops",
+    "doseText": "نقطة واحدة في العين المصابة مرتين يوميًا",
+    "frequencyText": "مرتين يوميًا",
+    "durationText": "",
+    "id": "drug-list-22",
+    "sourceRows": [
+      22
+    ]
+  },
+  {
+    "name": "AZGOCLATENS",
+    "form": "Eye Drops",
+    "doseText": "نقطة واحدة في العين المصابة مرتين يوميًا",
+    "frequencyText": "مرتين يوميًا",
+    "durationText": "",
+    "id": "drug-list-23",
+    "sourceRows": [
+      23
+    ]
+  },
+  {
+    "name": "AZITHROCHIDIA",
+    "form": "Eye Ointment",
+    "doseText": "نقطة واحدة في العين المصابة مرتين يوميًا (كل 8-12 ساعة) لأول يومين، ثم مرة واحدة يوميًا للـ5 أيام التالية",
+    "frequencyText": "مرتين يوميًا",
+    "durationText": "سبعه ايام",
+    "id": "drug-list-24",
+    "sourceRows": [
+      24
+    ]
+  },
+  {
+    "name": "AZITHROCHIDIA",
+    "form": "Eye Drops",
+    "doseText": "نقطة واحدة في العين المصابة مرتين يوميًا (كل 8-12 ساعة) لأول يومين، ثم مرة واحدة يوميًا للـ5 أيام التالية",
+    "frequencyText": "مرتين يوميًا",
+    "durationText": "سبعه ايام",
+    "id": "drug-list-25",
+    "sourceRows": [
+      25
+    ]
+  },
+  {
+    "name": "AZOPT",
+    "form": "Eye Drops",
+    "doseText": "نقطة واحدة في العين المصابة 3 مرات يوميًا",
+    "frequencyText": "ثلاث مرات يوميًا",
+    "durationText": "",
+    "id": "drug-list-26",
+    "sourceRows": [
+      26
+    ]
+  },
+  {
+    "name": "B.S.S",
+    "form": "Irrigation Solution",
+    "doseText": "محلول غسيل يُستخدم أثناء العمليات الجراحية للعين حسب تعليمات الجراح",
+    "frequencyText": "",
+    "durationText": "",
+    "id": "drug-list-27",
+    "sourceRows": [
+      27
+    ]
+  },
+  {
+    "name": "BENOX",
+    "form": "Eye Drops",
+    "doseText": "نقطة إلى نقطتين في العين قبل الإجراء مباشرة (للتخدير الموضعي التشخيصي فقط تحت إشراف الطبيب)",
+    "frequencyText": "",
+    "durationText": "",
+    "id": "drug-list-28",
+    "sourceRows": [
+      28,
+      29
+    ]
+  },
+  {
+    "name": "BENOXIDIA",
+    "form": "Eye Drops",
+    "doseText": "نقطة إلى نقطتين في العين قبل الإجراء مباشرة (للتخدير الموضعي التشخيصي فقط تحت إشراف الطبيب)",
+    "frequencyText": "",
+    "durationText": "",
+    "id": "drug-list-30",
+    "sourceRows": [
+      30,
+      31
+    ]
+  },
+  {
+    "name": "BETATHALMIC",
+    "form": "Eye Drops",
+    "doseText": "نقطة واحدة في العين المصابة مرتين يوميًا",
+    "frequencyText": "مرتين يوميًا",
+    "durationText": "",
+    "id": "drug-list-32",
+    "sourceRows": [
+      32,
+      33
+    ]
+  },
+  {
+    "name": "BETOPTIC",
+    "form": "Eye Drops",
+    "doseText": "نقطة واحدة في العين المصابة مرتين يوميًا",
+    "frequencyText": "مرتين يوميًا",
+    "durationText": "",
+    "id": "drug-list-34",
+    "sourceRows": [
+      34
+    ]
+  },
+  {
+    "name": "BIMATOSWIX",
+    "form": "Eye Drops",
+    "doseText": "نقطة واحدة في العين المصابة مرة واحدة يوميًا مساءً",
+    "frequencyText": "مرة واحدة يوميًا",
+    "durationText": "",
+    "id": "drug-list-35",
+    "sourceRows": [
+      35
+    ]
+  },
+  {
+    "name": "BLEFARITTO",
+    "form": "Eyelid Gel",
+    "doseText": "لتنظيف الجفون ورموش العين مرة إلى مرتين يوميًا كجزء من روتين نظافة الجفن",
+    "frequencyText": "مرتين يوميًا",
+    "durationText": "",
+    "id": "drug-list-36",
+    "sourceRows": [
+      36
+    ]
+  },
+  {
+    "name": "BLEFARITTO",
+    "form": "Eyelid Pad",
+    "doseText": "لتنظيف الجفون ورموش العين مرة إلى مرتين يوميًا كجزء من روتين نظافة الجفن",
+    "frequencyText": "مرتين يوميًا",
+    "durationText": "",
+    "id": "drug-list-37",
+    "sourceRows": [
+      37
+    ]
+  },
+  {
+    "name": "BLEPHADEXOLINE",
+    "form": "Eye Drops",
+    "doseText": "أول 48 ساعة: نقطة إلى نقطتين كل ساعتين، ثم تُخفَّض إلى 4 مرات يوميًا لمدة أسبوع، مع تقليل الجرعة تدريجيًا بعد ذلك حسب تعليمات طبيب العيون (لا تتجاوز مدة الاستخدام أسبوعًا متواصلًا لاحتوائه على مقلص للأوعية الدموية إلا بإشراف الطبيب)",
+    "frequencyText": "كل ساعتين",
+    "durationText": "أول يومين",
+    "id": "drug-list-38",
+    "sourceRows": [
+      38
+    ]
+  },
+  {
+    "name": "BLINK",
+    "form": "Eye Drops",
+    "doseText": "نقطة واحدة في العين حسب الحاجة، عادة 3-4 مرات يوميًا أو أكثر حسب شدة جفاف العين",
+    "frequencyText": "أربع مرات يوميًا",
+    "durationText": "",
+    "id": "drug-list-39",
+    "sourceRows": [
+      39
+    ]
+  },
+  {
+    "name": "BOMIADEX",
+    "form": "Eyelid Spray",
+    "doseText": "لتنظيف الجفون ورموش العين مرة إلى مرتين يوميًا كجزء من روتين نظافة الجفن",
+    "frequencyText": "مرتين يوميًا",
+    "durationText": "",
+    "id": "drug-list-40",
+    "sourceRows": [
+      40
+    ]
+  },
+  {
+    "name": "BOXINATE",
+    "form": "Eye Drops",
+    "doseText": "نقطة إلى نقطتين في العين قبل الإجراء مباشرة (للتخدير الموضعي التشخيصي فقط تحت إشراف الطبيب)",
+    "frequencyText": "مرة واحدة يوميًا",
+    "durationText": "",
+    "id": "drug-list-41",
+    "sourceRows": [
+      41
+    ]
+  },
+  {
+    "name": "BRIMILLERGY",
+    "form": "Eye Drops",
+    "doseText": "نقطة واحدة في العين المصابة 3 مرات يوميًا تقريبًا كل 8 ساعات (تركيز 0.1-0.15%)",
+    "frequencyText": "ثلاث مرات يوميًا",
+    "durationText": "",
+    "id": "drug-list-42",
+    "sourceRows": [
+      42
+    ]
+  },
+  {
+    "name": "BRIMOBRINZ",
+    "form": "Eye Drops",
+    "doseText": "نقطة واحدة في العين المصابة 3 مرات يوميًا",
+    "frequencyText": "ثلاث مرات يوميًا",
+    "durationText": "",
+    "id": "drug-list-43",
+    "sourceRows": [
+      43
+    ]
+  },
+  {
+    "name": "BRIMOCOMA",
+    "form": "Eye Drops",
+    "doseText": "نقطة واحدة في العين المصابة مرتين يوميًا (تركيز 0.2%)",
+    "frequencyText": "مرتين يوميًا",
+    "durationText": "",
+    "id": "drug-list-44",
+    "sourceRows": [
+      44
+    ]
+  },
+  {
+    "name": "BRIMODROPS",
+    "form": "Eye Drops",
+    "doseText": "نقطة واحدة في العين المصابة مرتين يوميًا",
+    "frequencyText": "مرتين يوميًا",
+    "durationText": "",
+    "id": "drug-list-45",
+    "sourceRows": [
+      45
+    ]
+  },
+  {
+    "name": "BRIMONIDINE",
+    "form": "Eye Drops",
+    "doseText": "نقطة واحدة في العين المصابة مرتين يوميًا (تركيز 0.2%)",
+    "frequencyText": "مرتين يوميًا",
+    "durationText": "",
+    "id": "drug-list-46",
+    "sourceRows": [
+      46
+    ]
+  },
+  {
+    "name": "BRIMONOCOND",
+    "form": "Eye Drops",
+    "doseText": "نقطة واحدة في العين المصابة مرتين يوميًا (تركيز 0.2%)",
+    "frequencyText": "مرتين يوميًا",
+    "durationText": "",
+    "id": "drug-list-47",
+    "sourceRows": [
+      47
+    ]
+  },
+  {
+    "name": "BRIMONOCOND PLUS",
+    "form": "Eye Drops",
+    "doseText": "نقطة واحدة في العين المصابة مرتين يوميًا",
+    "frequencyText": "مرتين يوميًا",
+    "durationText": "",
+    "id": "drug-list-48",
+    "sourceRows": [
+      48
+    ]
+  },
+  {
+    "name": "BRIMOSALM",
+    "form": "Eye Drops",
+    "doseText": "نقطة واحدة في العين المصابة 3 مرات يوميًا تقريبًا كل 8 ساعات (تركيز 0.1-0.15%)",
+    "frequencyText": "ثلاث مرات يوميًا",
+    "durationText": "",
+    "id": "drug-list-49",
+    "sourceRows": [
+      49
+    ]
+  },
+  {
+    "name": "BRINTIMO",
+    "form": "Eye Drops",
+    "doseText": "نقطة واحدة في العين المصابة مرتين يوميًا",
+    "frequencyText": "مرتين يوميًا",
+    "durationText": "",
+    "id": "drug-list-50",
+    "sourceRows": [
+      50
+    ]
+  },
+  {
+    "name": "BRINZOPT PLUS",
+    "form": "Eye Drops",
+    "doseText": "نقطة واحدة في العين المصابة 3 مرات يوميًا",
+    "frequencyText": "ثلاث مرات يوميًا",
+    "durationText": "",
+    "id": "drug-list-51",
+    "sourceRows": [
+      51
+    ]
+  },
+  {
+    "name": "BROMOFLAM",
+    "form": "Eye Drops",
+    "doseText": "نقطة واحدة في العين المصابة مرتين يوميًا، تبدأ 24 ساعة بعد الجراحة وتستمر لمدة أسبوعين",
+    "frequencyText": "مرتين يوميًا",
+    "durationText": "أسبوعين",
+    "id": "drug-list-52",
+    "sourceRows": [
+      52
+    ]
+  },
+  {
+    "name": "CAFTOHIST",
+    "form": "Eye Drops",
+    "doseText": "نقطة واحدة في العين المصابة مرة واحدة يوميًا",
+    "frequencyText": "مرة واحدة يوميًا",
+    "durationText": "",
+    "id": "drug-list-53",
+    "sourceRows": [
+      53
+    ]
+  },
+  {
+    "name": "CANTISCON",
+    "form": "Film-Coated Tablets (Oral)",
+    "doseText": "كبسولة/قرص واحد يوميًا مع الطعام، أو حسب تعليمات الطبيب",
+    "frequencyText": "مرة واحدة يوميًا",
+    "durationText": "",
+    "id": "drug-list-54",
+    "sourceRows": [
+      54
+    ]
+  },
+  {
+    "name": "CIDAMEX",
+    "form": "Tablets (Oral)",
+    "doseText": "قرص واحد (250 مجم) 2-4 مرات يوميًا حسب تعليمات الطبيب",
+    "frequencyText": "مرتين يوميًا",
+    "durationText": "",
+    "id": "drug-list-55",
+    "sourceRows": [
+      55
+    ]
+  },
+  {
+    "name": "CIPROCIN",
+    "form": "Eye Drops",
+    "doseText": "نقطة إلى نقطتين في العين المصابة 4 مرات يوميًا لمدة 7 أيام",
+    "frequencyText": "أربع مرات يوميًا",
+    "durationText": "سبعه ايام",
+    "id": "drug-list-56",
+    "sourceRows": [
+      56
+    ]
+  },
+  {
+    "name": "CIPROCIN",
+    "form": "Eye Ointment",
+    "doseText": "طبقة صغيرة في العين المصابة 3 مرات يوميًا (أو مرة واحدة ليلًا إذا استُخدم مع قطرة نهارية) لمدة 7 أيام",
+    "frequencyText": "ثلاث مرات يوميًا",
+    "durationText": "سبعه ايام",
+    "id": "drug-list-57",
+    "sourceRows": [
+      57
+    ]
+  },
+  {
+    "name": "CIPROFAR",
+    "form": "Eye Drops",
+    "doseText": "نقطة إلى نقطتين في العين المصابة 4 مرات يوميًا لمدة 7 أيام",
+    "frequencyText": "أربع مرات يوميًا",
+    "durationText": "سبعه ايام",
+    "id": "drug-list-58",
+    "sourceRows": [
+      58
+    ]
+  },
+  {
+    "name": "CO-AVAZIR",
+    "form": "Eye Ointment",
+    "doseText": "أول 48 ساعة: طبقة صغيرة كل 3-4 ساعات، ثم تُخفَّض إلى 3 مرات يوميًا لمدة أسبوع، مع تقليل الجرعة تدريجيًا بعد ذلك حسب تعليمات طبيب العيون",
+    "frequencyText": "أربع مرات يوميًا",
+    "durationText": "أول يومين",
+    "id": "drug-list-59",
+    "sourceRows": [
+      59
+    ]
+  },
+  {
+    "name": "CO-AVAZIR",
+    "form": "Ophthalmic Suspension",
+    "doseText": "أول 48 ساعة: نقطة إلى نقطتين كل ساعتين، ثم تُخفَّض إلى 4 مرات يوميًا لمدة أسبوع، مع تقليل الجرعة تدريجيًا بعد ذلك حسب تعليمات طبيب العيون",
+    "frequencyText": "أربع مرات يوميًا",
+    "durationText": "أول يومين",
+    "id": "drug-list-60",
+    "sourceRows": [
+      60,
+      61
+    ]
+  },
+  {
+    "name": "COMBIGAN",
+    "form": "Eye Drops",
+    "doseText": "نقطة واحدة في العين المصابة مرتين يوميًا",
+    "frequencyText": "مرتين يوميًا",
+    "durationText": "",
+    "id": "drug-list-62",
+    "sourceRows": [
+      62
+    ]
+  },
+  {
+    "name": "COMBILOW",
+    "form": "Eye Drops",
+    "doseText": "نقطة واحدة في العين المصابة مرتين يوميًا",
+    "frequencyText": "مرتين يوميًا",
+    "durationText": "",
+    "id": "drug-list-63",
+    "sourceRows": [
+      63
+    ]
+  },
+  {
+    "name": "CONJYCLEAR",
+    "form": "Eye Drops",
+    "doseText": "نقطة واحدة في العين المصابة مرة واحدة يوميًا (تركيز 0.2% فأعلى)",
+    "frequencyText": "مرة واحدة يوميًا",
+    "durationText": "",
+    "id": "drug-list-64",
+    "sourceRows": [
+      64
+    ]
+  },
+  {
+    "name": "CONJYCLEAR",
+    "form": "Eye Drops",
+    "doseText": "نقطة واحدة في العين المصابة مرتين يوميًا (تركيز 0.1%)",
+    "frequencyText": "مرة واحدة يوميًا",
+    "durationText": "",
+    "id": "drug-list-65",
+    "sourceRows": [
+      65
+    ]
+  },
+  {
+    "name": "CONJYCLEAR FORTE",
+    "form": "Eye Drops",
+    "doseText": "نقطة واحدة في العين المصابة مرة واحدة يوميًا (تركيز 0.2% فأعلى)",
+    "frequencyText": "مرة واحدة يوميًا",
+    "durationText": "",
+    "id": "drug-list-66",
+    "sourceRows": [
+      66,
+      67
+    ]
+  },
+  {
+    "name": "CORNEFRESH",
+    "form": "Eye Drops",
+    "doseText": "نقطة واحدة في العين المصابة مرتين يوميًا",
+    "frequencyText": "مرتين يوميًا",
+    "durationText": "",
+    "id": "drug-list-68",
+    "sourceRows": [
+      68
+    ]
+  },
+  {
+    "name": "CORNEREGEL",
+    "form": "Eye Drops",
+    "doseText": "نقطة واحدة في العين حسب الحاجة، عادة 3-4 مرات يوميًا أو أكثر حسب شدة جفاف العين",
+    "frequencyText": "ثلاث مرات يوميًا",
+    "durationText": "",
+    "id": "drug-list-69",
+    "sourceRows": [
+      69
+    ]
+  },
+  {
+    "name": "CORNEREGEL",
+    "form": "Eye Gel",
+    "doseText": "نقطة واحدة في العين حسب الحاجة، عادة 3-4 مرات يوميًا أو أكثر حسب شدة جفاف العين",
+    "frequencyText": "ثلاث مرات يوميًا",
+    "durationText": "",
+    "id": "drug-list-70",
+    "sourceRows": [
+      70
+    ]
+  },
+  {
+    "name": "CORNETEARS",
+    "form": "Eye Gel",
+    "doseText": "نقطة واحدة في العين حسب الحاجة، عادة 3-4 مرات يوميًا أو أكثر حسب شدة جفاف العين",
+    "frequencyText": "أربع مرات يوميًا",
+    "durationText": "",
+    "id": "drug-list-71",
+    "sourceRows": [
+      71
+    ]
+  },
+  {
+    "name": "COSOPT",
+    "form": "Eye Drops",
+    "doseText": "نقطة واحدة في العين المصابة مرتين يوميًا",
+    "frequencyText": "مرتين يوميًا",
+    "durationText": "",
+    "id": "drug-list-72",
+    "sourceRows": [
+      72
+    ]
+  },
+  {
+    "name": "CYANARO",
+    "form": "Eye Drops",
+    "doseText": "نقطة واحدة في العين المصابة مرتين يوميًا (كل 8-12 ساعة) لأول يومين، ثم مرة واحدة يوميًا للـ5 أيام التالية",
+    "frequencyText": "مرتين يوميًا",
+    "durationText": "أول يومين",
+    "id": "drug-list-73",
+    "sourceRows": [
+      73
+    ]
+  },
+  {
+    "name": "CYANARO PLUS",
+    "form": "Eye Drops",
+    "doseText": "أول 48 ساعة: نقطة إلى نقطتين كل ساعتين، ثم تُخفَّض إلى 4 مرات يوميًا لمدة أسبوع، مع تقليل الجرعة تدريجيًا بعد ذلك حسب تعليمات طبيب العيون",
+    "frequencyText": "مرتين يوميًا",
+    "durationText": "أول يومين",
+    "id": "drug-list-74",
+    "sourceRows": [
+      74
+    ]
+  },
+  {
+    "name": "CYCLOLOVIR",
+    "form": "Eye Ointment",
+    "doseText": "طبقة صغيرة في العين المصابة 5 مرات يوميًا حتى التئام القرنية، ثم 3 مرات يوميًا لمدة أسبوع إضافي حسب تعليمات الطبيب",
+    "frequencyText": "خمس مرات يوميًا",
+    "durationText": "",
+    "id": "drug-list-75",
+    "sourceRows": [
+      75
+    ]
+  },
+  {
+    "name": "CYCLOPHRINE",
+    "form": "Eye Drops",
+    "doseText": "نقطة واحدة في العين المصابة 1-2 مرة يوميًا حسب تعليمات الطبيب (أو جرعة واحدة قبل الفحص/الإجراء للاستخدام التشخيصي)",
+    "frequencyText": "مرتين يوميًا",
+    "durationText": "",
+    "id": "drug-list-76",
+    "sourceRows": [
+      76
+    ]
+  },
+  {
+    "name": "CYPENTOLA",
+    "form": "Eye Drops",
+    "doseText": "نقطة واحدة في العين المصابة 1-2 مرة يوميًا حسب تعليمات الطبيب (أو جرعة واحدة قبل الفحص/الإجراء للاستخدام التشخيصي)",
+    "frequencyText": "مرتين يوميًا",
+    "durationText": "",
+    "id": "drug-list-77",
+    "sourceRows": [
+      77
+    ]
+  },
+  {
+    "name": "DEPO LUTIN",
+    "form": "Soft Gel Capsules (Oral)",
+    "doseText": "كبسولة/قرص واحد يوميًا مع الطعام، أو حسب تعليمات الطبيب",
+    "frequencyText": "مرة واحدة يوميًا",
+    "durationText": "",
+    "id": "drug-list-78",
+    "sourceRows": [
+      78
+    ]
+  },
+  {
+    "name": "DEPZABID",
+    "form": "Eye Drops",
+    "doseText": "نقطة واحدة في العين المصابة 3 مرات يوميًا لمدة 7 أيام",
+    "frequencyText": "ثلاث مرات يوميًا",
+    "durationText": "سبعه ايام",
+    "id": "drug-list-79",
+    "sourceRows": [
+      79
+    ]
+  },
+  {
+    "name": "DEXAFLOX",
+    "form": "Eye Drops",
+    "doseText": "أول 48 ساعة: نقطة إلى نقطتين كل ساعتين، ثم تُخفَّض إلى 4 مرات يوميًا لمدة أسبوع، مع تقليل الجرعة تدريجيًا بعد ذلك حسب تعليمات طبيب العيون",
+    "frequencyText": "كل ساعتين",
+    "durationText": "أول يومين",
+    "id": "drug-list-80",
+    "sourceRows": [
+      80
+    ]
+  },
+  {
+    "name": "DEXAGEL",
+    "form": "Eye Gel",
+    "doseText": "طبقة صغيرة في العين المصابة 2-3 مرات يوميًا، مع تقليل الجرعة تدريجيًا حسب استجابة الحالة وتعليمات الطبيب",
+    "frequencyText": "ثلاث مرات يوميًا",
+    "durationText": "",
+    "id": "drug-list-81",
+    "sourceRows": [
+      81
+    ]
+  },
+  {
+    "name": "DEXAGRAND",
+    "form": "Ophthalmic Suspension",
+    "doseText": "أول 48 ساعة: نقطة إلى نقطتين كل ساعتين، ثم تُخفَّض إلى 4 مرات يوميًا لمدة أسبوع، مع تقليل الجرعة تدريجيًا بعد ذلك حسب تعليمات طبيب العيون",
+    "frequencyText": "كل ساعتين",
+    "durationText": "اول يومين",
+    "id": "drug-list-82",
+    "sourceRows": [
+      82
+    ]
+  },
+  {
+    "name": "DEXATHALM",
+    "form": "Eye Drops",
+    "doseText": "أول 48 ساعة: نقطة إلى نقطتين كل ساعتين، ثم تُخفَّض إلى 4 مرات يوميًا لمدة أسبوع، مع تقليل الجرعة تدريجيًا بعد ذلك حسب تعليمات طبيب العيون",
+    "frequencyText": "كل ساعتين",
+    "durationText": "اول يومين",
+    "id": "drug-list-83",
+    "sourceRows": [
+      83,
+      84
+    ]
+  },
+  {
+    "name": "DEXATOBRIN",
+    "form": "Eye Drops",
+    "doseText": "أول 48 ساعة: نقطة إلى نقطتين كل ساعتين، ثم تُخفَّض إلى 4 مرات يوميًا لمدة أسبوع، مع تقليل الجرعة تدريجيًا بعد ذلك حسب تعليمات طبيب العيون",
+    "frequencyText": "كل ساعتين",
+    "durationText": "اول يومين",
+    "id": "drug-list-85",
+    "sourceRows": [
+      85
+    ]
+  },
+  {
+    "name": "DEXATOBRIN",
+    "form": "Eye Ointment",
+    "doseText": "أول 48 ساعة: طبقة صغيرة كل 3-4 ساعات، ثم تُخفَّض إلى 3 مرات يوميًا لمدة أسبوع، مع تقليل الجرعة تدريجيًا بعد ذلك حسب تعليمات طبيب العيون",
+    "frequencyText": "كل ساعتين",
+    "durationText": "اول يومين",
+    "id": "drug-list-86",
+    "sourceRows": [
+      86
+    ]
+  },
+  {
+    "name": "DEXATROL",
+    "form": "Eye Ointment",
+    "doseText": "أول 48 ساعة: طبقة صغيرة كل 3-4 ساعات، ثم تُخفَّض إلى 3 مرات يوميًا لمدة أسبوع، مع تقليل الجرعة تدريجيًا بعد ذلك حسب تعليمات طبيب العيون",
+    "frequencyText": "كل ساعتين",
+    "durationText": "اول يومين",
+    "id": "drug-list-87",
+    "sourceRows": [
+      87
+    ]
+  },
+  {
+    "name": "DEXATROL",
+    "form": "Eye/Ear Drops",
+    "doseText": "أول 48 ساعة: نقطة إلى نقطتين كل ساعتين، ثم تُخفَّض إلى 4 مرات يوميًا لمدة أسبوع، مع تقليل الجرعة تدريجيًا بعد ذلك حسب تعليمات طبيب العيون",
+    "frequencyText": "كل ساعتين",
+    "durationText": "اول يومين",
+    "id": "drug-list-88",
+    "sourceRows": [
+      88
+    ]
+  },
+  {
+    "name": "DEXONIUM",
+    "form": "Eye Drops (Collyrium)",
+    "doseText": "نقطة واحدة في العين المصابة 4 مرات يوميًا، مع تقليل الجرعة تدريجيًا حسب استجابة الحالة وتعليمات الطبيب",
+    "frequencyText": "أربع مرات يوميًا",
+    "durationText": "",
+    "id": "drug-list-89",
+    "sourceRows": [
+      89
+    ]
+  },
+  {
+    "name": "DIFLUSTERO",
+    "form": "Eye Drops",
+    "doseText": "نقطة واحدة في العين المصابة 4 مرات يوميًا، مع تقليل الجرعة تدريجيًا حسب استجابة الحالة وتعليمات الطبيب",
+    "frequencyText": "أربع مرات يوميًا",
+    "durationText": "",
+    "id": "drug-list-90",
+    "sourceRows": [
+      90
+    ]
+  },
+  {
+    "name": "DORZIBORG",
+    "form": "Eye Drops",
+    "doseText": "نقطة واحدة في العين المصابة 3 مرات يوميًا",
+    "frequencyText": "ثلاث مرات يوميًا",
+    "durationText": "",
+    "id": "drug-list-91",
+    "sourceRows": [
+      91
+    ]
+  },
+  {
+    "name": "DORZOLAMOL",
+    "form": "Eye Drops",
+    "doseText": "نقطة واحدة في العين المصابة مرتين يوميًا",
+    "frequencyText": "مرتين يوميًا",
+    "durationText": "",
+    "id": "drug-list-92",
+    "sourceRows": [
+      92
+    ]
+  },
+  {
+    "name": "DORZOLATIMO",
+    "form": "Eye Drops",
+    "doseText": "نقطة واحدة في العين المصابة مرتين يوميًا",
+    "frequencyText": "مرتين يوميًا",
+    "durationText": "",
+    "id": "drug-list-93",
+    "sourceRows": [
+      93
+    ]
+  },
+  {
+    "name": "DRYOLIEF",
+    "form": "Eye Drops",
+    "doseText": "نقطة واحدة في العين المصابة مرتين يوميًا (صباحًا ومساءً) بشكل مستمر حسب تعليمات الطبيب",
+    "frequencyText": "مرتين يوميًا",
+    "durationText": "",
+    "id": "drug-list-94",
+    "sourceRows": [
+      94
+    ]
+  },
+  {
+    "name": "DUOEFFECTUM",
+    "form": "Eye Drops",
+    "doseText": "أول 48 ساعة: نقطة إلى نقطتين كل ساعتين، ثم تُخفَّض إلى 4 مرات يوميًا لمدة أسبوع، مع تقليل الجرعة تدريجيًا بعد ذلك حسب تعليمات طبيب العيون",
+    "frequencyText": "كل ساعتين",
+    "durationText": "أول يومين",
+    "id": "drug-list-95",
+    "sourceRows": [
+      95
+    ]
+  },
+  {
+    "name": "DUOTRAV",
+    "form": "Eye Drops",
+    "doseText": "نقطة واحدة في العين المصابة مرة واحدة يوميًا صباحًا",
+    "frequencyText": "مرة واحدة يوميًا",
+    "durationText": "",
+    "id": "drug-list-96",
+    "sourceRows": [
+      96
+    ]
+  },
+  {
+    "name": "ECONOPRED PLUS",
+    "form": "Eye Drops",
+    "doseText": "نقطة واحدة في العين المصابة 4 مرات يوميًا، مع تقليل الجرعة تدريجيًا حسب استجابة الحالة وتعليمات الطبيب",
+    "frequencyText": "أربع مرات يوميًا",
+    "durationText": "",
+    "id": "drug-list-97",
+    "sourceRows": [
+      97
+    ]
+  },
+  {
+    "name": "ECTOHYLO",
+    "form": "Eye Drops",
+    "doseText": "نقطة واحدة في العين حسب الحاجة، عادة 3-4 مرات يوميًا أو أكثر حسب شدة جفاف العين",
+    "frequencyText": "أربع مرات يوميًا",
+    "durationText": "",
+    "id": "drug-list-98",
+    "sourceRows": [
+      98,
+      99,
+      100
+    ]
+  },
+  {
+    "name": "ECTOIN",
+    "form": "Eye Drops",
+    "doseText": "نقطة واحدة في العين حسب الحاجة، عادة 3-4 مرات يوميًا أو أكثر حسب شدة جفاف العين",
+    "frequencyText": "أربع مرات يوميًا",
+    "durationText": "",
+    "id": "drug-list-101",
+    "sourceRows": [
+      101,
+      102
+    ]
+  },
+  {
+    "name": "EFEMYO",
+    "form": "Eye Drops",
+    "doseText": "نقطة واحدة في العين المصابة 3-4 مرات يوميًا، لمدة لا تزيد عن أسبوع متواصل دون مراجعة الطبيب",
+    "frequencyText": "أربع مرات يوميًا",
+    "durationText": "سبعه ايام",
+    "id": "drug-list-103",
+    "sourceRows": [
+      103
+    ]
+  },
+  {
+    "name": "EFUSICAN",
+    "form": "Eye Gel (Viscous Drops)",
+    "doseText": "نقطة واحدة في العين المصابة مرتين يوميًا، ويُستمر لمدة 48 ساعة بعد زوال الأعراض",
+    "frequencyText": "مرتين يوميًا",
+    "durationText": "",
+    "id": "drug-list-104",
+    "sourceRows": [
+      104
+    ]
+  },
+  {
+    "name": "EPICROM",
+    "form": "Eye Drops",
+    "doseText": "نقطة واحدة في العين المصابة 4 مرات يوميًا",
+    "frequencyText": "أربع مرات يوميًا",
+    "durationText": "",
+    "id": "drug-list-105",
+    "sourceRows": [
+      105
+    ]
+  },
+  {
+    "name": "EPICROM PLUS",
+    "form": "Ophthalmic Suspension",
+    "doseText": "نقطة واحدة في العين المصابة 4 مرات يوميًا، مع تقليل الجرعة تدريجيًا حسب استجابة الحالة وتعليمات الطبيب",
+    "frequencyText": "أربع مرات يوميًا",
+    "durationText": "",
+    "id": "drug-list-106",
+    "sourceRows": [
+      106
+    ]
+  },
+  {
+    "name": "EPIDEXONE",
+    "form": "Eye Ointment",
+    "doseText": "طبقة صغيرة في العين المصابة 2-3 مرات يوميًا، مع تقليل الجرعة تدريجيًا حسب استجابة الحالة وتعليمات الطبيب",
+    "frequencyText": "ثلاث مرات يوميًا",
+    "durationText": "",
+    "id": "drug-list-107",
+    "sourceRows": [
+      107
+    ]
+  },
+  {
+    "name": "EPIDEXONE PLUS",
+    "form": "Eye Drops",
+    "doseText": "أول 48 ساعة: نقطة إلى نقطتين كل ساعتين، ثم تُخفَّض إلى 4 مرات يوميًا لمدة أسبوع، مع تقليل الجرعة تدريجيًا بعد ذلك حسب تعليمات طبيب العيون",
+    "frequencyText": "كل ساعتين",
+    "durationText": "أول يومين",
+    "id": "drug-list-108",
+    "sourceRows": [
+      108
+    ]
+  },
+  {
+    "name": "EPIFENAC",
+    "form": "Eye Drops",
+    "doseText": "نقطة واحدة في العين المصابة 4 مرات يوميًا",
+    "frequencyText": "أربع مرات يوميًا",
+    "durationText": "",
+    "id": "drug-list-109",
+    "sourceRows": [
+      109
+    ]
+  },
+  {
+    "name": "EPIPHENICOL",
+    "form": "Eye Ointment",
+    "doseText": "طبقة صغيرة في العين المصابة 3 مرات يوميًا (أو مرة واحدة ليلًا إذا استُخدم مع قطرة نهارية) لمدة 7 أيام",
+    "frequencyText": "ثلاث مرات يوميًا",
+    "durationText": "",
+    "id": "drug-list-110",
+    "sourceRows": [
+      110
+    ]
+  },
+  {
+    "name": "EPISOPT",
+    "form": "Eye Drops",
+    "doseText": "نقطة واحدة في العين المصابة مرتين يوميًا",
+    "frequencyText": "مرتين يوميًا",
+    "durationText": "",
+    "id": "drug-list-111",
+    "sourceRows": [
+      111
+    ]
+  },
+  {
+    "name": "EPISTROCORT",
+    "form": "Eye Drops",
+    "doseText": "نقطة واحدة في العين المصابة 4 مرات يوميًا، مع تقليل الجرعة تدريجيًا حسب استجابة الحالة وتعليمات الطبيب",
+    "frequencyText": "أربع مرات يوميًا",
+    "durationText": "",
+    "id": "drug-list-112",
+    "sourceRows": [
+      112
+    ]
+  },
+  {
+    "name": "EPITAXOL",
+    "form": "Eye Drops",
+    "doseText": "نقطة واحدة في العين المصابة مرتين يوميًا",
+    "frequencyText": "مرتين يوميًا",
+    "durationText": "",
+    "id": "drug-list-113",
+    "sourceRows": [
+      113
+    ]
+  },
+  {
+    "name": "EPITIMOZAL",
+    "form": "Eye Drops",
+    "doseText": "نقطة واحدة في العين المصابة مرتين يوميًا",
+    "frequencyText": "مرتين يوميًا",
+    "durationText": "",
+    "id": "drug-list-114",
+    "sourceRows": [
+      114
+    ]
+  },
+  {
+    "name": "EXTRA CLEAR",
+    "form": "Eye Drops",
+    "doseText": "نقطة إلى نقطتين في العين المصابة حتى 4 مرات يوميًا عند الحاجة، لمدة لا تزيد عن 3-4 أيام متتالية لتجنب احمرار الارتداد",
+    "frequencyText": "أربع مرات يوميًا",
+    "durationText": "اربع ايام",
+    "id": "drug-list-115",
+    "sourceRows": [
+      115
+    ]
+  },
+  {
+    "name": "EYE CLEAR",
+    "form": "Eye Drops",
+    "doseText": "نقطة إلى نقطتين في العين المصابة حتى 4 مرات يوميًا عند الحاجة، لمدة لا تزيد عن 3-4 أيام متتالية لتجنب احمرار الارتداد",
+    "frequencyText": "أربع مرات يوميًا",
+    "durationText": "اربع ايام",
+    "id": "drug-list-116",
+    "sourceRows": [
+      116
+    ]
+  },
+  {
+    "name": "EYE DAILY VIT",
+    "form": "Capsules (Oral)",
+    "doseText": "كبسولة/قرص واحد يوميًا مع الطعام، أو حسب تعليمات الطبيب",
+    "frequencyText": "مرة واحدة يوميًا",
+    "durationText": "",
+    "id": "drug-list-117",
+    "sourceRows": [
+      117
+    ]
+  },
+  {
+    "name": "EYLEA",
+    "form": "Intravitreal Injection Vial",
+    "doseText": "حقنة داخل الجسم الزجاجي يحددها ويُجريها طبيب الشبكية، عادة كل 4-8 أسابيع حسب الحالة والبروتوكول العلاجي (ليست للاستخدام الذاتي)",
+    "frequencyText": "",
+    "durationText": "",
+    "id": "drug-list-118",
+    "sourceRows": [
+      118,
+      119
+    ]
+  },
+  {
+    "name": "FARCOBRASONE",
+    "form": "Eye Drops",
+    "doseText": "أول 48 ساعة: نقطة إلى نقطتين كل ساعتين، ثم تُخفَّض إلى 4 مرات يوميًا لمدة أسبوع، مع تقليل الجرعة تدريجيًا بعد ذلك حسب تعليمات طبيب العيون",
+    "frequencyText": "كل ساعتين",
+    "durationText": "اول يومين",
+    "id": "drug-list-120",
+    "sourceRows": [
+      120
+    ]
+  },
+  {
+    "name": "FLAMOFENAC",
+    "form": "Eye Drops",
+    "doseText": "نقطة واحدة في العين المصابة مرتين يوميًا، تبدأ 24 ساعة بعد الجراحة وتستمر لمدة أسبوعين",
+    "frequencyText": "مرتين يوميًا",
+    "durationText": "أسبوعين",
+    "id": "drug-list-121",
+    "sourceRows": [
+      121
+    ]
+  },
+  {
+    "name": "FLUCA",
+    "form": "Eye Drops",
+    "doseText": "نقطة واحدة في العين المصابة 4 مرات يوميًا، مع تقليل الجرعة تدريجيًا حسب استجابة الحالة وتعليمات الطبيب",
+    "frequencyText": "أربع مرات يوميًا",
+    "durationText": "",
+    "id": "drug-list-122",
+    "sourceRows": [
+      122
+    ]
+  },
+  {
+    "name": "FLUCON",
+    "form": "Ophthalmic Suspension",
+    "doseText": "نقطة واحدة في العين المصابة 4 مرات يوميًا، مع تقليل الجرعة تدريجيًا حسب استجابة الحالة وتعليمات الطبيب",
+    "frequencyText": "أربع مرات يوميًا",
+    "durationText": "",
+    "id": "drug-list-123",
+    "sourceRows": [
+      123
+    ]
+  },
+  {
+    "name": "FLUORESCEIN",
+    "form": "IV Injection (Diagnostic Dye)",
+    "doseText": "حقنة وريدية تشخيصية يحددها ويُجريها الطبيب أثناء تصوير الأوعية الشبكية (ليست للاستخدام الذاتي)",
+    "frequencyText": "",
+    "durationText": "",
+    "id": "drug-list-124",
+    "sourceRows": [
+      124
+    ]
+  },
+  {
+    "name": "FLUROQUINOMOX",
+    "form": "Eye Drops",
+    "doseText": "نقطة واحدة في العين المصابة 3 مرات يوميًا لمدة 7 أيام",
+    "frequencyText": "ثلاث مرات يوميًا",
+    "durationText": "سبعه ايام",
+    "id": "drug-list-125",
+    "sourceRows": [
+      125
+    ]
+  },
+  {
+    "name": "FORTYMOX",
+    "form": "Eye Drops",
+    "doseText": "نقطة واحدة في العين المصابة 3 مرات يوميًا لمدة 7 أيام",
+    "frequencyText": "ثلاث مرات يوميًا",
+    "durationText": "سبعه ايام",
+    "id": "drug-list-126",
+    "sourceRows": [
+      126
+    ]
+  },
+  {
+    "name": "FORTYMOX PLUS",
+    "form": "Eye Drops",
+    "doseText": "أول 48 ساعة: نقطة إلى نقطتين كل ساعتين، ثم تُخفَّض إلى 4 مرات يوميًا لمدة أسبوع، مع تقليل الجرعة تدريجيًا بعد ذلك حسب تعليمات طبيب العيون",
+    "frequencyText": "كل ساعتين",
+    "durationText": "",
+    "id": "drug-list-127",
+    "sourceRows": [
+      127
+    ]
+  },
+  {
+    "name": "FRESHMOND",
+    "form": "Eye Drops",
+    "doseText": "نقطة واحدة في العين المصابة مرة واحدة يوميًا صباحًا",
+    "frequencyText": "مرة واحدة يوميًا",
+    "durationText": "",
+    "id": "drug-list-128",
+    "sourceRows": [
+      128
+    ]
+  },
+  {
+    "name": "FUCITHALMIC",
+    "form": "Eye Drops",
+    "doseText": "نقطة واحدة في العين المصابة مرتين يوميًا، ويُستمر لمدة 48 ساعة بعد زوال الأعراض",
+    "frequencyText": "مرتين يوميًا",
+    "durationText": "اول يومين",
+    "id": "drug-list-129",
+    "sourceRows": [
+      129
+    ]
+  },
+  {
+    "name": "FUSAMIC",
+    "form": "Eye Drops",
+    "doseText": "نقطة واحدة في العين المصابة مرتين يوميًا، ويُستمر لمدة 48 ساعة بعد زوال الأعراض",
+    "frequencyText": "مرتين يوميًا",
+    "durationText": "اول يومين",
+    "id": "drug-list-130",
+    "sourceRows": [
+      130
+    ]
+  },
+  {
+    "name": "GANFORT",
+    "form": "Eye Drops",
+    "doseText": "نقطة واحدة في العين المصابة مرة واحدة يوميًا صباحًا",
+    "frequencyText": "مرة واحدة يوميًا",
+    "durationText": "",
+    "id": "drug-list-131",
+    "sourceRows": [
+      131
+    ]
+  },
+  {
+    "name": "GANVIR",
+    "form": "Eye Gel",
+    "doseText": "طبقة صغيرة في العين المصابة 5 مرات يوميًا حتى التئام القرنية، ثم 3 مرات يوميًا لمدة أسبوع إضافي حسب تعليمات الطبيب",
+    "frequencyText": "خمس مرات يوميًا",
+    "durationText": "",
+    "id": "drug-list-132",
+    "sourceRows": [
+      132
+    ]
+  },
+  {
+    "name": "GARAMYCIN",
+    "form": "Eye Ointment",
+    "doseText": "طبقة صغيرة في العين المصابة 3 مرات يوميًا (أو مرة واحدة ليلًا إذا استُخدم مع قطرة نهارية) لمدة 7 أيام",
+    "frequencyText": "ثلاث مرات يوميًا",
+    "durationText": "سبعه ايام",
+    "id": "drug-list-133",
+    "sourceRows": [
+      133
+    ]
+  },
+  {
+    "name": "GATIGRAND",
+    "form": "Eye Drops",
+    "doseText": "نقطة إلى نقطتين في العين المصابة 4 مرات يوميًا لمدة 7 أيام",
+    "frequencyText": "أربع مرات يوميًا",
+    "durationText": "سبعه ايام",
+    "id": "drug-list-134",
+    "sourceRows": [
+      134
+    ]
+  },
+  {
+    "name": "GATILOX",
+    "form": "Eye Drops",
+    "doseText": "نقطة إلى نقطتين في العين المصابة 4 مرات يوميًا لمدة 7 أيام",
+    "frequencyText": "أربع مرات يوميًا",
+    "durationText": "سبعه ايام",
+    "id": "drug-list-135",
+    "sourceRows": [
+      135
+    ]
+  },
+  {
+    "name": "GATISTAR",
+    "form": "Eye Drops",
+    "doseText": "نقطة إلى نقطتين في العين المصابة 4 مرات يوميًا لمدة 7 أيام",
+    "frequencyText": "أربع مرات يوميًا",
+    "durationText": "سبعه ايام",
+    "id": "drug-list-136",
+    "sourceRows": [
+      136,
+      137
+    ]
+  },
+  {
+    "name": "GATYXEL",
+    "form": "Eye Drops",
+    "doseText": "نقطة إلى نقطتين في العين المصابة 4 مرات يوميًا لمدة 7 أيام",
+    "frequencyText": "أربع مرات يوميًا",
+    "durationText": "سبعه ايام",
+    "id": "drug-list-138",
+    "sourceRows": [
+      138
+    ]
+  },
+  {
+    "name": "GATYXEL",
+    "form": "Eye Ointment",
+    "doseText": "طبقة صغيرة في العين المصابة 3 مرات يوميًا (أو مرة واحدة ليلًا إذا استُخدم مع قطرة نهارية) لمدة 7 أيام",
+    "frequencyText": "ثلاث مرات يوميًا",
+    "durationText": "سبعه ايام",
+    "id": "drug-list-139",
+    "sourceRows": [
+      139
+    ]
+  },
+  {
+    "name": "GRANDOTIFEN",
+    "form": "Eye Drops",
+    "doseText": "نقطة واحدة في العين المصابة مرتين يوميًا",
+    "frequencyText": "مرتين يوميًا",
+    "durationText": "",
+    "id": "drug-list-140",
+    "sourceRows": [
+      140
+    ]
+  },
+  {
+    "name": "HYACARENOL",
+    "form": "Eye Drops",
+    "doseText": "نقطة واحدة في العين حسب الحاجة، عادة 3-4 مرات يوميًا أو أكثر حسب شدة جفاف العين",
+    "frequencyText": "أربع مرات يوميًا",
+    "durationText": "",
+    "id": "drug-list-141",
+    "sourceRows": [
+      141
+    ]
+  },
+  {
+    "name": "HYALOPTIC",
+    "form": "Eye Drops",
+    "doseText": "نقطة واحدة في العين حسب الحاجة، عادة 3-4 مرات يوميًا أو أكثر حسب شدة جفاف العين",
+    "frequencyText": "أربع مرات يوميًا",
+    "durationText": "",
+    "id": "drug-list-142",
+    "sourceRows": [
+      142
+    ]
+  },
+  {
+    "name": "HYALUGRAND",
+    "form": "Eye Drops",
+    "doseText": "نقطة واحدة في العين حسب الحاجة، عادة 3-4 مرات يوميًا أو أكثر حسب شدة جفاف العين",
+    "frequencyText": "أربع مرات يوميًا",
+    "durationText": "",
+    "id": "drug-list-143",
+    "sourceRows": [
+      143
+    ]
+  },
+  {
+    "name": "HYCYANARO",
+    "form": "Eye Drops",
+    "doseText": "نقطة واحدة في العين المصابة مرتين يوميًا (كل 8-12 ساعة) لأول يومين، ثم مرة واحدة يوميًا للـ5 أيام التالية",
+    "frequencyText": "مرتين يوميًا",
+    "durationText": "اول يومين",
+    "id": "drug-list-144",
+    "sourceRows": [
+      144
+    ]
+  },
+  {
+    "name": "HYDRATEARS",
+    "form": "Eye Drops",
+    "doseText": "نقطة واحدة في العين حسب الحاجة، عادة 3-4 مرات يوميًا أو أكثر حسب شدة جفاف العين",
+    "frequencyText": "أربع مرات يوميًا",
+    "durationText": "",
+    "id": "drug-list-145",
+    "sourceRows": [
+      145
+    ]
+  },
+  {
+    "name": "HYDROBLEND",
+    "form": "Eye Drops",
+    "doseText": "نقطة واحدة في العين حسب الحاجة، عادة 3-4 مرات يوميًا أو أكثر حسب شدة جفاف العين",
+    "frequencyText": "أربع مرات يوميًا",
+    "durationText": "",
+    "id": "drug-list-146",
+    "sourceRows": [
+      146,
+      147
+    ]
+  },
+  {
+    "name": "HYFRESH",
+    "form": "Eye Drops",
+    "doseText": "نقطة واحدة في العين حسب الحاجة، عادة 3-4 مرات يوميًا أو أكثر حسب شدة جفاف العين",
+    "frequencyText": "أربع مرات يوميًا",
+    "durationText": "",
+    "id": "drug-list-148",
+    "sourceRows": [
+      148
+    ]
+  },
+  {
+    "name": "I CARE",
+    "form": "Capsules (Oral)",
+    "doseText": "كبسولة/قرص واحد يوميًا مع الطعام، أو حسب تعليمات الطبيب",
+    "frequencyText": "مرة واحدة يوميًا",
+    "durationText": "",
+    "id": "drug-list-149",
+    "sourceRows": [
+      149
+    ]
+  },
+  {
+    "name": "IDELOX",
+    "form": "Eye Drops",
+    "doseText": "نقطة واحدة في العين المصابة 3 مرات يوميًا لمدة 7 أيام",
+    "frequencyText": "ثلاث مرات يوميًا",
+    "durationText": "سبعه ايام",
+    "id": "drug-list-150",
+    "sourceRows": [
+      150
+    ]
+  },
+  {
+    "name": "IDROFLOG",
+    "form": "Eye Drops",
+    "doseText": "نقطة واحدة في العين المصابة 4 مرات يوميًا، مع تقليل الجرعة تدريجيًا حسب استجابة الحالة وتعليمات الطبيب",
+    "frequencyText": "أربع مرات يوميًا",
+    "durationText": "",
+    "id": "drug-list-151",
+    "sourceRows": [
+      151
+    ]
+  },
+  {
+    "name": "IOPROST",
+    "form": "Eye Drops",
+    "doseText": "نقطة واحدة في العين المصابة مرة واحدة يوميًا مساءً",
+    "frequencyText": "مرة واحدة يوميًا",
+    "durationText": "",
+    "id": "drug-list-152",
+    "sourceRows": [
+      152,
+      153,
+      154
+    ]
+  },
+  {
+    "name": "ISOMIPHENICOL",
+    "form": "Eye Drops (Collyrium)",
+    "doseText": "نقطة إلى نقطتين في العين المصابة 4 مرات يوميًا لمدة 7 أيام",
+    "frequencyText": "أربع مرات يوميًا",
+    "durationText": "سبعه ايام",
+    "id": "drug-list-155",
+    "sourceRows": [
+      155
+    ]
+  },
+  {
+    "name": "ISOPTO CETAMIDE",
+    "form": "Eye Drops (Collyrium)",
+    "doseText": "نقطة إلى نقطتين في العين المصابة 4 مرات يوميًا لمدة 7 أيام",
+    "frequencyText": "أربع مرات يوميًا",
+    "durationText": "سبعه ايام",
+    "id": "drug-list-156",
+    "sourceRows": [
+      156
+    ]
+  },
+  {
+    "name": "ISOPTO MAXITROL",
+    "form": "Eye Drops (Collyrium)",
+    "doseText": "أول 48 ساعة: نقطة إلى نقطتين كل ساعتين، ثم تُخفَّض إلى 4 مرات يوميًا لمدة أسبوع، مع تقليل الجرعة تدريجيًا بعد ذلك حسب تعليمات طبيب العيون",
+    "frequencyText": "كل ساعتين",
+    "durationText": "",
+    "id": "drug-list-157",
+    "sourceRows": [
+      157
+    ]
+  },
+  {
+    "name": "ISOPTOFENICOL",
+    "form": "Eye Drops",
+    "doseText": "نقطة إلى نقطتين في العين المصابة 4 مرات يوميًا لمدة 7 أيام",
+    "frequencyText": "أربع مرات يوميًا",
+    "durationText": "سبعه ايام",
+    "id": "drug-list-158",
+    "sourceRows": [
+      158
+    ]
+  },
+  {
+    "name": "KETOROLIN",
+    "form": "Eye Drops",
+    "doseText": "نقطة واحدة في العين المصابة 4 مرات يوميًا",
+    "frequencyText": "أربع مرات يوميًا",
+    "durationText": "",
+    "id": "drug-list-159",
+    "sourceRows": [
+      159
+    ]
+  },
+  {
+    "name": "KYRATOVER",
+    "form": "Eye Ointment",
+    "doseText": "طبقة صغيرة في العين المصابة 5 مرات يوميًا حتى التئام القرنية، ثم 3 مرات يوميًا لمدة أسبوع إضافي حسب تعليمات الطبيب",
+    "frequencyText": "خمس مرات يوميًا",
+    "durationText": "",
+    "id": "drug-list-160",
+    "sourceRows": [
+      160
+    ]
+  },
+  {
+    "name": "LACRICARMIN",
+    "form": "Eye Drops",
+    "doseText": "نقطة واحدة في العين حسب الحاجة، عادة 3-4 مرات يوميًا أو أكثر حسب شدة جفاف العين",
+    "frequencyText": "أربع مرات يوميًا",
+    "durationText": "",
+    "id": "drug-list-161",
+    "sourceRows": [
+      161,
+      162,
+      163
+    ]
+  },
+  {
+    "name": "LACRIFRESH",
+    "form": "Eye Drops",
+    "doseText": "نقطة واحدة في العين حسب الحاجة، عادة 3-4 مرات يوميًا أو أكثر حسب شدة جفاف العين",
+    "frequencyText": "أربع مرات يوميًا",
+    "durationText": "",
+    "id": "drug-list-164",
+    "sourceRows": [
+      164
+    ]
+  },
+  {
+    "name": "LACRILIFT",
+    "form": "Eye Drops",
+    "doseText": "نقطة واحدة في العين المصابة مرتين يوميًا (صباحًا ومساءً) بشكل مستمر حسب تعليمات الطبيب",
+    "frequencyText": "مرتين يوميًا",
+    "durationText": "",
+    "id": "drug-list-165",
+    "sourceRows": [
+      165
+    ]
+  },
+  {
+    "name": "LACRITEARS",
+    "form": "Eye Drops",
+    "doseText": "نقطة واحدة في العين حسب الحاجة، عادة 3-4 مرات يوميًا أو أكثر حسب شدة جفاف العين",
+    "frequencyText": "أربع مرات يوميًا",
+    "durationText": "",
+    "id": "drug-list-166",
+    "sourceRows": [
+      166
+    ]
+  },
+  {
+    "name": "LACRITEARS FORTE",
+    "form": "Eye Drops",
+    "doseText": "نقطة واحدة في العين حسب الحاجة، عادة 3-4 مرات يوميًا أو أكثر حسب شدة جفاف العين",
+    "frequencyText": "أربع مرات يوميًا",
+    "durationText": "",
+    "id": "drug-list-167",
+    "sourceRows": [
+      167
+    ]
+  },
+  {
+    "name": "LASTING TEARS",
+    "form": "Eye Drops",
+    "doseText": "نقطة واحدة في العين حسب الحاجة، عادة 3-4 مرات يوميًا أو أكثر حسب شدة جفاف العين",
+    "frequencyText": "أربع مرات يوميًا",
+    "durationText": "",
+    "id": "drug-list-168",
+    "sourceRows": [
+      168
+    ]
+  },
+  {
+    "name": "LATANOSWIX",
+    "form": "Eye Drops",
+    "doseText": "نقطة واحدة في العين المصابة مرة واحدة يوميًا مساءً",
+    "frequencyText": "مرة واحدة يوميًا",
+    "durationText": "",
+    "id": "drug-list-169",
+    "sourceRows": [
+      169
+    ]
+  },
+  {
+    "name": "LATYLASHY",
+    "form": "Eye Drops",
+    "doseText": "نقطة واحدة في العين المصابة مرة واحدة يوميًا مساءً",
+    "frequencyText": "مرة واحدة يوميًا",
+    "durationText": "",
+    "id": "drug-list-170",
+    "sourceRows": [
+      170
+    ]
+  },
+  {
+    "name": "LEE-FLOX",
+    "form": "Eye Drops",
+    "doseText": "نقطة إلى نقطتين في العين المصابة 4 مرات يوميًا لمدة 7 أيام",
+    "frequencyText": "أربع مرات يوميًا",
+    "durationText": "سبعه ايام",
+    "id": "drug-list-171",
+    "sourceRows": [
+      171
+    ]
+  },
+  {
+    "name": "LENZY",
+    "form": "Contact Lens Solution",
+    "doseText": "لتنظيف وتعقيم وحفظ العدسات اللاصقة حسب تعليمات الاستخدام الموضحة على العبوة - غير مخصص للاستخدام كقطرة للعين",
+    "frequencyText": "",
+    "durationText": "",
+    "id": "drug-list-172",
+    "sourceRows": [
+      172
+    ]
+  },
+  {
+    "name": "LERGEBLOCK",
+    "form": "Eye Drops",
+    "doseText": "نقطة واحدة في العين المصابة مرتين يوميًا",
+    "frequencyText": "مرتين يوميًا",
+    "durationText": "",
+    "id": "drug-list-173",
+    "sourceRows": [
+      173
+    ]
+  },
+  {
+    "name": "LIQUIFILM TEARS",
+    "form": "Eye Drops (Collyrium)",
+    "doseText": "نقطة واحدة في العين حسب الحاجة، عادة 3-4 مرات يوميًا أو أكثر حسب شدة جفاف العين",
+    "frequencyText": "أربع مرات يوميًا",
+    "durationText": "",
+    "id": "drug-list-174",
+    "sourceRows": [
+      174
+    ]
+  },
+  {
+    "name": "LOMEXCURE",
+    "form": "Eye Drops",
+    "doseText": "نقطة إلى نقطتين في العين المصابة 4 مرات يوميًا لمدة 7 أيام",
+    "frequencyText": "أربع مرات يوميًا",
+    "durationText": "سبعه ايام",
+    "id": "drug-list-175",
+    "sourceRows": [
+      175
+    ]
+  },
+  {
+    "name": "LOOKAVIEW",
+    "form": "Soft Gel Capsules (Oral)",
+    "doseText": "كبسولة/قرص واحد يوميًا مع الطعام، أو حسب تعليمات الطبيب",
+    "frequencyText": "مرة واحدة يوميًا",
+    "durationText": "",
+    "id": "drug-list-176",
+    "sourceRows": [
+      176
+    ]
+  },
+  {
+    "name": "LOTERANOL",
+    "form": "Eye Gel",
+    "doseText": "طبقة صغيرة في العين المصابة 2-3 مرات يوميًا، مع تقليل الجرعة تدريجيًا حسب استجابة الحالة وتعليمات الطبيب",
+    "frequencyText": "ثلاث مرات يوميًا",
+    "durationText": "",
+    "id": "drug-list-177",
+    "sourceRows": [
+      177
+    ]
+  },
+  {
+    "name": "LOTERANOL",
+    "form": "Eye Ointment",
+    "doseText": "طبقة صغيرة في العين المصابة 2-3 مرات يوميًا، مع تقليل الجرعة تدريجيًا حسب استجابة الحالة وتعليمات الطبيب",
+    "frequencyText": "ثلاث مرات يوميًا",
+    "durationText": "",
+    "id": "drug-list-178",
+    "sourceRows": [
+      178
+    ]
+  },
+  {
+    "name": "LOTERANOL",
+    "form": "Ophthalmic Suspension",
+    "doseText": "نقطة واحدة في العين المصابة 4 مرات يوميًا، مع تقليل الجرعة تدريجيًا حسب استجابة الحالة وتعليمات الطبيب",
+    "frequencyText": "أربع مرات يوميًا",
+    "durationText": "",
+    "id": "drug-list-179",
+    "sourceRows": [
+      179
+    ]
+  },
+  {
+    "name": "LOTERANOL COMP",
+    "form": "Eye Drops",
+    "doseText": "أول 48 ساعة: نقطة إلى نقطتين كل ساعتين، ثم تُخفَّض إلى 4 مرات يوميًا لمدة أسبوع، مع تقليل الجرعة تدريجيًا بعد ذلك حسب تعليمات طبيب العيون",
+    "frequencyText": "كل ساعتين",
+    "durationText": "اول يومين",
+    "id": "drug-list-180",
+    "sourceRows": [
+      180
+    ]
+  },
+  {
+    "name": "LUBRISTIRA",
+    "form": "Eye Drops",
+    "doseText": "نقطة واحدة في العين حسب الحاجة، عادة 3-4 مرات يوميًا أو أكثر حسب شدة جفاف العين",
+    "frequencyText": "أربع مرات يوميًا",
+    "durationText": "",
+    "id": "drug-list-181",
+    "sourceRows": [
+      181
+    ]
+  },
+  {
+    "name": "LUBRIVISC",
+    "form": "Eye Drops",
+    "doseText": "نقطة واحدة في العين حسب الحاجة، عادة 3-4 مرات يوميًا أو أكثر حسب شدة جفاف العين",
+    "frequencyText": "أربع مرات يوميًا",
+    "durationText": "",
+    "id": "drug-list-182",
+    "sourceRows": [
+      182
+    ]
+  },
+  {
+    "name": "LUCENTIS",
+    "form": "Intravitreal Injection Vial",
+    "doseText": "حقنة داخل الجسم الزجاجي يحددها ويُجريها طبيب الشبكية، عادة كل 4-8 أسابيع حسب الحالة والبروتوكول العلاجي (ليست للاستخدام الذاتي)",
+    "frequencyText": "",
+    "durationText": "",
+    "id": "drug-list-183",
+    "sourceRows": [
+      183,
+      184
+    ]
+  },
+  {
+    "name": "LUMIGAN",
+    "form": "Eye Drops",
+    "doseText": "نقطة واحدة في العين المصابة مرة واحدة يوميًا مساءً",
+    "frequencyText": "مرة واحدة يوميًا",
+    "durationText": "",
+    "id": "drug-list-185",
+    "sourceRows": [
+      185
+    ]
+  },
+  {
+    "name": "LUTEYE CARE",
+    "form": "Tablets (Oral)",
+    "doseText": "كبسولة/قرص واحد يوميًا مع الطعام، أو حسب تعليمات الطبيب",
+    "frequencyText": "مرة واحدة يوميًا",
+    "durationText": "",
+    "id": "drug-list-186",
+    "sourceRows": [
+      186
+    ]
+  },
+  {
+    "name": "LUTIPRIM",
+    "form": "Film-Coated Tablets (Oral)",
+    "doseText": "كبسولة/قرص واحد يوميًا مع الطعام، أو حسب تعليمات الطبيب",
+    "frequencyText": "مرة واحدة يوميًا",
+    "durationText": "",
+    "id": "drug-list-187",
+    "sourceRows": [
+      187,
+      188
+    ]
+  },
+  {
+    "name": "MAXITROL",
+    "form": "Eye Drops (Collyrium)",
+    "doseText": "أول 48 ساعة: نقطة إلى نقطتين كل ساعتين، ثم تُخفَّض إلى 4 مرات يوميًا لمدة أسبوع، مع تقليل الجرعة تدريجيًا بعد ذلك حسب تعليمات طبيب العيون",
+    "frequencyText": "كل ساعتين",
+    "durationText": "اول يومين",
+    "id": "drug-list-189",
+    "sourceRows": [
+      189
+    ]
+  },
+  {
+    "name": "MOGRAFLOX",
+    "form": "Eye Drops",
+    "doseText": "نقطة واحدة في العين المصابة 3 مرات يوميًا لمدة 7 أيام",
+    "frequencyText": "ثلاث مرات يوميًا",
+    "durationText": "سبعه ايام",
+    "id": "drug-list-190",
+    "sourceRows": [
+      190
+    ]
+  },
+  {
+    "name": "MONODEXIN",
+    "form": "Eye Drops",
+    "doseText": "نقطة واحدة في العين المصابة 4 مرات يوميًا، مع تقليل الجرعة تدريجيًا حسب استجابة الحالة وتعليمات الطبيب",
+    "frequencyText": "أربع مرات يوميًا",
+    "durationText": "",
+    "id": "drug-list-191",
+    "sourceRows": [
+      191
+    ]
+  },
+  {
+    "name": "MONOSHIELD",
+    "form": "Eye Drops",
+    "doseText": "نقطة إلى نقطتين في العين المصابة 4 مرات يوميًا لمدة 7 أيام",
+    "frequencyText": "أربع مرات يوميًا",
+    "durationText": "سبعه ايام",
+    "id": "drug-list-192",
+    "sourceRows": [
+      192
+    ]
+  },
+  {
+    "name": "MOXAQUA",
+    "form": "Eye Drops",
+    "doseText": "نقطة واحدة في العين المصابة 3 مرات يوميًا لمدة 7 أيام",
+    "frequencyText": "ثلاث مرات يوميًا",
+    "durationText": "سبعه ايام",
+    "id": "drug-list-193",
+    "sourceRows": [
+      193
+    ]
+  },
+  {
+    "name": "MOXIDERGIN",
+    "form": "Eye Drops",
+    "doseText": "نقطة واحدة في العين المصابة 3 مرات يوميًا لمدة 7 أيام",
+    "frequencyText": "ثلاث مرات يوميًا",
+    "durationText": "سبعه ايام",
+    "id": "drug-list-194",
+    "sourceRows": [
+      194
+    ]
+  },
+  {
+    "name": "MOXIFLOX",
+    "form": "Eye Drops",
+    "doseText": "نقطة واحدة في العين المصابة 3 مرات يوميًا لمدة 7 أيام",
+    "frequencyText": "ثلاث مرات يوميًا",
+    "durationText": "سبعه ايام",
+    "id": "drug-list-195",
+    "sourceRows": [
+      195
+    ]
+  },
+  {
+    "name": "MOXYSEYARO",
+    "form": "Eye Drops",
+    "doseText": "نقطة واحدة في العين المصابة 3 مرات يوميًا لمدة 7 أيام",
+    "frequencyText": "ثلاث مرات يوميًا",
+    "durationText": "سبعه ايام",
+    "id": "drug-list-196",
+    "sourceRows": [
+      196,
+      197
+    ]
+  },
+  {
+    "name": "MOXYSEYARO PLUS",
+    "form": "Eye Drops",
+    "doseText": "أول 48 ساعة: نقطة إلى نقطتين كل ساعتين، ثم تُخفَّض إلى 4 مرات يوميًا لمدة أسبوع، مع تقليل الجرعة تدريجيًا بعد ذلك حسب تعليمات طبيب العيون",
+    "frequencyText": "كل ساعتين",
+    "durationText": "اول يومين",
+    "id": "drug-list-198",
+    "sourceRows": [
+      198
+    ]
+  },
+  {
+    "name": "MYDRAPID",
+    "form": "Eye Drops",
+    "doseText": "نقطة إلى نقطتين في العين قبل الفحص بـ 15-20 دقيقة (للتوسيع التشخيصي لحدقة العين)",
+    "frequencyText": "",
+    "durationText": "",
+    "id": "drug-list-199",
+    "sourceRows": [
+      199,
+      200
+    ]
+  },
+  {
+    "name": "MYDRIACYL",
+    "form": "Eye Drops (Collyrium)",
+    "doseText": "نقطة إلى نقطتين في العين قبل الفحص بـ 15-20 دقيقة (للتوسيع التشخيصي لحدقة العين)",
+    "frequencyText": "",
+    "durationText": "",
+    "id": "drug-list-201",
+    "sourceRows": [
+      201
+    ]
+  },
+  {
+    "name": "MYDRITHALM",
+    "form": "Eye Drops",
+    "doseText": "نقطة إلى نقطتين في العين قبل الفحص بـ 15-20 دقيقة (للتوسيع التشخيصي لحدقة العين)",
+    "frequencyText": "",
+    "durationText": "",
+    "id": "drug-list-202",
+    "sourceRows": [
+      202,
+      203
+    ]
+  },
+  {
+    "name": "NAFENIRA",
+    "form": "Eye Drops",
+    "doseText": "نقطة إلى نقطتين في العين المصابة حتى 4 مرات يوميًا عند الحاجة، لمدة لا تزيد عن 3-4 أيام متتالية لتجنب احمرار الارتداد",
+    "frequencyText": "أربع مرات يوميًا",
+    "durationText": "اربع ايام",
+    "id": "drug-list-204",
+    "sourceRows": [
+      204
+    ]
+  },
+  {
+    "name": "NAPHCON A",
+    "form": "Eye Drops",
+    "doseText": "نقطة إلى نقطتين في العين المصابة حتى 4 مرات يوميًا عند الحاجة، لمدة لا تزيد عن 3-4 أيام متتالية لتجنب احمرار الارتداد",
+    "frequencyText": "أربع مرات يوميًا",
+    "durationText": "اربع ايام",
+    "id": "drug-list-205",
+    "sourceRows": [
+      205
+    ]
+  },
+  {
+    "name": "NAPHCOZOLE",
+    "form": "Eye Drops",
+    "doseText": "نقطة إلى نقطتين في العين المصابة حتى 4 مرات يوميًا عند الحاجة، لمدة لا تزيد عن 3-4 أيام متتالية لتجنب احمرار الارتداد",
+    "frequencyText": "أربع مرات يوميًا",
+    "durationText": "اربع ايام",
+    "id": "drug-list-206",
+    "sourceRows": [
+      206
+    ]
+  },
+  {
+    "name": "NATAMYCIN",
+    "form": "Eye Drops",
+    "doseText": "نقطة واحدة في العين المصابة كل 1-2 ساعة في الأيام الأولى، ثم تقليل التكرار تدريجيًا إلى 6-8 مرات يوميًا حسب استجابة العدوى، لمدة 14-21 يومًا حسب تعليمات طبيب العيون",
+    "frequencyText": "كل ساعتين",
+    "durationText": "اول يومين",
+    "id": "drug-list-207",
+    "sourceRows": [
+      207
+    ]
+  },
+  {
+    "name": "NAVI LIPO",
+    "form": "Eye Drops",
+    "doseText": "نقطة واحدة في العين حسب الحاجة، عادة 3-4 مرات يوميًا أو أكثر حسب شدة جفاف العين",
+    "frequencyText": "أربع مرات يوميًا",
+    "durationText": "",
+    "id": "drug-list-208",
+    "sourceRows": [
+      208
+    ]
+  },
+  {
+    "name": "NAVI NACL",
+    "form": "Eye Drops",
+    "doseText": "نقطة واحدة في العين حسب الحاجة، عادة 3-4 مرات يوميًا أو أكثر حسب شدة جفاف العين",
+    "frequencyText": "أربع مرات يوميًا",
+    "durationText": "",
+    "id": "drug-list-209",
+    "sourceRows": [
+      209
+    ]
+  },
+  {
+    "name": "NAVITAE PLUS",
+    "form": "Eye Drops",
+    "doseText": "نقطة واحدة في العين حسب الحاجة، عادة 3-4 مرات يوميًا أو أكثر حسب شدة جفاف العين",
+    "frequencyText": "أربع مرات يوميًا",
+    "durationText": "",
+    "id": "drug-list-210",
+    "sourceRows": [
+      210
+    ]
+  },
+  {
+    "name": "NEO MYXIDIN",
+    "form": "Eye Drops",
+    "doseText": "نقطة إلى نقطتين في العين المصابة 4 مرات يوميًا لمدة 7 أيام",
+    "frequencyText": "أربع مرات يوميًا",
+    "durationText": "سبعه ايام",
+    "id": "drug-list-211",
+    "sourceRows": [
+      211
+    ]
+  },
+  {
+    "name": "NEO POL",
+    "form": "Eye/Ear Drops",
+    "doseText": "نقطة إلى نقطتين في العين المصابة 4 مرات يوميًا لمدة 7 أيام",
+    "frequencyText": "أربع مرات يوميًا",
+    "durationText": "سبعه ايام",
+    "id": "drug-list-212",
+    "sourceRows": [
+      212
+    ]
+  },
+  {
+    "name": "NEO-POLYBACIN",
+    "form": "Eye Ointment",
+    "doseText": "طبقة صغيرة في العين المصابة 3 مرات يوميًا (أو مرة واحدة ليلًا إذا استُخدم مع قطرة نهارية) لمدة 7 أيام",
+    "frequencyText": "ثلاث مرات يوميًا",
+    "durationText": "سبعه ايام",
+    "id": "drug-list-213",
+    "sourceRows": [
+      213
+    ]
+  },
+  {
+    "name": "NETOPHTIOLE",
+    "form": "Eye Drops",
+    "doseText": "نقطة إلى نقطتين في العين المصابة 4 مرات يوميًا لمدة 7 أيام",
+    "frequencyText": "أربع مرات يوميًا",
+    "durationText": "سبعه ايام",
+    "id": "drug-list-214",
+    "sourceRows": [
+      214
+    ]
+  },
+  {
+    "name": "NETOPHTIOLE PLUS",
+    "form": "Eye Drops",
+    "doseText": "أول 48 ساعة: نقطة إلى نقطتين كل ساعتين، ثم تُخفَّض إلى 4 مرات يوميًا لمدة أسبوع، مع تقليل الجرعة تدريجيًا بعد ذلك حسب تعليمات طبيب العيون",
+    "frequencyText": "كل ساعتين",
+    "durationText": "اول يومين",
+    "id": "drug-list-215",
+    "sourceRows": [
+      215
+    ]
+  },
+  {
+    "name": "NEVANAC",
+    "form": "Ophthalmic Suspension",
+    "doseText": "نقطة واحدة في العين المصابة 3 مرات يوميًا",
+    "frequencyText": "ثلاث مرات يوميًا",
+    "durationText": "",
+    "id": "drug-list-216",
+    "sourceRows": [
+      216
+    ]
+  },
+  {
+    "name": "NEVXAL",
+    "form": "Ophthalmic Suspension",
+    "doseText": "نقطة واحدة في العين المصابة 3 مرات يوميًا",
+    "frequencyText": "ثلاث مرات يوميًا",
+    "durationText": "",
+    "id": "drug-list-217",
+    "sourceRows": [
+      217
+    ]
+  },
+  {
+    "name": "NEVXAL FORTE",
+    "form": "Ophthalmic Suspension",
+    "doseText": "نقطة واحدة في العين المصابة مرة واحدة يوميًا",
+    "frequencyText": "مرة واحدة يوميًا",
+    "durationText": "",
+    "id": "drug-list-218",
+    "sourceRows": [
+      218
+    ]
+  },
+  {
+    "name": "NORMO-TEARS",
+    "form": "Eye Drops",
+    "doseText": "نقطة واحدة في العين حسب الحاجة، عادة 3-4 مرات يوميًا أو أكثر حسب شدة جفاف العين",
+    "frequencyText": "أربع مرات يوميًا",
+    "durationText": "",
+    "id": "drug-list-219",
+    "sourceRows": [
+      219
+    ]
+  },
+  {
+    "name": "OCCUMYCINE",
+    "form": "Eye Drops",
+    "doseText": "أول 48 ساعة: نقطة إلى نقطتين كل ساعتين، ثم تُخفَّض إلى 4 مرات يوميًا لمدة أسبوع، مع تقليل الجرعة تدريجيًا بعد ذلك حسب تعليمات طبيب العيون",
+    "frequencyText": "كل ساعتين",
+    "durationText": "",
+    "id": "drug-list-220",
+    "sourceRows": [
+      220
+    ]
+  },
+  {
+    "name": "OCCUPLUS",
+    "form": "Eye Gel",
+    "doseText": "نقطة واحدة في العين حسب الحاجة، عادة 3-4 مرات يوميًا أو أكثر حسب شدة جفاف العين",
+    "frequencyText": "أربع مرات يوميًا",
+    "durationText": "",
+    "id": "drug-list-221",
+    "sourceRows": [
+      221
+    ]
+  },
+  {
+    "name": "OCCUZOLINE",
+    "form": "Eye Drops",
+    "doseText": "نقطة إلى نقطتين في العين المصابة حتى 4 مرات يوميًا عند الحاجة، لمدة لا تزيد عن 3-4 أيام متتالية لتجنب احمرار الارتداد",
+    "frequencyText": "أربع مرات يوميًا",
+    "durationText": "اربع ايام",
+    "id": "drug-list-222",
+    "sourceRows": [
+      222
+    ]
+  },
+  {
+    "name": "OCUBESIFLOX",
+    "form": "Ophthalmic Suspension",
+    "doseText": "نقطة واحدة في العين المصابة 3 مرات يوميًا (كل 4-12 ساعة) لمدة 7 أيام",
+    "frequencyText": "ثلاث مرات يوميًا",
+    "durationText": "سبعه ايام",
+    "id": "drug-list-223",
+    "sourceRows": [
+      223
+    ]
+  },
+  {
+    "name": "OCUCARPINE",
+    "form": "Eye Drops (Collyrium)",
+    "doseText": "نقطة واحدة في العين المصابة 4 مرات يوميًا حسب تعليمات الطبيب",
+    "frequencyText": "أربع مرات يوميًا",
+    "durationText": "",
+    "id": "drug-list-224",
+    "sourceRows": [
+      224,
+      225,
+      226,
+      227
+    ]
+  },
+  {
+    "name": "OCUFLOX",
+    "form": "Eye Drops",
+    "doseText": "نقطة إلى نقطتين في العين المصابة 4 مرات يوميًا لمدة 7 أيام",
+    "frequencyText": "أربع مرات يوميًا",
+    "durationText": "سبعه ايام",
+    "id": "drug-list-228",
+    "sourceRows": [
+      228
+    ]
+  },
+  {
+    "name": "OCUGUARD",
+    "form": "Capsules (Oral)",
+    "doseText": "كبسولة/قرص واحد يوميًا مع الطعام، أو حسب تعليمات الطبيب",
+    "frequencyText": "مرة واحدة يوميًا",
+    "durationText": "",
+    "id": "drug-list-229",
+    "sourceRows": [
+      229
+    ]
+  },
+  {
+    "name": "OCUGUARD AREDS2",
+    "form": "Soft Gel Capsules (Oral)",
+    "doseText": "كبسولة/قرص واحد يوميًا مع الطعام، أو حسب تعليمات الطبيب",
+    "frequencyText": "مرة واحدة يوميًا",
+    "durationText": "",
+    "id": "drug-list-230",
+    "sourceRows": [
+      230
+    ]
+  },
+  {
+    "name": "OCUGUARD XL",
+    "form": "Soft Gel Capsules (Oral)",
+    "doseText": "كبسولة/قرص واحد يوميًا مع الطعام، أو حسب تعليمات الطبيب",
+    "frequencyText": "مرة واحدة يوميًا",
+    "durationText": "",
+    "id": "drug-list-231",
+    "sourceRows": [
+      231
+    ]
+  },
+  {
+    "name": "OCUMETHYL",
+    "form": "Eye Drops (Collyrium)",
+    "doseText": "نقطة إلى نقطتين في العين المصابة حتى 4 مرات يوميًا عند الحاجة، لمدة لا تزيد عن 3-4 أيام متتالية لتجنب احمرار الارتداد",
+    "frequencyText": "أربع مرات يوميًا",
+    "durationText": "اربع ايام",
+    "id": "drug-list-232",
+    "sourceRows": [
+      232
+    ]
+  },
+  {
+    "name": "OCUPHENICOL",
+    "form": "Eye Drops (Collyrium)",
+    "doseText": "نقطة إلى نقطتين في العين المصابة 4 مرات يوميًا لمدة 7 أيام",
+    "frequencyText": "أربع مرات يوميًا",
+    "durationText": "سبعه ايام",
+    "id": "drug-list-233",
+    "sourceRows": [
+      233
+    ]
+  },
+  {
+    "name": "OCUPHENICOL-D",
+    "form": "Eye Drops",
+    "doseText": "أول 48 ساعة: نقطة إلى نقطتين كل ساعتين، ثم تُخفَّض إلى 4 مرات يوميًا لمدة أسبوع، مع تقليل الجرعة تدريجيًا بعد ذلك حسب تعليمات طبيب العيون (لا تتجاوز مدة الاستخدام أسبوعًا متواصلًا لاحتوائه على مقلص للأوعية الدموية إلا بإشراف الطبيب)",
+    "frequencyText": "كل ساعتين",
+    "durationText": "",
+    "id": "drug-list-234",
+    "sourceRows": [
+      234
+    ]
+  },
+  {
+    "name": "OCUSEELLERGE",
+    "form": "Eye Drops",
+    "doseText": "نقطة واحدة في العين المصابة مرتين يوميًا",
+    "frequencyText": "مرتين يوميًا",
+    "durationText": "",
+    "id": "drug-list-235",
+    "sourceRows": [
+      235
+    ]
+  },
+  {
+    "name": "OCUSEELLERGE FORTE",
+    "form": "Eye Drops",
+    "doseText": "نقطة واحدة في العين المصابة مرة واحدة يوميًا (التركيز الأعلى / فورت)",
+    "frequencyText": "مرة واحدة يوميًا",
+    "durationText": "",
+    "id": "drug-list-236",
+    "sourceRows": [
+      236
+    ]
+  },
+  {
+    "name": "OCUSOL",
+    "form": "Eye Drops (Collyrium)",
+    "doseText": "نقطة إلى نقطتين في العين المصابة 4 مرات يوميًا لمدة 7 أيام",
+    "frequencyText": "أربع مرات يوميًا",
+    "durationText": "سبعه ايام",
+    "id": "drug-list-237",
+    "sourceRows": [
+      237
+    ]
+  },
+  {
+    "name": "OCUXAL",
+    "form": "Soft Gel Capsules (Oral)",
+    "doseText": "كبسولة/قرص واحد يوميًا مع الطعام، أو حسب تعليمات الطبيب",
+    "frequencyText": "مرة واحدة يوميًا",
+    "durationText": "",
+    "id": "drug-list-238",
+    "sourceRows": [
+      238
+    ]
+  },
+  {
+    "name": "OFLOSWIX",
+    "form": "Eye Drops",
+    "doseText": "نقطة إلى نقطتين في العين المصابة 4 مرات يوميًا لمدة 7 أيام",
+    "frequencyText": "أربع مرات يوميًا",
+    "durationText": "سبعه ايام",
+    "id": "drug-list-239",
+    "sourceRows": [
+      239
+    ]
+  },
+  {
+    "name": "OFTADILATE",
+    "form": "Eye Drops",
+    "doseText": "نقطة إلى نقطتين في العين قبل الفحص بـ 15-20 دقيقة (للتوسيع التشخيصي لحدقة العين)",
+    "frequencyText": "",
+    "durationText": "",
+    "id": "drug-list-240",
+    "sourceRows": [
+      240,
+      241,
+      242
+    ]
+  },
+  {
+    "name": "OFTAPANTINE",
+    "form": "Eye Drops",
+    "doseText": "نقطة واحدة في العين المصابة 1-2 مرة يوميًا حسب تعليمات الطبيب (أو جرعة واحدة قبل الفحص/الإجراء للاستخدام التشخيصي)",
+    "frequencyText": "مرتين يوميًا",
+    "durationText": "",
+    "id": "drug-list-243",
+    "sourceRows": [
+      243
+    ]
+  },
+  {
+    "name": "OFUSIDIC",
+    "form": "Eye Drops",
+    "doseText": "نقطة واحدة في العين المصابة مرتين يوميًا، ويُستمر لمدة 48 ساعة بعد زوال الأعراض",
+    "frequencyText": "مرتين يوميًا",
+    "durationText": "",
+    "id": "drug-list-244",
+    "sourceRows": [
+      244
+    ]
+  },
+  {
+    "name": "OJOALIVATO",
+    "form": "Eye Drops",
+    "doseText": "نقطة واحدة في العين حسب الحاجة، عادة 3-4 مرات يوميًا أو أكثر حسب شدة جفاف العين",
+    "frequencyText": "أربع مرات يوميًا",
+    "durationText": "",
+    "id": "drug-list-245",
+    "sourceRows": [
+      245
+    ]
+  },
+  {
+    "name": "OJOBLICK",
+    "form": "Eye Gel (Viscous Drops)",
+    "doseText": "نقطة واحدة في العين المصابة مرتين يوميًا، ويُستمر لمدة 48 ساعة بعد زوال الأعراض",
+    "frequencyText": "مرتين يوميًا",
+    "durationText": "",
+    "id": "drug-list-246",
+    "sourceRows": [
+      246
+    ]
+  },
+  {
+    "name": "OLOHISTINE",
+    "form": "Eye Drops",
+    "doseText": "نقطة واحدة في العين المصابة مرتين يوميًا (تركيز 0.1%)",
+    "frequencyText": "مرتين يوميًا",
+    "durationText": "",
+    "id": "drug-list-247",
+    "sourceRows": [
+      247
+    ]
+  },
+  {
+    "name": "OLOHISTINE FORTE",
+    "form": "Eye Drops",
+    "doseText": "نقطة واحدة في العين المصابة مرة واحدة يوميًا (تركيز 0.2% فأعلى)",
+    "frequencyText": "مرة واحدة يوميًا",
+    "durationText": "",
+    "id": "drug-list-248",
+    "sourceRows": [
+      248,
+      249
+    ]
+  },
+  {
+    "name": "OLOPALITE",
+    "form": "Eye Drops",
+    "doseText": "نقطة واحدة في العين المصابة مرتين يوميًا (تركيز 0.1%)",
+    "frequencyText": "مرتين يوميًا",
+    "durationText": "",
+    "id": "drug-list-250",
+    "sourceRows": [
+      250
+    ]
+  },
+  {
+    "name": "OLOPAT",
+    "form": "Eye Drops",
+    "doseText": "نقطة واحدة في العين المصابة مرتين يوميًا (تركيز 0.1%)",
+    "frequencyText": "مرتين يوميًا",
+    "durationText": "",
+    "id": "drug-list-251",
+    "sourceRows": [
+      251
+    ]
+  },
+  {
+    "name": "OLOPATANOL",
+    "form": "Eye Drops",
+    "doseText": "نقطة واحدة في العين المصابة مرتين يوميًا (تركيز 0.1%)",
+    "frequencyText": "مرتين يوميًا",
+    "durationText": "",
+    "id": "drug-list-252",
+    "sourceRows": [
+      252
+    ]
+  },
+  {
+    "name": "OPHILOCOND",
+    "form": "Eye Drops",
+    "doseText": "نقطة واحدة في العين المصابة مرتين يوميًا (تركيز 0.1%)",
+    "frequencyText": "مرتين يوميًا",
+    "durationText": "",
+    "id": "drug-list-253",
+    "sourceRows": [
+      253
+    ]
+  },
+  {
+    "name": "OPHILOCOND",
+    "form": "Eye Drops",
+    "doseText": "نقطة واحدة في العين المصابة مرة واحدة يوميًا (تركيز 0.2% فأعلى)",
+    "frequencyText": "مرة واحدة يوميًا",
+    "durationText": "",
+    "id": "drug-list-254",
+    "sourceRows": [
+      254
+    ]
+  },
+  {
+    "name": "OPHILOCOND FORTE",
+    "form": "Eye Drops",
+    "doseText": "نقطة واحدة في العين المصابة مرة واحدة يوميًا (تركيز 0.2% فأعلى)",
+    "frequencyText": "مرة واحدة يوميًا",
+    "durationText": "",
+    "id": "drug-list-255",
+    "sourceRows": [
+      255
+    ]
+  },
+  {
+    "name": "OPHTASTAT",
+    "form": "Eye Drops",
+    "doseText": "نقطة واحدة في العين المصابة مرة واحدة يوميًا",
+    "frequencyText": "مرة واحدة يوميًا",
+    "durationText": "",
+    "id": "drug-list-256",
+    "sourceRows": [
+      256
+    ]
+  },
+  {
+    "name": "OPHTATROV",
+    "form": "Eye Drops",
+    "doseText": "نقطة واحدة في العين المصابة مرة واحدة يوميًا مساءً",
+    "frequencyText": "مرة واحدة يوميًا",
+    "durationText": "",
+    "id": "drug-list-257",
+    "sourceRows": [
+      257
+    ]
+  },
+  {
+    "name": "OPHTATROV PLUS",
+    "form": "Eye Drops",
+    "doseText": "نقطة واحدة في العين المصابة مرة واحدة يوميًا صباحًا",
+    "frequencyText": "مرة واحدة يوميًا",
+    "durationText": "",
+    "id": "drug-list-258",
+    "sourceRows": [
+      258
+    ]
+  },
+  {
+    "name": "OPHTHAGRAST",
+    "form": "Eye Drops",
+    "doseText": "نقطة واحدة في العين المصابة مرتين يوميًا (صباحًا ومساءً) بشكل مستمر حسب تعليمات الطبيب",
+    "frequencyText": "مرتين يوميًا",
+    "durationText": "",
+    "id": "drug-list-259",
+    "sourceRows": [
+      259
+    ]
+  },
+  {
+    "name": "OPTEST",
+    "form": "Eye Drops",
+    "doseText": "نقطة واحدة في العين المصابة مرتين يوميًا",
+    "frequencyText": "مرتين يوميًا",
+    "durationText": "",
+    "id": "drug-list-260",
+    "sourceRows": [
+      260
+    ]
+  },
+  {
+    "name": "OPTI FREE",
+    "form": "Contact Lens Solution",
+    "doseText": "لتنظيف وتعقيم وحفظ العدسات اللاصقة حسب تعليمات الاستخدام الموضحة على العبوة - غير مخصص للاستخدام كقطرة للعين",
+    "frequencyText": "",
+    "durationText": "",
+    "id": "drug-list-261",
+    "sourceRows": [
+      261,
+      262,
+      263
+    ]
+  },
+  {
+    "name": "OPTI FREE EXPRESS",
+    "form": "Contact Lens Solution",
+    "doseText": "لتنظيف وتعقيم وحفظ العدسات اللاصقة حسب تعليمات الاستخدام الموضحة على العبوة - غير مخصص للاستخدام كقطرة للعين",
+    "frequencyText": "",
+    "durationText": "",
+    "id": "drug-list-264",
+    "sourceRows": [
+      264,
+      265
+    ]
+  },
+  {
+    "name": "OPTI FREE PUREMOIS",
+    "form": "Contact Lens Solution",
+    "doseText": "لتنظيف وتعقيم وحفظ العدسات اللاصقة حسب تعليمات الاستخدام الموضحة على العبوة - غير مخصص للاستخدام كقطرة للعين",
+    "frequencyText": "",
+    "durationText": "",
+    "id": "drug-list-266",
+    "sourceRows": [
+      266,
+      267
+    ]
+  },
+  {
+    "name": "OPTIC SALINE",
+    "form": "Eye Drops",
+    "doseText": "نقطة واحدة في العين حسب الحاجة، عادة 3-4 مرات يوميًا أو أكثر حسب شدة جفاف العين",
+    "frequencyText": "أربع مرات يوميًا",
+    "durationText": "",
+    "id": "drug-list-268",
+    "sourceRows": [
+      268
+    ]
+  },
+  {
+    "name": "OPTIDEX T",
+    "form": "Eye Drops",
+    "doseText": "أول 48 ساعة: نقطة إلى نقطتين كل ساعتين، ثم تُخفَّض إلى 4 مرات يوميًا لمدة أسبوع، مع تقليل الجرعة تدريجيًا بعد ذلك حسب تعليمات طبيب العيون",
+    "frequencyText": "كل ساعتين",
+    "durationText": "اول يومين",
+    "id": "drug-list-269",
+    "sourceRows": [
+      269
+    ]
+  },
+  {
+    "name": "OPTIFLOX",
+    "form": "Eye Drops",
+    "doseText": "نقطة إلى نقطتين في العين المصابة 4 مرات يوميًا لمدة 7 أيام",
+    "frequencyText": "أربع مرات يوميًا",
+    "durationText": "سبعه ايام",
+    "id": "drug-list-270",
+    "sourceRows": [
+      270
+    ]
+  },
+  {
+    "name": "OPTIFRESH",
+    "form": "Eye Drops",
+    "doseText": "نقطة واحدة في العين حسب الحاجة، عادة 3-4 مرات يوميًا أو أكثر حسب شدة جفاف العين",
+    "frequencyText": "أربع مرات يوميًا",
+    "durationText": "",
+    "id": "drug-list-271",
+    "sourceRows": [
+      271
+    ]
+  },
+  {
+    "name": "OPTIFUCIN",
+    "form": "Eye Drops",
+    "doseText": "نقطة واحدة في العين المصابة مرتين يوميًا، ويُستمر لمدة 48 ساعة بعد زوال الأعراض",
+    "frequencyText": "مرتين يوميًا",
+    "durationText": "",
+    "id": "drug-list-272",
+    "sourceRows": [
+      272
+    ]
+  },
+  {
+    "name": "OPTIGENT",
+    "form": "Eye Drops",
+    "doseText": "نقطة إلى نقطتين في العين المصابة 4 مرات يوميًا لمدة 7 أيام",
+    "frequencyText": "أربع مرات يوميًا",
+    "durationText": "سبعه ايام",
+    "id": "drug-list-273",
+    "sourceRows": [
+      273
+    ]
+  },
+  {
+    "name": "OPTIGENT",
+    "form": "Eye Ointment",
+    "doseText": "طبقة صغيرة في العين المصابة 3 مرات يوميًا (أو مرة واحدة ليلًا إذا استُخدم مع قطرة نهارية) لمدة 7 أيام",
+    "frequencyText": "ثلاث مرات يوميًا",
+    "durationText": "سبعه ايام",
+    "id": "drug-list-274",
+    "sourceRows": [
+      274
+    ]
+  },
+  {
+    "name": "OPTIGUARD",
+    "form": "Eye Drops",
+    "doseText": "نقطة واحدة في العين حسب الحاجة، عادة 3-4 مرات يوميًا أو أكثر حسب شدة جفاف العين",
+    "frequencyText": "أربع مرات يوميًا",
+    "durationText": "",
+    "id": "drug-list-275",
+    "sourceRows": [
+      275
+    ]
+  },
+  {
+    "name": "OPTILUBRIC",
+    "form": "Eye Drops",
+    "doseText": "نقطة واحدة في العين حسب الحاجة، عادة 3-4 مرات يوميًا أو أكثر حسب شدة جفاف العين",
+    "frequencyText": "أربع مرات يوميًا",
+    "durationText": "",
+    "id": "drug-list-276",
+    "sourceRows": [
+      276
+    ]
+  },
+  {
+    "name": "OPTIPRED",
+    "form": "Ophthalmic Suspension",
+    "doseText": "نقطة واحدة في العين المصابة 4 مرات يوميًا، مع تقليل الجرعة تدريجيًا حسب استجابة الحالة وتعليمات الطبيب",
+    "frequencyText": "أربع مرات يوميًا",
+    "durationText": "",
+    "id": "drug-list-277",
+    "sourceRows": [
+      277
+    ]
+  },
+  {
+    "name": "OPTIVE",
+    "form": "Eye Drops",
+    "doseText": "نقطة واحدة في العين حسب الحاجة، عادة 3-4 مرات يوميًا أو أكثر حسب شدة جفاف العين",
+    "frequencyText": "أربع مرات يوميًا",
+    "durationText": "",
+    "id": "drug-list-278",
+    "sourceRows": [
+      278,
+      279
+    ]
+  },
+  {
+    "name": "OPTIXOLOL",
+    "form": "Eye Drops",
+    "doseText": "نقطة واحدة في العين المصابة مرتين يوميًا",
+    "frequencyText": "مرتين يوميًا",
+    "durationText": "",
+    "id": "drug-list-280",
+    "sourceRows": [
+      280
+    ]
+  },
+  {
+    "name": "OPTIZOLIN",
+    "form": "Eye Drops",
+    "doseText": "نقطة إلى نقطتين في العين المصابة حتى 4 مرات يوميًا عند الحاجة، لمدة لا تزيد عن 3-4 أيام متتالية لتجنب احمرار الارتداد",
+    "frequencyText": "أربع مرات يوميًا",
+    "durationText": "اربع ايام",
+    "id": "drug-list-281",
+    "sourceRows": [
+      281
+    ]
+  },
+  {
+    "name": "OPTOGATY",
+    "form": "Eye Drops",
+    "doseText": "نقطة إلى نقطتين في العين المصابة 4 مرات يوميًا لمدة 7 أيام",
+    "frequencyText": "أربع مرات يوميًا",
+    "durationText": "سبعه ايام",
+    "id": "drug-list-282",
+    "sourceRows": [
+      282,
+      283
+    ]
+  },
+  {
+    "name": "OPTOTROP",
+    "form": "Eye Drops",
+    "doseText": "نقطة إلى نقطتين في العين قبل الفحص بـ 15-20 دقيقة (للتوسيع التشخيصي لحدقة العين)",
+    "frequencyText": "",
+    "durationText": "",
+    "id": "drug-list-284",
+    "sourceRows": [
+      284
+    ]
+  },
+  {
+    "name": "OPTOZOLIN",
+    "form": "Eye Drops",
+    "doseText": "نقطة إلى نقطتين في العين المصابة حتى 4 مرات يوميًا عند الحاجة، لمدة لا تزيد عن 3-4 أيام متتالية لتجنب احمرار الارتداد",
+    "frequencyText": "أربع مرات يوميًا",
+    "durationText": "اربع ايام",
+    "id": "drug-list-285",
+    "sourceRows": [
+      285
+    ]
+  },
+  {
+    "name": "ORCHABEPOST",
+    "form": "Eye Drops",
+    "doseText": "نقطة واحدة في العين المصابة مرتين يوميًا",
+    "frequencyText": "مرتين يوميًا",
+    "durationText": "",
+    "id": "drug-list-286",
+    "sourceRows": [
+      286
+    ]
+  },
+  {
+    "name": "ORCHACIN",
+    "form": "Eye Drops",
+    "doseText": "نقطة إلى نقطتين في العين المصابة 4 مرات يوميًا لمدة 7 أيام",
+    "frequencyText": "أربع مرات يوميًا",
+    "durationText": "سبعه ايام",
+    "id": "drug-list-287",
+    "sourceRows": [
+      287
+    ]
+  },
+  {
+    "name": "ORCHACORTIN",
+    "form": "Eye Ointment",
+    "doseText": "طبقة صغيرة في العين المصابة 2-3 مرات يوميًا، مع تقليل الجرعة تدريجيًا حسب استجابة الحالة وتعليمات الطبيب",
+    "frequencyText": "ثلاث مرات يوميًا",
+    "durationText": "",
+    "id": "drug-list-288",
+    "sourceRows": [
+      288
+    ]
+  },
+  {
+    "name": "ORCHADEXOLINE",
+    "form": "Eye Drops",
+    "doseText": "أول 48 ساعة: نقطة إلى نقطتين كل ساعتين، ثم تُخفَّض إلى 4 مرات يوميًا لمدة أسبوع، مع تقليل الجرعة تدريجيًا بعد ذلك حسب تعليمات طبيب العيون (لا تتجاوز مدة الاستخدام أسبوعًا متواصلًا لاحتوائه على مقلص للأوعية الدموية إلا بإشراف الطبيب)",
+    "frequencyText": "كل ساعتين",
+    "durationText": "اول يومين",
+    "id": "drug-list-289",
+    "sourceRows": [
+      289
+    ]
+  },
+  {
+    "name": "ORCHAMDRYAL",
+    "form": "Eye Drops",
+    "doseText": "نقطة واحدة في العين قبل الفحص أو الإجراء الجراحي لتوسيع حدقة العين حسب تعليمات الطبيب، أو 2-3 مرات يوميًا كمزيل احتقان لمدة لا تزيد عن 4 أيام إذا استُخدم لعلاج احتقان العين",
+    "frequencyText": "",
+    "durationText": "",
+    "id": "drug-list-290",
+    "sourceRows": [
+      290
+    ]
+  },
+  {
+    "name": "ORCHAMETHASONE",
+    "form": "Eye Drops",
+    "doseText": "نقطة واحدة في العين المصابة 4 مرات يوميًا، مع تقليل الجرعة تدريجيًا حسب استجابة الحالة وتعليمات الطبيب",
+    "frequencyText": "أربع مرات يوميًا",
+    "durationText": "",
+    "id": "drug-list-291",
+    "sourceRows": [
+      291
+    ]
+  },
+  {
+    "name": "ORCHAMETHASONE",
+    "form": "Eye Gel (Viscous Drops)",
+    "doseText": "طبقة صغيرة في العين المصابة 2-3 مرات يوميًا، مع تقليل الجرعة تدريجيًا حسب استجابة الحالة وتعليمات الطبيب",
+    "frequencyText": "ثلاث مرات يوميًا",
+    "durationText": "",
+    "id": "drug-list-292",
+    "sourceRows": [
+      292
+    ]
+  },
+  {
+    "name": "ORCHAPRED",
+    "form": "Eye Gel",
+    "doseText": "طبقة صغيرة في العين المصابة 2-3 مرات يوميًا، مع تقليل الجرعة تدريجيًا حسب استجابة الحالة وتعليمات الطبيب",
+    "frequencyText": "ثلاث مرات يوميًا",
+    "durationText": "",
+    "id": "drug-list-293",
+    "sourceRows": [
+      293,
+      294
+    ]
+  },
+  {
+    "name": "ORCHAPRED",
+    "form": "Ophthalmic Suspension",
+    "doseText": "نقطة واحدة في العين المصابة 4 مرات يوميًا، مع تقليل الجرعة تدريجيًا حسب استجابة الحالة وتعليمات الطبيب",
+    "frequencyText": "أربع مرات يوميًا",
+    "durationText": "",
+    "id": "drug-list-295",
+    "sourceRows": [
+      295
+    ]
+  },
+  {
+    "name": "ORCHATEARS PLUS",
+    "form": "Eye Drops",
+    "doseText": "نقطة واحدة في العين حسب الحاجة، عادة 3-4 مرات يوميًا أو أكثر حسب شدة جفاف العين",
+    "frequencyText": "أربع مرات يوميًا",
+    "durationText": "",
+    "id": "drug-list-296",
+    "sourceRows": [
+      296
+    ]
+  },
+  {
+    "name": "ORCHAZID",
+    "form": "Eye Drops",
+    "doseText": "نقطة واحدة في العين المصابة مرتين يوميًا",
+    "frequencyText": "مرتين يوميًا",
+    "durationText": "",
+    "id": "drug-list-297",
+    "sourceRows": [
+      297,
+      298,
+      299
+    ]
+  },
+  {
+    "name": "ORCHICARPINE",
+    "form": "Eye Drops",
+    "doseText": "نقطة واحدة في العين المصابة 4 مرات يوميًا حسب تعليمات الطبيب",
+    "frequencyText": "أربع مرات يوميًا",
+    "durationText": "",
+    "id": "drug-list-300",
+    "sourceRows": [
+      300
+    ]
+  },
+  {
+    "name": "ORCHINOHIST",
+    "form": "Eye Drops",
+    "doseText": "نقطة واحدة في العين المصابة مرة واحدة يوميًا",
+    "frequencyText": "كل ساعتين",
+    "durationText": "اول يومين",
+    "id": "drug-list-301",
+    "sourceRows": [
+      301
+    ]
+  },
+  {
+    "name": "OXY-POL",
+    "form": "Eye Ointment",
+    "doseText": "طبقة صغيرة في العين المصابة 3 مرات يوميًا (أو مرة واحدة ليلًا إذا استُخدم مع قطرة نهارية) لمدة 7 أيام",
+    "frequencyText": "ثلاث مرات يوميًا",
+    "durationText": "سبعه ايام",
+    "id": "drug-list-302",
+    "sourceRows": [
+      302
+    ]
+  },
+  {
+    "name": "OZELUT",
+    "form": "Soft Gel Capsules (Oral)",
+    "doseText": "كبسولة/قرص واحد يوميًا مع الطعام، أو حسب تعليمات الطبيب",
+    "frequencyText": "مرة واحدة يوميًا",
+    "durationText": "",
+    "id": "drug-list-303",
+    "sourceRows": [
+      303
+    ]
+  },
+  {
+    "name": "OZOLAMIDE",
+    "form": "Eye Drops",
+    "doseText": "نقطة واحدة في العين المصابة 3 مرات يوميًا",
+    "frequencyText": "ثلاث مرات يوميًا",
+    "durationText": "",
+    "id": "drug-list-304",
+    "sourceRows": [
+      304
+    ]
+  },
+  {
+    "name": "OZURDEX",
+    "form": "Intravitreal Implant",
+    "doseText": "غرسة داخل الجسم الزجاجي تُعطى مرة واحدة من قبل طبيب الشبكية داخل غرفة العمليات، وتُكرر حسب الحاجة (كل 4-6 أشهر تقريبًا)",
+    "frequencyText": "مرة واحدة يوميًا",
+    "durationText": "",
+    "id": "drug-list-305",
+    "sourceRows": [
+      305
+    ]
+  },
+  {
+    "name": "PATADOLINE",
+    "form": "Eye Drops",
+    "doseText": "نقطة واحدة في العين المصابة مرتين يوميًا (تركيز 0.1%)",
+    "frequencyText": "مرتين يوميًا",
+    "durationText": "",
+    "id": "drug-list-306",
+    "sourceRows": [
+      306
+    ]
+  },
+  {
+    "name": "PATADOLINE",
+    "form": "Eye Drops",
+    "doseText": "نقطة واحدة في العين المصابة مرة واحدة يوميًا (تركيز 0.2% فأعلى)",
+    "frequencyText": "مرة واحدة يوميًا",
+    "durationText": "",
+    "id": "drug-list-307",
+    "sourceRows": [
+      307
+    ]
+  },
+  {
+    "name": "PATANERGIC",
+    "form": "Eye Drops",
+    "doseText": "نقطة واحدة في العين المصابة مرتين يوميًا (تركيز 0.1%)",
+    "frequencyText": "مرتين يوميًا",
+    "durationText": "",
+    "id": "drug-list-308",
+    "sourceRows": [
+      308
+    ]
+  },
+  {
+    "name": "PATANOL",
+    "form": "Eye Drops",
+    "doseText": "نقطة واحدة في العين المصابة مرتين يوميًا (تركيز 0.1%)",
+    "frequencyText": "مرتين يوميًا",
+    "durationText": "",
+    "id": "drug-list-309",
+    "sourceRows": [
+      309
+    ]
+  },
+  {
+    "name": "PENTOLEGIC",
+    "form": "Eye Drops",
+    "doseText": "نقطة واحدة في العين المصابة 1-2 مرة يوميًا حسب تعليمات الطبيب (أو جرعة واحدة قبل الفحص/الإجراء للاستخدام التشخيصي)",
+    "frequencyText": "مرتين يوميًا",
+    "durationText": "",
+    "id": "drug-list-310",
+    "sourceRows": [
+      310
+    ]
+  },
+  {
+    "name": "PERFECT CARE",
+    "form": "Contact Lens Solution",
+    "doseText": "لتنظيف وتعقيم وحفظ العدسات اللاصقة حسب تعليمات الاستخدام الموضحة على العبوة - غير مخصص للاستخدام كقطرة للعين",
+    "frequencyText": "",
+    "durationText": "",
+    "id": "drug-list-311",
+    "sourceRows": [
+      311,
+      312
+    ]
+  },
+  {
+    "name": "PHARMA PRED",
+    "form": "Ophthalmic Suspension",
+    "doseText": "نقطة واحدة في العين المصابة 4 مرات يوميًا، مع تقليل الجرعة تدريجيًا حسب استجابة الحالة وتعليمات الطبيب",
+    "frequencyText": "أربع مرات يوميًا",
+    "durationText": "",
+    "id": "drug-list-313",
+    "sourceRows": [
+      313
+    ]
+  },
+  {
+    "name": "PHARMA TEARS",
+    "form": "Eye Drops",
+    "doseText": "نقطة واحدة في العين حسب الحاجة، عادة 3-4 مرات يوميًا أو أكثر حسب شدة جفاف العين",
+    "frequencyText": "أربع مرات يوميًا",
+    "durationText": "",
+    "id": "drug-list-314",
+    "sourceRows": [
+      314
+    ]
+  },
+  {
+    "name": "PHARMADYE",
+    "form": "Eye Drops",
+    "doseText": "للاستخدام التشخيصي فقط تحت إشراف طبيب العيون",
+    "frequencyText": "",
+    "durationText": "",
+    "id": "drug-list-315",
+    "sourceRows": [
+      315
+    ]
+  },
+  {
+    "name": "PHARMAGATIN",
+    "form": "Eye Drops",
+    "doseText": "نقطة إلى نقطتين في العين المصابة 4 مرات يوميًا لمدة 7 أيام",
+    "frequencyText": "أربع مرات يوميًا",
+    "durationText": "سبعه ايام",
+    "id": "drug-list-316",
+    "sourceRows": [
+      316
+    ]
+  },
+  {
+    "name": "PHARMAPRESS",
+    "form": "Eye Drops",
+    "doseText": "نقطة واحدة في العين المصابة مرتين يوميًا (تركيز 0.2%)",
+    "frequencyText": "مرتين يوميًا",
+    "durationText": "",
+    "id": "drug-list-317",
+    "sourceRows": [
+      317
+    ]
+  },
+  {
+    "name": "PHARMASTIN",
+    "form": "Eye Drops",
+    "doseText": "نقطة واحدة في العين المصابة مرتين يوميًا",
+    "frequencyText": "مرتين يوميًا",
+    "durationText": "",
+    "id": "drug-list-318",
+    "sourceRows": [
+      318
+    ]
+  },
+  {
+    "name": "PHARMATIMOGAN",
+    "form": "Eye Drops",
+    "doseText": "نقطة واحدة في العين المصابة مرتين يوميًا",
+    "frequencyText": "مرتين يوميًا",
+    "durationText": "",
+    "id": "drug-list-319",
+    "sourceRows": [
+      319
+    ]
+  },
+  {
+    "name": "PHENAMIDE-P",
+    "form": "Eye Drops",
+    "doseText": "أول 48 ساعة: نقطة إلى نقطتين كل ساعتين، ثم تُخفَّض إلى 4 مرات يوميًا لمدة أسبوع، مع تقليل الجرعة تدريجيًا بعد ذلك حسب تعليمات طبيب العيون",
+    "frequencyText": "كل ساعتين",
+    "durationText": "اول يومين",
+    "id": "drug-list-320",
+    "sourceRows": [
+      320
+    ]
+  },
+  {
+    "name": "PHENYLMEDRIN",
+    "form": "Eye Drops",
+    "doseText": "نقطة واحدة في العين قبل الفحص أو الإجراء الجراحي لتوسيع حدقة العين حسب تعليمات الطبيب، أو 2-3 مرات يوميًا كمزيل احتقان لمدة لا تزيد عن 4 أيام إذا استُخدم لعلاج احتقان العين",
+    "frequencyText": "مرة واحدة يوميًا",
+    "durationText": "",
+    "id": "drug-list-321",
+    "sourceRows": [
+      321
+    ]
+  },
+  {
+    "name": "PIXIVANCE",
+    "form": "Ophthalmic Suspension",
+    "doseText": "نقطة واحدة في العين المصابة 3 مرات يوميًا (كل 4-12 ساعة) لمدة 7 أيام",
+    "frequencyText": "ثلاث مرات يوميًا",
+    "durationText": "سبعه ايام",
+    "id": "drug-list-322",
+    "sourceRows": [
+      322
+    ]
+  },
+  {
+    "name": "PLEGICA",
+    "form": "Eye Drops",
+    "doseText": "نقطة واحدة في العين المصابة 1-2 مرة يوميًا حسب تعليمات الطبيب (أو جرعة واحدة قبل الفحص/الإجراء للاستخدام التشخيصي)",
+    "frequencyText": "مرتين يوميًا",
+    "durationText": "",
+    "id": "drug-list-323",
+    "sourceRows": [
+      323
+    ]
+  },
+  {
+    "name": "POLYFRESH",
+    "form": "Eye Drops",
+    "doseText": "نقطة واحدة في العين حسب الحاجة، عادة 3-4 مرات يوميًا أو أكثر حسب شدة جفاف العين",
+    "frequencyText": "أربع مرات يوميًا",
+    "durationText": "",
+    "id": "drug-list-324",
+    "sourceRows": [
+      324,
+      325,
+      326,
+      327,
+      328
+    ]
+  },
+  {
+    "name": "POLYFRESH",
+    "form": "Eye Ointment (Night)",
+    "doseText": "نقطة واحدة في العين حسب الحاجة، عادة 3-4 مرات يوميًا أو أكثر حسب شدة جفاف العين",
+    "frequencyText": "أربع مرات يوميًا",
+    "durationText": "",
+    "id": "drug-list-329",
+    "sourceRows": [
+      329
+    ]
+  },
+  {
+    "name": "POLYVISION",
+    "form": "Eye Drops",
+    "doseText": "نقطة إلى نقطتين في العين المصابة 4 مرات يوميًا لمدة 7 أيام",
+    "frequencyText": "أربع مرات يوميًا",
+    "durationText": "سبعه ايام",
+    "id": "drug-list-330",
+    "sourceRows": [
+      330
+    ]
+  },
+  {
+    "name": "PRED FORTE",
+    "form": "Eye Drops",
+    "doseText": "نقطة واحدة في العين المصابة 4 مرات يوميًا، مع تقليل الجرعة تدريجيًا حسب استجابة الحالة وتعليمات الطبيب",
+    "frequencyText": "أربع مرات يوميًا",
+    "durationText": "",
+    "id": "drug-list-331",
+    "sourceRows": [
+      331
+    ]
+  },
+  {
+    "name": "PREDNISOLONE",
+    "form": "Eye Drops",
+    "doseText": "نقطة واحدة في العين المصابة 4 مرات يوميًا، مع تقليل الجرعة تدريجيًا حسب استجابة الحالة وتعليمات الطبيب",
+    "frequencyText": "أربع مرات يوميًا",
+    "durationText": "",
+    "id": "drug-list-332",
+    "sourceRows": [
+      332
+    ]
+  },
+  {
+    "name": "PREFRIN",
+    "form": "Eye Drops (Collyrium)",
+    "doseText": "نقطة واحدة في العين قبل الفحص أو الإجراء الجراحي لتوسيع حدقة العين حسب تعليمات الطبيب، أو 2-3 مرات يوميًا كمزيل احتقان لمدة لا تزيد عن 4 أيام إذا استُخدم لعلاج احتقان العين",
+    "frequencyText": "ثلاث مرات يوميًا",
+    "durationText": "اربع ايام",
+    "id": "drug-list-333",
+    "sourceRows": [
+      333
+    ]
+  },
+  {
+    "name": "PRISOLINE ZINC",
+    "form": "Eye Drops (Collyrium)",
+    "doseText": "نقطة إلى نقطتين في العين المصابة حتى 4 مرات يوميًا عند الحاجة، لمدة لا تزيد عن 3-4 أيام متتالية لتجنب احمرار الارتداد",
+    "frequencyText": "أربع مرات يوميًا",
+    "durationText": "اربع ايام",
+    "id": "drug-list-334",
+    "sourceRows": [
+      334
+    ]
+  },
+  {
+    "name": "PRIVACOND",
+    "form": "Eye Drops",
+    "doseText": "نقطة إلى نقطتين في العين المصابة حتى 4 مرات يوميًا عند الحاجة، لمدة لا تزيد عن 3-4 أيام متتالية لتجنب احمرار الارتداد",
+    "frequencyText": "أربع مرات يوميًا",
+    "durationText": "اربع ايام",
+    "id": "drug-list-335",
+    "sourceRows": [
+      335
+    ]
+  },
+  {
+    "name": "PROPHALLERGE",
+    "form": "Eye Drops",
+    "doseText": "نقطة واحدة في العين المصابة مرتين يوميًا",
+    "frequencyText": "مرتين يوميًا",
+    "durationText": "",
+    "id": "drug-list-336",
+    "sourceRows": [
+      336
+    ]
+  },
+  {
+    "name": "QUEENZOLAMIDE",
+    "form": "Eye Drops",
+    "doseText": "نقطة واحدة في العين المصابة 3 مرات يوميًا",
+    "frequencyText": "ثلاث مرات يوميًا",
+    "durationText": "",
+    "id": "drug-list-337",
+    "sourceRows": [
+      337
+    ]
+  },
+  {
+    "name": "QUEENZOLAMIDE PLUS",
+    "form": "Eye Drops",
+    "doseText": "نقطة واحدة في العين المصابة مرتين يوميًا",
+    "frequencyText": "مرتين يوميًا",
+    "durationText": "",
+    "id": "drug-list-338",
+    "sourceRows": [
+      338
+    ]
+  },
+  {
+    "name": "QUIFLURO",
+    "form": "Eye Drops",
+    "doseText": "نقطة إلى نقطتين في العين المصابة 4 مرات يوميًا لمدة 7 أيام",
+    "frequencyText": "أربع مرات يوميًا",
+    "durationText": "سبعه ايام",
+    "id": "drug-list-339",
+    "sourceRows": [
+      339
+    ]
+  },
+  {
+    "name": "RAMEDAFENAC",
+    "form": "Eye Drops",
+    "doseText": "نقطة واحدة في العين المصابة 3 مرات يوميًا",
+    "frequencyText": "ثلاث مرات يوميًا",
+    "durationText": "",
+    "id": "drug-list-340",
+    "sourceRows": [
+      340
+    ]
+  },
+  {
+    "name": "RAMEDAMYCIN",
+    "form": "Eye Drops",
+    "doseText": "أول 48 ساعة: نقطة إلى نقطتين كل ساعتين، ثم تُخفَّض إلى 4 مرات يوميًا لمدة أسبوع، مع تقليل الجرعة تدريجيًا بعد ذلك حسب تعليمات طبيب العيون",
+    "frequencyText": "كل ساعتين",
+    "durationText": "اول يومين",
+    "id": "drug-list-341",
+    "sourceRows": [
+      341,
+      342
+    ]
+  },
+  {
+    "name": "RAMEDAMYCIN",
+    "form": "Eye Drops",
+    "doseText": "نقطة إلى نقطتين في العين المصابة 4 مرات يوميًا لمدة 7 أيام",
+    "frequencyText": "أربع مرات يوميًا",
+    "durationText": "سبعه ايام",
+    "id": "drug-list-343",
+    "sourceRows": [
+      343,
+      344
+    ]
+  },
+  {
+    "name": "RAMEDAZOLAMIDE",
+    "form": "Eye Drops",
+    "doseText": "نقطة واحدة في العين المصابة مرتين يوميًا",
+    "frequencyText": "مرتين يوميًا",
+    "durationText": "",
+    "id": "drug-list-345",
+    "sourceRows": [
+      345
+    ]
+  },
+  {
+    "name": "RAME-ZITHRO",
+    "form": "Eye Drops",
+    "doseText": "نقطة واحدة في العين المصابة مرتين يوميًا (كل 8-12 ساعة) لأول يومين، ثم مرة واحدة يوميًا للـ5 أيام التالية",
+    "frequencyText": "مرتين يوميًا",
+    "durationText": "اول يومين",
+    "id": "drug-list-346",
+    "sourceRows": [
+      346
+    ]
+  },
+  {
+    "name": "REDNOTT",
+    "form": "Eye Drops",
+    "doseText": "نقطة واحدة في العين المصابة مرتين يوميًا",
+    "frequencyText": "مرتين يوميًا",
+    "durationText": "",
+    "id": "drug-list-347",
+    "sourceRows": [
+      347
+    ]
+  },
+  {
+    "name": "REFRESH LIQUIGEL",
+    "form": "Eye Drops",
+    "doseText": "نقطة واحدة في العين حسب الحاجة، عادة 3-4 مرات يوميًا أو أكثر حسب شدة جفاف العين",
+    "frequencyText": "أربع مرات يوميًا",
+    "durationText": "",
+    "id": "drug-list-348",
+    "sourceRows": [
+      348
+    ]
+  },
+  {
+    "name": "REFRESH PLUS",
+    "form": "Eye Drops",
+    "doseText": "نقطة واحدة في العين حسب الحاجة، عادة 3-4 مرات يوميًا أو أكثر حسب شدة جفاف العين",
+    "frequencyText": "أربع مرات يوميًا",
+    "durationText": "",
+    "id": "drug-list-349",
+    "sourceRows": [
+      349
+    ]
+  },
+  {
+    "name": "REFRESH TEARS",
+    "form": "Eye Drops",
+    "doseText": "نقطة واحدة في العين حسب الحاجة، عادة 3-4 مرات يوميًا أو أكثر حسب شدة جفاف العين",
+    "frequencyText": "أربع مرات يوميًا",
+    "durationText": "",
+    "id": "drug-list-350",
+    "sourceRows": [
+      350
+    ]
+  },
+  {
+    "name": "RELIVATEAR",
+    "form": "Eye Drops",
+    "doseText": "نقطة واحدة في العين حسب الحاجة، عادة 3-4 مرات يوميًا أو أكثر حسب شدة جفاف العين",
+    "frequencyText": "أربع مرات يوميًا",
+    "durationText": "",
+    "id": "drug-list-351",
+    "sourceRows": [
+      351
+    ]
+  },
+  {
+    "name": "RENU",
+    "form": "Contact Lens Solution",
+    "doseText": "لتنظيف وتعقيم وحفظ العدسات اللاصقة حسب تعليمات الاستخدام الموضحة على العبوة - غير مخصص للاستخدام كقطرة للعين",
+    "frequencyText": "",
+    "durationText": "",
+    "id": "drug-list-352",
+    "sourceRows": [
+      352
+    ]
+  },
+  {
+    "name": "RENU MULTI PLUS",
+    "form": "Contact Lens Solution",
+    "doseText": "لتنظيف وتعقيم وحفظ العدسات اللاصقة حسب تعليمات الاستخدام الموضحة على العبوة - غير مخصص للاستخدام كقطرة للعين",
+    "frequencyText": "",
+    "durationText": "",
+    "id": "drug-list-353",
+    "sourceRows": [
+      353,
+      354
+    ]
+  },
+  {
+    "name": "RESTASIS",
+    "form": "Ophthalmic Emulsion",
+    "doseText": "نقطة واحدة في العين المصابة مرتين يوميًا (صباحًا ومساءً) بشكل مستمر حسب تعليمات الطبيب",
+    "frequencyText": "مرتين يوميًا",
+    "durationText": "",
+    "id": "drug-list-355",
+    "sourceRows": [
+      355
+    ]
+  },
+  {
+    "name": "ROMALEX",
+    "form": "Eye Drops",
+    "doseText": "نقطة واحدة في العين المصابة 4 مرات يوميًا",
+    "frequencyText": "أربع مرات يوميًا",
+    "durationText": "",
+    "id": "drug-list-356",
+    "sourceRows": [
+      356
+    ]
+  },
+  {
+    "name": "SALCODIN",
+    "form": "Ophthalmic Suspension",
+    "doseText": "نقطة واحدة في العين المصابة 4 مرات يوميًا، مع تقليل الجرعة تدريجيًا حسب استجابة الحالة وتعليمات الطبيب",
+    "frequencyText": "أربع مرات يوميًا",
+    "durationText": "",
+    "id": "drug-list-357",
+    "sourceRows": [
+      357
+    ]
+  },
+  {
+    "name": "SANOLEVOX",
+    "form": "Eye Drops",
+    "doseText": "نقطة إلى نقطتين في العين المصابة 4 مرات يوميًا لمدة 7 أيام",
+    "frequencyText": "أربع مرات يوميًا",
+    "durationText": "سبعه ايام",
+    "id": "drug-list-358",
+    "sourceRows": [
+      358
+    ]
+  },
+  {
+    "name": "SANOSIGHT",
+    "form": "Soft Gel Capsules (Oral)",
+    "doseText": "كبسولة/قرص واحد يوميًا مع الطعام، أو حسب تعليمات الطبيب",
+    "frequencyText": "مرة واحدة يوميًا",
+    "durationText": "",
+    "id": "drug-list-359",
+    "sourceRows": [
+      359
+    ]
+  },
+  {
+    "name": "SELECTOCAINE",
+    "form": "Eye Drops",
+    "doseText": "نقطة إلى نقطتين في العين قبل الإجراء مباشرة (للتخدير الموضعي التشخيصي فقط تحت إشراف الطبيب)",
+    "frequencyText": "",
+    "durationText": "",
+    "id": "drug-list-360",
+    "sourceRows": [
+      360
+    ]
+  },
+  {
+    "name": "SELECTOMYCIN D",
+    "form": "Eye Drops",
+    "doseText": "أول 48 ساعة: نقطة إلى نقطتين كل ساعتين، ثم تُخفَّض إلى 4 مرات يوميًا لمدة أسبوع، مع تقليل الجرعة تدريجيًا بعد ذلك حسب تعليمات طبيب العيون",
+    "frequencyText": "كل ساعتين",
+    "durationText": "اول يومين",
+    "id": "drug-list-361",
+    "sourceRows": [
+      361
+    ]
+  },
+  {
+    "name": "SIMBRINZA",
+    "form": "Eye Drops",
+    "doseText": "نقطة واحدة في العين المصابة 3 مرات يوميًا",
+    "frequencyText": "ثلاث مرات يوميًا",
+    "durationText": "",
+    "id": "drug-list-362",
+    "sourceRows": [
+      362
+    ]
+  },
+  {
+    "name": "SODIUM CHLORIDE",
+    "form": "Eye Drops",
+    "doseText": "نقطة واحدة في العين حسب الحاجة، عادة 3-4 مرات يوميًا أو أكثر حسب شدة جفاف العين",
+    "frequencyText": "أربع مرات يوميًا",
+    "durationText": "",
+    "id": "drug-list-363",
+    "sourceRows": [
+      363
+    ]
+  },
+  {
+    "name": "SOLO FRESH",
+    "form": "Eye Drops",
+    "doseText": "نقطة واحدة في العين حسب الحاجة، عادة 3-4 مرات يوميًا أو أكثر حسب شدة جفاف العين",
+    "frequencyText": "أربع مرات يوميًا",
+    "durationText": "",
+    "id": "drug-list-364",
+    "sourceRows": [
+      364
+    ]
+  },
+  {
+    "name": "SUNNYFLORESIN",
+    "form": "IV Injection (Diagnostic Dye)",
+    "doseText": "حقنة وريدية تشخيصية يحددها ويُجريها الطبيب أثناء تصوير الأوعية الشبكية (ليست للاستخدام الذاتي)",
+    "frequencyText": "",
+    "durationText": "",
+    "id": "drug-list-365",
+    "sourceRows": [
+      365
+    ]
+  },
+  {
+    "name": "SWIXDICLO",
+    "form": "Eye Drops",
+    "doseText": "نقطة واحدة في العين المصابة 4 مرات يوميًا",
+    "frequencyText": "أربع مرات يوميًا",
+    "durationText": "",
+    "id": "drug-list-366",
+    "sourceRows": [
+      366
+    ]
+  },
+  {
+    "name": "SWIXOLATE",
+    "form": "Eye Drops",
+    "doseText": "نقطة واحدة في العين المصابة 1-2 مرة يوميًا حسب تعليمات الطبيب (أو جرعة واحدة قبل الفحص/الإجراء للاستخدام التشخيصي)",
+    "frequencyText": "مرتين يوميًا",
+    "durationText": "",
+    "id": "drug-list-367",
+    "sourceRows": [
+      367
+    ]
+  },
+  {
+    "name": "SWIXTOBRAM",
+    "form": "Eye Drops",
+    "doseText": "نقطة إلى نقطتين في العين المصابة 4 مرات يوميًا لمدة 7 أيام",
+    "frequencyText": "أربع مرات يوميًا",
+    "durationText": "سبعه ايام",
+    "id": "drug-list-368",
+    "sourceRows": [
+      368
+    ]
+  },
+  {
+    "name": "SYSTANE",
+    "form": "Eye Drops",
+    "doseText": "نقطة واحدة في العين حسب الحاجة، عادة 3-4 مرات يوميًا أو أكثر حسب شدة جفاف العين",
+    "frequencyText": "أربع مرات يوميًا",
+    "durationText": "",
+    "id": "drug-list-369",
+    "sourceRows": [
+      369,
+      370,
+      371,
+      373,
+      374
+    ]
+  },
+  {
+    "name": "SYSTANE",
+    "form": "Eye Gel",
+    "doseText": "نقطة واحدة في العين حسب الحاجة، عادة 3-4 مرات يوميًا أو أكثر حسب شدة جفاف العين",
+    "frequencyText": "أربع مرات يوميًا",
+    "durationText": "",
+    "id": "drug-list-372",
+    "sourceRows": [
+      372
+    ]
+  },
+  {
+    "name": "T GRAND",
+    "form": "Eye Drops",
+    "doseText": "أول 48 ساعة: نقطة إلى نقطتين كل ساعتين، ثم تُخفَّض إلى 4 مرات يوميًا لمدة أسبوع، مع تقليل الجرعة تدريجيًا بعد ذلك حسب تعليمات طبيب العيون",
+    "frequencyText": "كل ساعتين",
+    "durationText": "اول يومين",
+    "id": "drug-list-375",
+    "sourceRows": [
+      375
+    ]
+  },
+  {
+    "name": "T GRAND",
+    "form": "Eye Drops",
+    "doseText": "نقطة إلى نقطتين في العين المصابة 4 مرات يوميًا لمدة 7 أيام",
+    "frequencyText": "أربع مرات يوميًا",
+    "durationText": "سبعه ايام",
+    "id": "drug-list-376",
+    "sourceRows": [
+      376
+    ]
+  },
+  {
+    "name": "TAFLUPRO",
+    "form": "Eye Drops",
+    "doseText": "نقطة واحدة في العين المصابة مرة واحدة يوميًا مساءً",
+    "frequencyText": "مرة واحدة يوميًا",
+    "durationText": "",
+    "id": "drug-list-377",
+    "sourceRows": [
+      377
+    ]
+  },
+  {
+    "name": "TAFLUPRO PLUS",
+    "form": "Eye Drops",
+    "doseText": "نقطة واحدة في العين المصابة مرة واحدة يوميًا صباحًا",
+    "frequencyText": "مرة واحدة يوميًا",
+    "durationText": "",
+    "id": "drug-list-378",
+    "sourceRows": [
+      378
+    ]
+  },
+  {
+    "name": "TARGOTIMOL",
+    "form": "Eye Drops",
+    "doseText": "نقطة واحدة في العين المصابة مرتين يوميًا",
+    "frequencyText": "مرتين يوميًا",
+    "durationText": "",
+    "id": "drug-list-379",
+    "sourceRows": [
+      379
+    ]
+  },
+  {
+    "name": "TAV-DU",
+    "form": "Eye Drops",
+    "doseText": "نقطة واحدة في العين المصابة مرة واحدة يوميًا صباحًا",
+    "frequencyText": "مرة واحدة يوميًا",
+    "durationText": "",
+    "id": "drug-list-380",
+    "sourceRows": [
+      380
+    ]
+  },
+  {
+    "name": "TEARS GUARD",
+    "form": "Eye Drops",
+    "doseText": "نقطة واحدة في العين حسب الحاجة، عادة 3-4 مرات يوميًا أو أكثر حسب شدة جفاف العين",
+    "frequencyText": "أربع مرات يوميًا",
+    "durationText": "",
+    "id": "drug-list-381",
+    "sourceRows": [
+      381,
+      382,
+      383
+    ]
+  },
+  {
+    "name": "TEARS NATURAL",
+    "form": "Eye Drops (Collyrium)",
+    "doseText": "نقطة واحدة في العين حسب الحاجة، عادة 3-4 مرات يوميًا أو أكثر حسب شدة جفاف العين",
+    "frequencyText": "أربع مرات يوميًا",
+    "durationText": "",
+    "id": "drug-list-384",
+    "sourceRows": [
+      384
+    ]
+  },
+  {
+    "name": "TEKLIVA",
+    "form": "Eye Drops",
+    "doseText": "نقطة واحدة في العين المصابة مرة واحدة يوميًا مساءً",
+    "frequencyText": "مرة واحدة يوميًا",
+    "durationText": "",
+    "id": "drug-list-385",
+    "sourceRows": [
+      385
+    ]
+  },
+  {
+    "name": "TEKLIVA PLUS",
+    "form": "Eye Drops",
+    "doseText": "نقطة واحدة في العين المصابة مرة واحدة يوميًا صباحًا",
+    "frequencyText": "مرة واحدة يوميًا",
+    "durationText": "",
+    "id": "drug-list-386",
+    "sourceRows": [
+      386
+    ]
+  },
+  {
+    "name": "TERRAMYCIN",
+    "form": "Eye Ointment",
+    "doseText": "طبقة صغيرة في العين المصابة 3 مرات يوميًا (أو مرة واحدة ليلًا إذا استُخدم مع قطرة نهارية) لمدة 7 أيام",
+    "frequencyText": "ثلاث مرات يوميًا",
+    "durationText": "سبعه ايام",
+    "id": "drug-list-387",
+    "sourceRows": [
+      387
+    ]
+  },
+  {
+    "name": "TETRACONGYRA",
+    "form": "Eye Drops",
+    "doseText": "نقطة واحدة في العين المصابة 3-4 مرات يوميًا، لمدة لا تزيد عن أسبوع متواصل دون مراجعة الطبيب",
+    "frequencyText": "أربع مرات يوميًا",
+    "durationText": "سبعه ايام",
+    "id": "drug-list-388",
+    "sourceRows": [
+      388
+    ]
+  },
+  {
+    "name": "THALMOTOBRIN",
+    "form": "Eye Drops",
+    "doseText": "نقطة إلى نقطتين في العين المصابة 4 مرات يوميًا لمدة 7 أيام",
+    "frequencyText": "أربع مرات يوميًا",
+    "durationText": "سبعه ايام",
+    "id": "drug-list-389",
+    "sourceRows": [
+      389
+    ]
+  },
+  {
+    "name": "TIMOLOL",
+    "form": "Eye Drops",
+    "doseText": "نقطة واحدة في العين المصابة مرتين يوميًا",
+    "frequencyText": "مرتين يوميًا",
+    "durationText": "",
+    "id": "drug-list-390",
+    "sourceRows": [
+      390,
+      391
+    ]
+  },
+  {
+    "name": "TIMXAL",
+    "form": "Eye Drops",
+    "doseText": "نقطة واحدة في العين المصابة مرة واحدة يوميًا صباحًا",
+    "frequencyText": "مرة واحدة يوميًا",
+    "durationText": "",
+    "id": "drug-list-392",
+    "sourceRows": [
+      392
+    ]
+  },
+  {
+    "name": "TOBRACOID",
+    "form": "Eye Drops",
+    "doseText": "أول 48 ساعة: نقطة إلى نقطتين كل ساعتين، ثم تُخفَّض إلى 4 مرات يوميًا لمدة أسبوع، مع تقليل الجرعة تدريجيًا بعد ذلك حسب تعليمات طبيب العيون",
+    "frequencyText": "كل ساعتين",
+    "durationText": "اول يومين",
+    "id": "drug-list-393",
+    "sourceRows": [
+      393
+    ]
+  },
+  {
+    "name": "TOBRACTIVA",
+    "form": "Eye Drops",
+    "doseText": "نقطة إلى نقطتين في العين المصابة 4 مرات يوميًا لمدة 7 أيام",
+    "frequencyText": "أربع مرات يوميًا",
+    "durationText": "سبعه ايام",
+    "id": "drug-list-394",
+    "sourceRows": [
+      394
+    ]
+  },
+  {
+    "name": "TOBRADEX",
+    "form": "Eye Drops",
+    "doseText": "أول 48 ساعة: نقطة إلى نقطتين كل ساعتين، ثم تُخفَّض إلى 4 مرات يوميًا لمدة أسبوع، مع تقليل الجرعة تدريجيًا بعد ذلك حسب تعليمات طبيب العيون",
+    "frequencyText": "كل ساعتين",
+    "durationText": "اول يومين",
+    "id": "drug-list-395",
+    "sourceRows": [
+      395
+    ]
+  },
+  {
+    "name": "TOBRADEX",
+    "form": "Eye Ointment",
+    "doseText": "أول 48 ساعة: طبقة صغيرة كل 3-4 ساعات، ثم تُخفَّض إلى 3 مرات يوميًا لمدة أسبوع، مع تقليل الجرعة تدريجيًا بعد ذلك حسب تعليمات طبيب العيون",
+    "frequencyText": "كل ساعتين",
+    "durationText": "اول يومين",
+    "id": "drug-list-396",
+    "sourceRows": [
+      396
+    ]
+  },
+  {
+    "name": "TOBREX",
+    "form": "Eye Drops (Collyrium)",
+    "doseText": "نقطة إلى نقطتين في العين المصابة 4 مرات يوميًا لمدة 7 أيام",
+    "frequencyText": "أربع مرات يوميًا",
+    "durationText": "سبعه ايام",
+    "id": "drug-list-397",
+    "sourceRows": [
+      397
+    ]
+  },
+  {
+    "name": "TOBRIN",
+    "form": "Eye Drops",
+    "doseText": "نقطة إلى نقطتين في العين المصابة 4 مرات يوميًا لمدة 7 أيام",
+    "frequencyText": "أربع مرات يوميًا",
+    "durationText": "سبعه ايام",
+    "id": "drug-list-398",
+    "sourceRows": [
+      398
+    ]
+  },
+  {
+    "name": "TOBRIN",
+    "form": "Eye Ointment",
+    "doseText": "طبقة صغيرة في العين المصابة 3 مرات يوميًا (أو مرة واحدة ليلًا إذا استُخدم مع قطرة نهارية) لمدة 7 أيام",
+    "frequencyText": "ثلاث مرات يوميًا",
+    "durationText": "سبعه ايام",
+    "id": "drug-list-399",
+    "sourceRows": [
+      399
+    ]
+  },
+  {
+    "name": "TOTISWIX",
+    "form": "Eye Drops",
+    "doseText": "نقطة واحدة في العين المصابة مرتين يوميًا",
+    "frequencyText": "مرتين يوميًا",
+    "durationText": "",
+    "id": "drug-list-400",
+    "sourceRows": [
+      400
+    ]
+  },
+  {
+    "name": "TRAVATAN",
+    "form": "Eye Drops",
+    "doseText": "نقطة واحدة في العين المصابة مرة واحدة يوميًا مساءً",
+    "frequencyText": "مرة واحدة يوميًا",
+    "durationText": "",
+    "id": "drug-list-401",
+    "sourceRows": [
+      401
+    ]
+  },
+  {
+    "name": "TRAVONORM",
+    "form": "Eye Drops",
+    "doseText": "نقطة واحدة في العين المصابة مرة واحدة يوميًا صباحًا",
+    "frequencyText": "مرة واحدة يوميًا",
+    "durationText": "",
+    "id": "drug-list-402",
+    "sourceRows": [
+      402
+    ]
+  },
+  {
+    "name": "TRAVONORM",
+    "form": "Eye Drops",
+    "doseText": "نقطة واحدة في العين المصابة مرة واحدة يوميًا مساءً",
+    "frequencyText": "مرة واحدة يوميًا",
+    "durationText": "",
+    "id": "drug-list-403",
+    "sourceRows": [
+      403
+    ]
+  },
+  {
+    "name": "TRAVOSWIX",
+    "form": "Eye Drops",
+    "doseText": "نقطة واحدة في العين المصابة مرة واحدة يوميًا مساءً",
+    "frequencyText": "مرة واحدة يوميًا",
+    "durationText": "",
+    "id": "drug-list-404",
+    "sourceRows": [
+      404
+    ]
+  },
+  {
+    "name": "TRAVOSWIX PLUS",
+    "form": "Eye Drops",
+    "doseText": "نقطة واحدة في العين المصابة مرة واحدة يوميًا صباحًا",
+    "frequencyText": "مرة واحدة يوميًا",
+    "durationText": "",
+    "id": "drug-list-405",
+    "sourceRows": [
+      405
+    ]
+  },
+  {
+    "name": "TRILLERG",
+    "form": "Eye Drops",
+    "doseText": "نقطة إلى نقطتين في العين المصابة حتى 4 مرات يوميًا عند الحاجة، لمدة لا تزيد عن 3-4 أيام متتالية لتجنب احمرار الارتداد",
+    "frequencyText": "أربع مرات يوميًا",
+    "durationText": "اربع ايام",
+    "id": "drug-list-406",
+    "sourceRows": [
+      406
+    ]
+  },
+  {
+    "name": "TWINZOL",
+    "form": "Eye Drops",
+    "doseText": "نقطة واحدة في العين المصابة مرتين يوميًا",
+    "frequencyText": "مرتين يوميًا",
+    "durationText": "",
+    "id": "drug-list-407",
+    "sourceRows": [
+      407,
+      408
+    ]
+  },
+  {
+    "name": "TWIT-TEAR",
+    "form": "Eye Drops",
+    "doseText": "نقطة واحدة في العين حسب الحاجة، عادة 3-4 مرات يوميًا أو أكثر حسب شدة جفاف العين",
+    "frequencyText": "أربع مرات يوميًا",
+    "durationText": "",
+    "id": "drug-list-409",
+    "sourceRows": [
+      409
+    ]
+  },
+  {
+    "name": "TWIT-TEAR ALLERGY",
+    "form": "Eye Drops",
+    "doseText": "نقطة واحدة في العين حسب الحاجة، عادة 3-4 مرات يوميًا أو أكثر حسب شدة جفاف العين",
+    "frequencyText": "أربع مرات يوميًا",
+    "durationText": "",
+    "id": "drug-list-410",
+    "sourceRows": [
+      410
+    ]
+  },
+  {
+    "name": "TWIT-TEAR XP",
+    "form": "Eye Drops",
+    "doseText": "نقطة واحدة في العين حسب الحاجة، عادة 3-4 مرات يوميًا أو أكثر حسب شدة جفاف العين",
+    "frequencyText": "أربع مرات يوميًا",
+    "durationText": "",
+    "id": "drug-list-411",
+    "sourceRows": [
+      411
+    ]
+  },
+  {
+    "name": "TYMER",
+    "form": "Eye Drops",
+    "doseText": "نقطة إلى نقطتين في العين المصابة 4 مرات يوميًا لمدة 7 أيام",
+    "frequencyText": "أربع مرات يوميًا",
+    "durationText": "سبعه ايام",
+    "id": "drug-list-412",
+    "sourceRows": [
+      412
+    ]
+  },
+  {
+    "name": "UMASTAR",
+    "form": "Eye Drops",
+    "doseText": "نقطة واحدة في العين حسب الحاجة، عادة 3-4 مرات يوميًا أو أكثر حسب شدة جفاف العين",
+    "frequencyText": "أربع مرات يوميًا",
+    "durationText": "",
+    "id": "drug-list-413",
+    "sourceRows": [
+      413
+    ]
+  },
+  {
+    "name": "UNICYCLOMIDE",
+    "form": "Eye Drops",
+    "doseText": "نقطة إلى نقطتين في العين قبل الفحص بـ 15-20 دقيقة (للتوسيع التشخيصي لحدقة العين)",
+    "frequencyText": "",
+    "durationText": "",
+    "id": "drug-list-414",
+    "sourceRows": [
+      414,
+      415
+    ]
+  },
+  {
+    "name": "VABYSMO",
+    "form": "Intravitreal Injection Vial",
+    "doseText": "حقنة داخل الجسم الزجاجي يحددها ويُجريها طبيب الشبكية، عادة كل 4-8 أسابيع حسب الحالة والبروتوكول العلاجي (ليست للاستخدام الذاتي)",
+    "frequencyText": "",
+    "durationText": "",
+    "id": "drug-list-416",
+    "sourceRows": [
+      416
+    ]
+  },
+  {
+    "name": "VENDOFENAC",
+    "form": "Ophthalmic Suspension",
+    "doseText": "نقطة واحدة في العين المصابة 3 مرات يوميًا",
+    "frequencyText": "ثلاث مرات يوميًا",
+    "durationText": "",
+    "id": "drug-list-417",
+    "sourceRows": [
+      417
+    ]
+  },
+  {
+    "name": "VIDISEPT N",
+    "form": "Eye Drops",
+    "doseText": "نقطة واحدة في العين حسب الحاجة، عادة 3-4 مرات يوميًا أو أكثر حسب شدة جفاف العين",
+    "frequencyText": "أربع مرات يوميًا",
+    "durationText": "",
+    "id": "drug-list-418",
+    "sourceRows": [
+      418
+    ]
+  },
+  {
+    "name": "VIGAMOX",
+    "form": "Eye Drops",
+    "doseText": "نقطة واحدة في العين المصابة 3 مرات يوميًا لمدة 7 أيام",
+    "frequencyText": "ثلاث مرات يوميًا",
+    "durationText": "سبعه ايام",
+    "id": "drug-list-419",
+    "sourceRows": [
+      419
+    ]
+  },
+  {
+    "name": "VIGOTON PLUS",
+    "form": "Capsules (Oral)",
+    "doseText": "كبسولة/قرص واحد يوميًا مع الطعام، أو حسب تعليمات الطبيب",
+    "frequencyText": "مرة واحدة يوميًا",
+    "durationText": "",
+    "id": "drug-list-420",
+    "sourceRows": [
+      420,
+      421
+    ]
+  },
+  {
+    "name": "VISINE",
+    "form": "Eye Drops",
+    "doseText": "نقطة إلى نقطتين في العين المصابة حتى 4 مرات يوميًا عند الحاجة، لمدة لا تزيد عن 3-4 أيام متتالية لتجنب احمرار الارتداد",
+    "frequencyText": "أربع مرات يوميًا",
+    "durationText": "اربع ايام",
+    "id": "drug-list-422",
+    "sourceRows": [
+      422
+    ]
+  },
+  {
+    "name": "VISINE A.C",
+    "form": "Eye Drops",
+    "doseText": "نقطة إلى نقطتين في العين المصابة حتى 4 مرات يوميًا عند الحاجة، لمدة لا تزيد عن 3-4 أيام متتالية لتجنب احمرار الارتداد",
+    "frequencyText": "أربع مرات يوميًا",
+    "durationText": "",
+    "id": "drug-list-423",
+    "sourceRows": [
+      423
+    ]
+  },
+  {
+    "name": "VISMED",
+    "form": "Eye Drops",
+    "doseText": "نقطة واحدة في العين حسب الحاجة، عادة 3-4 مرات يوميًا أو أكثر حسب شدة جفاف العين",
+    "frequencyText": "أربع مرات يوميًا",
+    "durationText": "",
+    "id": "drug-list-424",
+    "sourceRows": [
+      424
+    ]
+  },
+  {
+    "name": "VISMED GEL",
+    "form": "Eye Drops",
+    "doseText": "نقطة واحدة في العين حسب الحاجة، عادة 3-4 مرات يوميًا أو أكثر حسب شدة جفاف العين",
+    "frequencyText": "أربع مرات يوميًا",
+    "durationText": "",
+    "id": "drug-list-425",
+    "sourceRows": [
+      425
+    ]
+  },
+  {
+    "name": "VISMED GEL MULTI",
+    "form": "Eye Drops",
+    "doseText": "نقطة واحدة في العين حسب الحاجة، عادة 3-4 مرات يوميًا أو أكثر حسب شدة جفاف العين",
+    "frequencyText": "أربع مرات يوميًا",
+    "durationText": "",
+    "id": "drug-list-426",
+    "sourceRows": [
+      426
+    ]
+  },
+  {
+    "name": "VISMED MULTI",
+    "form": "Eye Drops",
+    "doseText": "نقطة واحدة في العين حسب الحاجة، عادة 3-4 مرات يوميًا أو أكثر حسب شدة جفاف العين",
+    "frequencyText": "أربع مرات يوميًا",
+    "durationText": "",
+    "id": "drug-list-427",
+    "sourceRows": [
+      427
+    ]
+  },
+  {
+    "name": "VISOLERGE",
+    "form": "Eye Drops",
+    "doseText": "نقطة واحدة في العين المصابة مرتين يوميًا",
+    "frequencyText": "مرتين يوميًا",
+    "durationText": "",
+    "id": "drug-list-428",
+    "sourceRows": [
+      428
+    ]
+  },
+  {
+    "name": "VISTAVA",
+    "form": "Film-Coated Tablets (Oral)",
+    "doseText": "كبسولة/قرص واحد يوميًا مع الطعام، أو حسب تعليمات الطبيب",
+    "frequencyText": "مرة واحدة يوميًا",
+    "durationText": "",
+    "id": "drug-list-429",
+    "sourceRows": [
+      429
+    ]
+  },
+  {
+    "name": "VSIQQ",
+    "form": "Intravitreal Injection Vial",
+    "doseText": "حقنة داخل الجسم الزجاجي يحددها ويُجريها طبيب الشبكية، عادة كل 4-8 أسابيع حسب الحالة والبروتوكول العلاجي (ليست للاستخدام الذاتي)",
+    "frequencyText": "",
+    "durationText": "",
+    "id": "drug-list-430",
+    "sourceRows": [
+      430
+    ]
+  },
+  {
+    "name": "XALACOM",
+    "form": "Eye Drops",
+    "doseText": "نقطة واحدة في العين المصابة مرة واحدة يوميًا صباحًا",
+    "frequencyText": "مرة واحدة يوميًا",
+    "durationText": "",
+    "id": "drug-list-431",
+    "sourceRows": [
+      431
+    ]
+  },
+  {
+    "name": "XALATAN",
+    "form": "Eye Drops",
+    "doseText": "نقطة واحدة في العين المصابة مرة واحدة يوميًا مساءً",
+    "frequencyText": "مرة واحدة يوميًا",
+    "durationText": "",
+    "id": "drug-list-432",
+    "sourceRows": [
+      432
+    ]
+  },
+  {
+    "name": "XALATREX",
+    "form": "Eye Drops",
+    "doseText": "نقطة واحدة في العين المصابة مرة واحدة يوميًا صباحًا",
+    "frequencyText": "مرة واحدة يوميًا",
+    "durationText": "",
+    "id": "drug-list-433",
+    "sourceRows": [
+      433
+    ]
+  },
+  {
+    "name": "XALATREX",
+    "form": "Eye Drops",
+    "doseText": "نقطة واحدة في العين المصابة مرة واحدة يوميًا مساءً",
+    "frequencyText": "مرة واحدة يوميًا",
+    "durationText": "",
+    "id": "drug-list-434",
+    "sourceRows": [
+      434
+    ]
+  },
+  {
+    "name": "XILOIAL",
+    "form": "Eye Drops",
+    "doseText": "نقطة واحدة في العين حسب الحاجة، عادة 3-4 مرات يوميًا أو أكثر حسب شدة جفاف العين",
+    "frequencyText": "أربع مرات يوميًا",
+    "durationText": "",
+    "id": "drug-list-435",
+    "sourceRows": [
+      435,
+      436
+    ]
+  },
+  {
+    "name": "XOLA",
+    "form": "Eye Drops",
+    "doseText": "نقطة واحدة في العين المصابة 3 مرات يوميًا",
+    "frequencyText": "ثلاث مرات يوميًا",
+    "durationText": "",
+    "id": "drug-list-437",
+    "sourceRows": [
+      437
+    ]
+  },
+  {
+    "name": "XOLAMOL",
+    "form": "Eye Drops",
+    "doseText": "نقطة واحدة في العين المصابة مرتين يوميًا",
+    "frequencyText": "مرتين يوميا",
+    "durationText": "",
+    "id": "drug-list-438",
+    "sourceRows": [
+      438
+    ]
+  },
+  {
+    "name": "ZELAGAP",
+    "form": "Eye Drops",
+    "doseText": "نقطة واحدة في العين المصابة مرتين يوميًا",
+    "frequencyText": "مرتين يوميا",
+    "durationText": "",
+    "id": "drug-list-439",
+    "sourceRows": [
+      439
+    ]
+  },
+  {
+    "name": "ZENGAPROST",
+    "form": "Eye Drops",
+    "doseText": "نقطة واحدة في العين المصابة مرة واحدة يوميًا مساءً",
+    "frequencyText": "مرة واحدة يوميًا",
+    "durationText": "",
+    "id": "drug-list-440",
+    "sourceRows": [
+      440
+    ]
+  },
+  {
+    "name": "ZETRAFENAC",
+    "form": "Ophthalmic Suspension",
+    "doseText": "نقطة واحدة في العين المصابة 3 مرات يوميًا",
+    "frequencyText": "ثلاث مرات يوميًا",
+    "durationText": "",
+    "id": "drug-list-441",
+    "sourceRows": [
+      441
+    ]
+  },
+  {
+    "name": "ZOVIRAX",
+    "form": "Eye Ointment",
+    "doseText": "طبقة صغيرة في العين المصابة 5 مرات يوميًا حتى التئام القرنية، ثم 3 مرات يوميًا لمدة أسبوع إضافي حسب تعليمات الطبيب",
+    "frequencyText": "خمس مرات يوميًا",
+    "durationText": "",
+    "id": "drug-list-442",
+    "sourceRows": [
+      442
+    ]
+  },
+  {
+    "name": "ZYMAXID",
+    "form": "Eye Drops",
+    "doseText": "نقطة إلى نقطتين في العين المصابة 4 مرات يوميًا لمدة 7 أيام",
+    "frequencyText": "أربع مرات يوميًا",
+    "durationText": "سبعه ايام",
+    "id": "drug-list-443",
+    "sourceRows": [
+      443
+    ]
+  }
+]

@@ -8,7 +8,7 @@ import { useCreatePrescription, useUpdatePrescription, usePrescriptionDetail } f
 import { usePatientDetail } from '@/features/patients/hooks';
 import { cn, getInitials } from '@/lib/utils';
 import { MedicationSearchInput } from '@/components/prescriptions/MedicationSearchInput';
-import { getMedicationDefaults } from '@/features/prescriptions/medicationCatalog';
+import { getMedicationDefaults, getSuggestedScheduleTimes } from '@/features/prescriptions/medicationCatalog';
 import { Button } from '@/components/ui/Button';
 
 const medicationSchema = z.object({
@@ -49,7 +49,7 @@ export default function CreatePrescriptionPage() {
   const { data: patientData } = usePatientDetail(effectivePatientId);
   const patient = (patientData as any)?.data || (typeof rx?.patientId === 'object' ? rx?.patientId : null);
 
-  const { register, control, handleSubmit, watch, setValue, reset, formState: { errors } } = useForm<PrescriptionForm>({
+  const { register, control, handleSubmit, watch, getValues, setValue, reset, formState: { errors } } = useForm<PrescriptionForm>({
     resolver: zodResolver(prescriptionSchema),
     mode: 'onChange',
     defaultValues: {
@@ -89,6 +89,13 @@ export default function CreatePrescriptionPage() {
       setValue('patientId', patientId);
     }
   }, [isEditMode, rx, patientId, reset, setValue]);
+
+  const updateSuggestedTimes = (index: number, frequency: number, unit: string) => {
+    const medication = getValues(`medications.${index}`);
+    setValue(`medications.${index}.scheduleTimes`, getSuggestedScheduleTimes(
+      frequency, unit, medication.instructions, medication.scheduleTimes[0],
+    ), { shouldDirty: true, shouldValidate: true });
+  };
 
   const onSubmit = (data: PrescriptionForm) => {
     if (isEditMode && id) {
@@ -265,8 +272,7 @@ export default function CreatePrescriptionPage() {
                           setValue(`medications.${index}.frequencyUnit`, defaults.frequencyUnit, options);
                           setValue(`medications.${index}.duration`, defaults.duration, options);
                           setValue(`medications.${index}.instructions`, defaults.instructions, options);
-                          // The source contains no clock times. Clear the previous drug's schedule.
-                          setValue(`medications.${index}.scheduleTimes`, [''], options);
+                          setValue(`medications.${index}.scheduleTimes`, getSuggestedScheduleTimes(defaults.frequency, defaults.frequencyUnit, defaults.instructions), options);
                         }
                         if (type) {
                           setValue(`medications.${index}.type`, type, { shouldValidate: true });
@@ -297,12 +303,17 @@ export default function CreatePrescriptionPage() {
                 <div className="grid grid-cols-1 md:grid-cols-4 gap-6">
                   <div>
                     <label className={labelClass}>{watchedMedications[index]?.frequencyUnit === 'hourly' ? 'Every (hours)' : 'Frequency'}</label>
-                    <input {...register(`medications.${index}.frequency`, { valueAsNumber: true })} type="number" min={1} className={inputClass} />
+                    <input {...register(`medications.${index}.frequency`, {
+                      valueAsNumber: true,
+                      onChange: (event) => updateSuggestedTimes(index, event.target.valueAsNumber, getValues(`medications.${index}.frequencyUnit`)),
+                    })} type="number" min={1} className={inputClass} />
                     {errors.medications?.[index]?.frequency && <p className="text-rose-500 text-xs mt-2">{errors.medications[index]?.frequency?.message}</p>}
                   </div>
                   <div>
                     <label className={labelClass}>Unit</label>
-                    <select {...register(`medications.${index}.frequencyUnit`)} className={inputClass}>
+                    <select {...register(`medications.${index}.frequencyUnit`, {
+                      onChange: (event) => updateSuggestedTimes(index, getValues(`medications.${index}.frequency`), event.target.value),
+                    })} className={inputClass}>
                       <option value="daily">Daily</option>
                       <option value="hourly">Hourly</option>
                       <option value="weekly">Weekly</option>
@@ -328,6 +339,7 @@ export default function CreatePrescriptionPage() {
                 <div className="grid grid-cols-1 md:grid-cols-2 gap-6 bg-slate-50 dark:bg-slate-800/30 p-6 rounded-2xl border border-slate-100 dark:border-slate-800">
                   <div>
                     <label className={labelClass}>Schedule Times</label>
+                    <p className="text-xs text-slate-500 mb-3">Suggested times are editable. Review them for this patient.</p>
                     <div className="flex flex-wrap items-center gap-3">
                       {watchedMedications[index]?.scheduleTimes?.map((_: string, tIdx: number) => (
                         <div key={tIdx} className="relative group/time">
@@ -342,7 +354,10 @@ export default function CreatePrescriptionPage() {
                               onClick={() => {
                                 const currentTimes = [...watchedMedications[index].scheduleTimes];
                                 currentTimes.splice(tIdx, 1);
-                                setValue(`medications.${index}.scheduleTimes`, currentTimes);
+                                setValue(`medications.${index}.scheduleTimes`, currentTimes, { shouldDirty: true, shouldValidate: true });
+                                if (getValues(`medications.${index}.frequencyUnit`) === 'daily') {
+                                  setValue(`medications.${index}.frequency`, currentTimes.length, { shouldDirty: true, shouldValidate: true });
+                                }
                               }}
                               className="absolute -top-2 -right-2 bg-rose-500 text-white rounded-full p-1 shadow-md opacity-0 group-hover/time:opacity-100 transition-opacity"
                             >
@@ -355,8 +370,11 @@ export default function CreatePrescriptionPage() {
                         type="button"
                         onClick={() => {
                           const currentTimes = [...(watchedMedications[index].scheduleTimes || [])];
-                          currentTimes.push('12:00');
-                          setValue(`medications.${index}.scheduleTimes`, currentTimes);
+                          currentTimes.push('');
+                          setValue(`medications.${index}.scheduleTimes`, currentTimes, { shouldDirty: true, shouldValidate: true });
+                          if (getValues(`medications.${index}.frequencyUnit`) === 'daily') {
+                            setValue(`medications.${index}.frequency`, currentTimes.length, { shouldDirty: true, shouldValidate: true });
+                          }
                         }}
                         className="px-4 py-2.5 bg-primary/5 hover:bg-primary/10 text-primary rounded-xl border border-primary/20 text-sm font-bold flex items-center gap-2 transition-colors dark:text-primary-300"
                       >

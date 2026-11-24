@@ -8,7 +8,7 @@ const rows = JSON.parse(readFileSync(new URL('../src/features/prescriptions/data
 const source = readFileSync(new URL('../src/features/prescriptions/medicationCatalog.ts', import.meta.url), 'utf8');
 const runtime = ts.transpile(source.replace("import rows from './data/medications.json';", ''), { module: ts.ModuleKind.ESNext });
 const context = { rows };
-runInNewContext(runtime.replace(/^export /gm, '') + '\nthis.api = { searchMedicationCatalog, mergeMedicationResults, getMedicationDefaults };', context);
+runInNewContext(runtime.replace(/^export /gm, '') + '\nthis.api = { searchMedicationCatalog, mergeMedicationResults, getMedicationDefaults, getSuggestedScheduleTimes };', context);
 const { searchMedicationCatalog: search, mergeMedicationResults: merge, getMedicationDefaults: defaults } = context.api;
 
 test('all 442 source rows are retained across 387 unique entries', () => {
@@ -55,4 +55,24 @@ test('catalog wins over name-only history while preserving other results', () =>
   assert.equal(result.length, 3);
   assert.equal(result[0].catalog.form, 'Eye Drops');
   assert.equal(result[2].name, 'Custom');
+});
+
+const times = (...args) => Array.from(context.api.getSuggestedScheduleTimes(...args));
+
+test('ACULAR gets four editable daily times, with correct spacing for explicit intervals', () => {
+  const acular = defaults(search('ACULAR').find(item => item.name === 'ACULAR').catalog);
+  assert.deepEqual(times(acular.frequency, acular.frequencyUnit, acular.instructions), ['08:00', '12:00', '16:00', '20:00']);
+  assert.deepEqual(times(2, 'daily'), ['08:00', '20:00']);
+  assert.deepEqual(times(3, 'daily', 'كل 8 ساعات'), ['08:00', '16:00', '00:00']);
+  assert.deepEqual(times(1, 'daily', 'مساءً'), ['20:00']);
+  assert.deepEqual(times(2, 'daily', '', '09:30'), ['09:30', '21:30']);
+});
+
+test('hourly intervals generate a full day and incomplete frequencies stay blank', () => {
+  const hourly = times(2, 'hourly');
+  assert.equal(hourly.length, 12);
+  assert.equal(hourly[0], '08:00');
+  assert.equal(hourly.at(-1), '06:00');
+  for (const value of [undefined, NaN, 0, -1, 1.5]) assert.deepEqual(times(value, 'daily'), ['']);
+  assert.deepEqual(times(1, 'weekly'), ['']);
 });

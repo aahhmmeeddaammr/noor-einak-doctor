@@ -48,6 +48,32 @@ export function mergeMedicationResults(local: MedicationSearchResult[], remote: 
   return [...local, ...remote.filter(item => !catalogNames.has(item.name.toLowerCase()))];
 }
 
+// Clock times are editable UI defaults, not values supplied by the spreadsheet.
+export function getSuggestedScheduleTimes(
+  frequency: number | undefined,
+  unit: string,
+  instructions = '',
+  firstTime?: string,
+): string[] {
+  if (!frequency || !Number.isInteger(frequency) || frequency < 1) return [''];
+  if (unit !== 'daily' && unit !== 'hourly') return [''];
+  const count = unit === 'hourly' ? Math.ceil(24 / frequency) : frequency;
+  if (count > 1440) return [''];
+
+  const defaultStart = count === 1 && /مساءً|ليلًا/.test(instructions) ? '20:00' : '08:00';
+  const start = firstTime && /^([01]\d|2[0-3]):[0-5]\d$/.test(firstTime) ? firstTime : defaultStart;
+  const [hours, minutes] = start.split(':').map(Number);
+  const explicitInterval = Number(instructions.match(/كل (\d+) ساعات?/)?.[1]);
+  let spacing = count > 1 ? 12 * 60 / (count - 1) : 0;
+  if (unit === 'hourly') spacing = frequency * 60;
+  else if (explicitInterval * frequency === 24) spacing = explicitInterval * 60;
+
+  return Array.from({ length: count }, (_, index) => {
+    const minute = (hours * 60 + minutes + Math.round(index * spacing)) % 1440;
+    return `${String(Math.floor(minute / 60)).padStart(2, '0')}:${String(minute % 60).padStart(2, '0')}`;
+  });
+}
+
 export function getMedicationDefaults(item: CatalogMedication) {
   const form = item.form.toLowerCase();
   let type = 'other';

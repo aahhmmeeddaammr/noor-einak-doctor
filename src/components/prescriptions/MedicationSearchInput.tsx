@@ -114,7 +114,7 @@ export function MedicationSearchInput({ value, onChange, error, className }: Med
         <div className="mt-2 space-y-1 text-xs text-slate-600 dark:text-slate-300">
           <p>{selected.form}</p>
           <p dir="auto">{selected.doseText}</p>
-          <p>Review the imported defaults and enter the patient’s schedule times.</p>
+          <p>Review the imported defaults and suggested schedule times for this patient.</p>
           {getMedicationDefaults(selected).frequencyConflict && (
             <p className="text-amber-700 dark:text-amber-400" role="status">
               Source frequency differs from the dose instructions. Enter the intended frequency.
